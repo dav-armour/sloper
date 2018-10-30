@@ -70,7 +70,7 @@ class ListingsController < ApplicationController
     end
 
     def check_permissions
-      redirect_back(fallback_location: listing_path(@listing)) unless @listing.id == current_user.id
+      redirect_back(fallback_location: listing_path(@listing)) unless @listing.user_id == current_user.id
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

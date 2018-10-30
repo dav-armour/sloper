@@ -1,0 +1,24 @@
+<nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+  <a class="navbar-brand" href="#">Navbar</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+    <div class="navbar-nav ml-auto">
+      <%= link_to "All Listings",listings_path, class: "nav-item nav-link my-auto" %>
+      <%#= link_to "How It Works", how_it_works_path, class: "nav-item nav-link my-auto" %>
+      <%#= link_to "FAQs", faqs_path, class: "nav-item nav-link my-auto" %>
+      <%#= link_to "About Us", about_path, class: "nav-item nav-link my-auto" %>
+      <% if user_signed_in? %>
+        <%= link_to "Profile", root_path, class: "nav-item nav-link my-auto" %>
+        <%= link_to "Logout", destroy_user_session_path, method: :delete, class: "nav-item nav-link my-auto" %>
+      <% else %>
+        <%= link_to "Login", new_user_session_path, class: "nav-item nav-link my-auto" %>
+        <%= link_to "Sign Up", new_user_registration_path, class: "nav-item nav-link my-auto" %>
+      <% end %>
+      <%= link_to new_listing_path, class: "nav-item nav-link" do %>
+        <button class="btn btn-success btn-sm px-3">List Item</button>
+      <% end %>
+    </div>
+  </div>
+</nav>
