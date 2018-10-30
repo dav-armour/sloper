@@ -55,6 +55,9 @@
   <%= @listing.weekly_price %>
 </p>
 
+<p>
+  <%= link_to @user.first_name, profile_path(@listing.user_id) %>
+</p>
 <%= link_to 'Back', listings_path %>
 <% if @listing.user_id == current_user.id %>
 | <%= link_to 'Edit', edit_listing_path(@listing) %> |
