@@ -42,7 +42,7 @@ brands = %w(burton lib-tech salomon dc volcom capita dakine ripcurl quicksilver 
     longitude: Faker::Address.longitude,
     listing_id: listing.id
   )
-  puts "Locationcreated: #{location.city}."
+  puts "Location created: #{location.city}."
   date = Date.new(2018,11,1)
   90.times do
     AvailableDay.create(
@@ -53,12 +53,23 @@ brands = %w(burton lib-tech salomon dc volcom capita dakine ripcurl quicksilver 
   end
 end
 
-# 30.times do
-#   user = User.order("RANDOM()").limit(1)
-#   listing = Listing.order("RANDOM()").limit(1)
-#   Booking.create(
-#     user_id: user.id,
-#     listing_id: listing.id
-#     start_date: listing.available_days
-#   )
-# end
+puts "generating bookings"
+100.times do
+  # Select random user and listing
+  user = User.find(User.pluck(:id).sample)
+  listing = Listing.find(Listing.pluck(:id).sample)
+  start_day = rand(0..30)
+  num_days = rand(2..14)
+  end_day = start_day + num_days
+  rented_days = listing.available_days[start_day..end_day]
+  Booking.create(
+    user_id: user.id,
+    listing_id: listing.id,
+    start_date: rented_days.first.day,
+    end_date: rented_days.last.day,
+    booking_date: rented_days.first.day - 7.days,
+    total_cost: num_days * listing.daily_price
+  )
+  # Remove rented days from available days
+  AvailableDay.where(id: rented_days.pluck(:id)).destroy_all
+end
