@@ -5,4 +5,6 @@ class Listing < ApplicationRecord
   has_many :bookings
   has_many :renters, through: :bookings
   has_many :available_days
+  enum item_type: [:Freestyle, :All_Mountain, :Freeride, :Powder, :Carving, :Other]
+  enum category: [:Snowboard, :Ski]
 end
