@@ -1,11 +1,6 @@
 <p id="notice"><%= notice %></p>
 
 <p>
-  <strong>User:</strong>
-  <%= @listing.user %>
-</p>
-
-<p>
   <strong>Title:</strong>
   <%= @listing.title %>
 </p>
@@ -22,7 +17,7 @@
 
 <p>
   <strong>Type:</strong>
-  <%= @listing.type %>
+  <%= @listing.item_type %>
 </p>
 
 <p>
@@ -61,4 +56,5 @@
 </p>
 
 <%= link_to 'Edit', edit_listing_path(@listing) %> |
-<%= link_to 'Back', listings_path %>
+<%= link_to 'Back', listings_path %> |
+<%= link_to 'Destroy', @listing, method: :delete, data: { confirm: 'Are you sure?' } %>
