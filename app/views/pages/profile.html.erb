@@ -1,4 +1,13 @@
 <h1> Welcome to your profile</h1>
 <p><%= @user.first_name %></p>
 <p>Joined <%= @user.created_at %></p>
-<p><%= @user.listings.first.title %></p>
+<p>
+    <%= link_to "Edit Profile",  edit_user_registration_path %>
+</p>
+<p>
+    <% @user.listings.each do |listing| %>
+    <p>
+        <%= link_to listing.title, listing %>
+    </p>
+    <% end %>
+</p>
