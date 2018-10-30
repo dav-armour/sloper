@@ -1,5 +1,6 @@
 class ListingsController < ApplicationController
   before_action :set_listing, only: [:show, :edit, :update, :destroy]
+  before_action :check_permissions, only: [:edit, :update, :destroy]
 
   # GET /listings
   # GET /listings.json
@@ -66,6 +67,10 @@ class ListingsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_listing
       @listing = Listing.find(params[:id])
+    end
+
+    def check_permissions
+      redirect_back(fallback_location: listing_path(@listing)) unless @listing.id == current_user.id
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
