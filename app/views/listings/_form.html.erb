@@ -12,11 +12,6 @@
   <% end %>
 
   <div class="field">
-    <%= form.label :user_id %>
-    <%= form.text_field :user_id %>
-  </div>
-
-  <div class="field">
     <%= form.label :title %>
     <%= form.text_field :title %>
   </div>
@@ -28,12 +23,13 @@
 
   <div class="field">
     <%= form.label :category %>
-    <%= form.number_field :category %>
+    <%# <%= form.number_field :category %>
+    <%= form.select :category, options_for_select(Listing.categories.keys) %>
   </div>
 
   <div class="field">
-    <%= form.label :type %>
-    <%= form.number_field :type %>
+    <%= form.label :item_type %>
+    <%= form.select :item_type, options_for_select(Listing.item_types.keys) %>
   </div>
 
   <div class="field">

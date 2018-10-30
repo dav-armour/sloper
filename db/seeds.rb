@@ -20,7 +20,7 @@ brands = %w(burton lib-tech salomon dc volcom capita dakine ripcurl quicksilver 
   puts "User created: #{character.first}."
   listing = Listing.create(
     user_id: user.id,
-    title: Faker::RockBand,
+    title: Faker::RockBand.name,
     description: Faker::Lorem.paragraphs(3),
     category: rand(2),
     item_type: rand(6),
