@@ -33,4 +33,32 @@ brands = %w(burton lib-tech salomon dc volcom capita dakine ripcurl quicksilver 
     weekly_price: rand(100) + 1
   )
   puts "Listing created: #{listing.brand}."
+  location = Location.create(
+    address: Faker::Address.street_address,
+    city: Faker::Address.city,
+    state: Faker::Address.state,
+    postcode: Faker::Address.postcode,
+    latitude: Faker::Address.latitude,
+    longitude: Faker::Address.longitude,
+    listing_id: listing.id
+  )
+  puts "Locationcreated: #{location.city}."
+  date = Date.new(2018,11,1)
+  90.times do
+    AvailableDay.create(
+      day: date,
+      listing_id: listing.id
+    )
+    date += 1
+  end
 end
+
+# 30.times do
+#   user = User.order("RANDOM()").limit(1)
+#   listing = Listing.order("RANDOM()").limit(1)
+#   Booking.create(
+#     user_id: user.id,
+#     listing_id: listing.id
+#     start_date: listing.available_days
+#   )
+# end
