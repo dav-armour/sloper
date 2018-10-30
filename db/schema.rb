@@ -10,10 +10,40 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_30_031347) do
+ActiveRecord::Schema.define(version: 2018_10_30_032630) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "available_days", force: :cascade do |t|
+    t.bigint "listing_id"
+    t.date "day"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["listing_id"], name: "index_available_days_on_listing_id"
+  end
+
+  create_table "bookings", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "listing_id"
+    t.date "start_date"
+    t.date "end_date"
+    t.date "booking_date"
+    t.integer "total_cost"
+    t.text "stripe_charge_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["listing_id"], name: "index_bookings_on_listing_id"
+    t.index ["user_id"], name: "index_bookings_on_user_id"
+  end
+
+  create_table "images", force: :cascade do |t|
+    t.string "name"
+    t.bigint "listing_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["listing_id"], name: "index_images_on_listing_id"
+  end
 
   create_table "listings", force: :cascade do |t|
     t.bigint "user_id"
@@ -33,6 +63,19 @@ ActiveRecord::Schema.define(version: 2018_10_30_031347) do
     t.index ["user_id"], name: "index_listings_on_user_id"
   end
 
+  create_table "locations", force: :cascade do |t|
+    t.string "city"
+    t.integer "postcode"
+    t.string "address"
+    t.bigint "listing_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "state"
+    t.float "latitude"
+    t.float "longitude"
+    t.index ["listing_id"], name: "index_locations_on_listing_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -45,9 +88,15 @@ ActiveRecord::Schema.define(version: 2018_10_30_031347) do
     t.string "last_name"
     t.string "phone"
     t.string "profile_image"
+    t.text "stripe_cust_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "available_days", "listings"
+  add_foreign_key "bookings", "listings"
+  add_foreign_key "bookings", "users"
+  add_foreign_key "images", "listings"
   add_foreign_key "listings", "users"
+  add_foreign_key "locations", "listings"
 end

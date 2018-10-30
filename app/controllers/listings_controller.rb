@@ -1,5 +1,6 @@
 class ListingsController < ApplicationController
   before_action :set_listing, only: [:show, :edit, :update, :destroy]
+  before_action :check_permissions, only: [:edit, :update, :destroy]
 
   # GET /listings
   # GET /listings.json
@@ -25,6 +26,7 @@ class ListingsController < ApplicationController
   # POST /listings.json
   def create
     @listing = Listing.new(listing_params)
+    @listing.user_id = current_user.id
 
     respond_to do |format|
       if @listing.save
@@ -67,8 +69,12 @@ class ListingsController < ApplicationController
       @listing = Listing.find(params[:id])
     end
 
+    def check_permissions
+      redirect_back(fallback_location: listing_path(@listing)) unless @listing.id == current_user.id
+    end
+
     # Never trust parameters from the scary internet, only allow the white list through.
     def listing_params
-      params.require(:listing).permit(:user_id, :title, :description, :category, :type, :size, :brand, :bindings, :boots, :helmet, :daily_price, :weekly_price)
+      params.require(:listing).permit(:user_id, :title, :description, :category, :item_type, :size, :brand, :bindings, :boots, :helmet, :daily_price, :weekly_price)
     end
 end
