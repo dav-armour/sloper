@@ -1,0 +1,64 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>User:</strong>
+  <%= @listing.user %>
+</p>
+
+<p>
+  <strong>Title:</strong>
+  <%= @listing.title %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @listing.description %>
+</p>
+
+<p>
+  <strong>Category:</strong>
+  <%= @listing.category %>
+</p>
+
+<p>
+  <strong>Type:</strong>
+  <%= @listing.type %>
+</p>
+
+<p>
+  <strong>Size:</strong>
+  <%= @listing.size %>
+</p>
+
+<p>
+  <strong>Brand:</strong>
+  <%= @listing.brand %>
+</p>
+
+<p>
+  <strong>Bindings:</strong>
+  <%= @listing.bindings %>
+</p>
+
+<p>
+  <strong>Boots:</strong>
+  <%= @listing.boots %>
+</p>
+
+<p>
+  <strong>Helmet:</strong>
+  <%= @listing.helmet %>
+</p>
+
+<p>
+  <strong>Daily price:</strong>
+  <%= @listing.daily_price %>
+</p>
+
+<p>
+  <strong>Weekly price:</strong>
+  <%= @listing.weekly_price %>
+</p>
+
+<%= link_to 'Edit', edit_listing_path(@listing) %> |
+<%= link_to 'Back', listings_path %>
