@@ -4,6 +4,31 @@
   <%= devise_error_messages! %>
 
   <div class="field">
+    <%= f.label :profile_image %><br />
+    <%= f.file_field :profile_image %>
+  </div>
+
+  <div class="field">
+    <%= f.label :first_name %><br />
+    <%= f.text_field :first_name, autofocus: true %>
+  </div>
+
+  <div class="field">
+    <%= f.label :last_name %><br />
+    <%= f.text_field :last_name %>
+  </div>
+
+  <div class="field">
+    <%= f.label :email %><br />
+    <%= f.email_field :email, autocomplete: "email" %>
+  </div>
+
+  <div class="field">
+    <%= f.label :phone %><br />
+    <%= f.phone_field :phone, autocomplete: "phone", placeholder: "xxx-xxx-xxxx"%>
+  </div>
+
+  <div class="field">
     <%= f.label :email %><br />
     <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
   </div>

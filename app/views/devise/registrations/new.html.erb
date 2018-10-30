@@ -4,6 +4,11 @@
   <%= devise_error_messages! %>
 
   <div class="field">
+    <%= f.label :profile_image %><br />
+    <%= f.file_field :profile_image %>
+  </div>
+
+  <div class="field">
     <%= f.label :first_name %><br />
     <%= f.text_field :first_name, autofocus: true %>
   </div>
@@ -19,16 +24,16 @@
   </div>
 
   <div class="field">
+    <%= f.label :phone %><br />
+    <%= f.phone_field :phone, autocomplete: "phone", placeholder: "xxx-xxx-xxxx"%>
+  </div>
+
+  <div class="field">
     <%= f.label :password %>
     <% if @minimum_password_length %>
     <em>(<%= @minimum_password_length %> characters minimum)</em>
     <% end %><br />
     <%= f.password_field :password, autocomplete: "new-password" %>
-  </div>
-
-  <div class="field">
-    <%= f.label :phone %><br />
-    <%= f.telephone_field :phone %>
   </div>
 
   <div class="actions">
