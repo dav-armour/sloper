@@ -11,6 +11,13 @@
     </div>
   <% end %>
 
+  <%= form.fields_for :listing_image do |t| %>
+    <div>
+      <%= t.label :image %>
+      <%= t.file_field :image, :multiple => true %>
+    </div>
+  <% end %>
+
   <div class="field">
     <%= form.label :title %>
     <%= form.text_field :title %>

@@ -4,4 +4,5 @@ Rails.application.routes.draw do
   get '/:user_id/profile', to: 'pages#profile', as: 'profile'
   root 'pages#landing'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+  resources :bookings
 end
