@@ -24,7 +24,7 @@
         <% if listing.listing_images.empty? %> 
           <td><%= image_tag asset_path("fallback/noimage.png")%></td>
         <% else %>
-          <td><%= image_tag listing.listing_images.last.image.url %></td>
+          <td><%= image_tag listing.listing_images.first.image.url %></td>
         <% end %>
       </tr>
     <% end %>

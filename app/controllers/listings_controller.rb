@@ -28,13 +28,14 @@ class ListingsController < ApplicationController
   def create
     @listing = Listing.new(listing_params)
     @listing.user_id = current_user.id
-    if params[:listing][:listing_image]
-      params[:listing][:listing_image][:image].each do |img|
-        @image = @listing.listing_images.create(image: img)
-      end
-    end
+    
     respond_to do |format|
       if @listing.save
+        if params[:listing][:listing_image]
+          params[:listing][:listing_image][:image].each do |img|
+            @image = @listing.listing_images.create(image: img)
+          end
+        end
         format.html { redirect_to @listing, notice: 'Listing was successfully created.' }
       else
         format.html { render :new }
