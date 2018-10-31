@@ -3,7 +3,7 @@
 <h1>Listings</h1>
 
 <%= form_tag(listings_path, method: :get) do %>
-  <%= text_field_tag :city, :city %>
+  <%= text_field_tag :city, params[:city] %>
   <%= submit_tag 'Search', name: nil %>
 <% end %>
 

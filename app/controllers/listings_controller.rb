@@ -1,15 +1,15 @@
 class ListingsController < ApplicationController
-  before_action :set_listing, only: [:show, :edit, :update, :destroy]
+  before_action :set_listing, :set_location, only: [:show, :edit, :update, :destroy]
   before_action :check_permissions, only: [:edit, :update, :destroy]
 
   # GET /listings
   # GET /listings.json
   def index
-    @listings = Listing.all
-    @listings = if params[:city]
-      Listing.where('name LIKE ?', "%#{params[:city]}%")
+    # @listings = Listing.all
+    if params[:city]
+      @listings = Listing.includes(:location).references(:locations).fuzzy_search({locations: { city: "#{params[:city]}"}})
     else
-      Listing.all
+      @listings = Listing.all
     end
   end
 
@@ -71,8 +71,16 @@ class ListingsController < ApplicationController
 
   private
     # Use callbacks to share common setup or constraints between actions.
+    def find_city
+      fuzzy_search(city: "#{params[:city]}")
+    end
+    
     def set_listing
       @listing = Listing.find(params[:id])
+    end
+
+    def set_location
+      @location = Location.all
     end
 
     def check_permissions
