@@ -1,4 +1,7 @@
-<h1> Welcome to your profile</h1>
+<% if @user.id == current_user.id %>
+    <h1> Welcome to your profile</h1>
+<% end %>
+
 <p>
     <% if @user.profile_image.url != nil %>
         <%= image_tag @user.profile_image.url, alt: "Avatar" %>
@@ -9,9 +12,11 @@
 </p>
 <p>
     Joined <%= @user.created_at %></p>
-<p>
-    <%= link_to "Edit Profile",  edit_user_registration_path %>
-</p>
+<% if @user.id == current_user.id %>
+    <p>
+        <%= link_to "Edit Profile",  edit_user_registration_path %>
+    </p>
+<% end %>
 <p>
     <% if @user.listings.count == 0 %>
         No current listings

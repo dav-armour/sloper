@@ -6,6 +6,11 @@ class ListingsController < ApplicationController
   # GET /listings.json
   def index
     @listings = Listing.all
+    @listings = if params[:city]
+      Listing.where('name LIKE ?', "%#{params[:city]}%")
+    else
+      Listing.all
+    end
   end
 
   # GET /listings/1
@@ -28,14 +33,14 @@ class ListingsController < ApplicationController
   def create
     @listing = Listing.new(listing_params)
     @listing.user_id = current_user.id
+
     respond_to do |format|
       if @listing.save
-        params[:listing][:listing_image][:image].each do |img|
-          @image = @listing.listing_images.create(image: img)
-        end
         format.html { redirect_to @listing, notice: 'Listing was successfully created.' }
+        format.json { render :show, status: :created, location: @listing }
       else
         format.html { render :new }
+        format.json { render json: @listing.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -46,8 +51,10 @@ class ListingsController < ApplicationController
     respond_to do |format|
       if @listing.update(listing_params)
         format.html { redirect_to @listing, notice: 'Listing was successfully updated.' }
+        format.json { render :show, status: :ok, location: @listing }
       else
         format.html { render :edit }
+        format.json { render json: @listing.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -74,10 +81,6 @@ class ListingsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def listing_params
-      params.require(:listing).permit(:user_id, :title, :description, :category,
-                                      :item_type, :size, :brand, :bindings, :boots,
-                                      :helmet, :daily_price, :weekly_price,
-                                      listing_image_attributes: :image
-                                      )
+      params.require(:listing).permit(:user_id, :title, :description, :category, :item_type, :size, :brand, :bindings, :boots, :helmet, :daily_price, :weekly_price, :city)
     end
 end
