@@ -1,4 +1,9 @@
 <p id="notice"><%= notice %></p>
+<p>
+  <% @listing.listing_images.each do |img| %>
+    <%= image_tag img.image.url alt: "Product Image" %>
+  <% end %>
+</p>
 
 <p>
   <strong>Title:</strong>
