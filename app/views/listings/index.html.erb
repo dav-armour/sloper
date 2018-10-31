@@ -17,6 +17,7 @@
   <tbody>
     <% @listings.each do |listing| %>
       <tr>
+        <th><%= listing.listing_images.first.image.url %>
         <td><%= link_to listing.title, listing %></td>
         <td><%= listing.brand %></td>
         <td><%= listing.daily_price %></td>
