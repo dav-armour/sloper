@@ -1,4 +1,9 @@
 <p id="notice"><%= notice %></p>
+<p>
+  <% @listing.listing_images.each do |img| %>
+    <%= image_tag img.image.url alt: "Product Image" %>
+  <% end %>
+</p>
 
 <p>
   <strong>Title:</strong>
@@ -59,7 +64,7 @@
   <%= link_to @user.first_name, profile_path(@listing.user_id) %>
 </p>
 <%= link_to 'Back', listings_path %>
-<% if @listing.user_id == current_user.id %>
+<% if current_user && @listing.user_id == current_user.id %>
 | <%= link_to 'Edit', edit_listing_path(@listing) %> |
 <%= link_to 'Destroy', @listing, method: :delete, data: { confirm: 'Are you sure?' } %>
 <% end %>
