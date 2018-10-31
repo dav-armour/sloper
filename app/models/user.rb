@@ -7,4 +7,5 @@ class User < ApplicationRecord
   has_many :listings
   has_many :bookings
   mount_uploader :profile_image, ImageUploader
+
 end
