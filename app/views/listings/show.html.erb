@@ -69,23 +69,18 @@
 <%= link_to 'Destroy', @listing, method: :delete, data: { confirm: 'Are you sure?' } %>
 <% end %>
 
-<%= form_with url: bookings_path do %>
-  <article>
-    <% if flash[:error].present? %>
-      <div id="error_explanation">
-        <p><%= flash[:error] %></p>
-      </div>
-    <% end %>
-    <label class="amount">
-      <span>Amount: $10.00</span>
-    </label>
-  </article>
-
-  <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-          data-key="<%= Rails.application.credentials.stripe[:public_key] %>"
-          data-description="Rent Item"
-          data-amount="1000"
-          data-locale="auto"
-          data-email=<%= current_user ? current_user.email : nil %>
-  </script>
+<%= form_with url: new_listing_booking_path(@listing), method: :get, local: true do |form| %>
+  <%= form.fields_for :booking do |t| %>
+    <div class="form-group">
+      <%= t.label :start_date %>
+      <%= t.date_field :start_date %>
+    </div>
+    <div class="form-group">
+      <%= t.label :end_date %>
+      <%= t.date_field :end_date %>
+    </div>
+  <% end %>
+  <div class="actions">
+    <%= form.submit 'Rent Now' %>
+  </div>
 <% end %>
