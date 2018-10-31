@@ -1,10 +1,24 @@
 <h1> Welcome to your profile</h1>
-<p><%= @user.first_name %></p>
-<p>Joined <%= @user.created_at %></p>
+<p>
+    <%= image_tag @user.profile_image.url, alt: "Avatar" %>
+</p>
+<p>
+    <%= @user.first_name %>
+</p>
+<p>
+    Joined <%= @user.created_at %></p>
 <p>
     <%= link_to "Edit Profile",  edit_user_registration_path %>
 </p>
 <p>
+    <%= @user.listings.count %>
+    <% if @user.listings.count > 1 %>
+        Listings
+    <% else %>
+        Listing
+    <% end %>
+    
+    
     <% @user.listings.each do |listing| %>
     <p>
         <%= link_to listing.title, listing %>
