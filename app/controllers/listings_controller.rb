@@ -10,7 +10,7 @@ class ListingsController < ApplicationController
     if params[:city]
       @listings = Listing.includes(:location, :listing_images).references(:locations).fuzzy_search({locations: { city: "#{params[:city]}"}})
     else
-      @listings = Listing.includes(:listing_images)
+      @listings = Listing.includes(:location, :listing_images)
     end
   end
 
@@ -32,6 +32,22 @@ class ListingsController < ApplicationController
   # POST /listings
   # POST /listings.json
   def create
+    # begin
+    #   @listing = Listing.new(listing_params)
+    #   @listing.user_id = current_user.id
+    #   listing_saved = @listing.save
+    #   raise "Couldn't save listing." unless listing_saved
+    #   if params[:listing][:listing_image]
+    #     params[:listing][:listing_image][:image].each do |img|
+    #       @image = @listing.listing_images.create(image: img)
+    #       raise "Couldn't create image. #{img}" unless @image
+    #     end
+    #   end
+    #   redirect_to @listing, notice: 'Listing was successfully created.'
+    # rescue StandardError => e
+    #   redirect_to new_listing_path(@listing), alert: e.message
+    # end
+
     begin
       @listing = Listing.new(listing_params)
       @listing.user_id = current_user.id
@@ -42,6 +58,16 @@ class ListingsController < ApplicationController
           @image = @listing.listing_images.create(image: img)
           raise "Couldn't create image. #{img}" unless @image
         end
+      end
+      location_hash = params[:listing][:location]
+      if location_hash
+        @location = Location.new
+        @location.address = location_hash[:address]
+        @location.city = location_hash[:city]
+        @location.state = location_hash[:state]
+        @location.postcode = location_hash[:postcode]
+        @location.listing_id = @listing.id
+        @location.save
       end
       redirect_to @listing, notice: 'Listing was successfully created.'
     rescue StandardError => e
@@ -75,10 +101,6 @@ class ListingsController < ApplicationController
 
   private
     # Use callbacks to share common setup or constraints between actions.
-    def find_city
-      fuzzy_search(city: "#{params[:city]}")
-    end
-
     def set_listing
       @listing = Listing.find(params[:id])
     end
@@ -93,6 +115,11 @@ class ListingsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def listing_params
-      params.require(:listing).permit(:user_id, :title, :description, :category, :item_type, :size, :brand, :bindings, :boots, :helmet, :daily_price, :weekly_price, :city)
-    end
+      params.require(:listing).permit(:user_id, :title, :description, :category,
+                      :item_type, :size, :brand, :bindings, :boots,
+                      :helmet, :daily_price, :weekly_price,
+                      listing_image_attributes: :image,
+                      location_attributes: [:address, :city, :state, :postcode]
+                      )
+     end
 end
