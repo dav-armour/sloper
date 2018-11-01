@@ -1,7 +1,9 @@
 class BookingsController < ApplicationController
   before_action :set_listing, only: [:new, :create]
   before_action :check_for_errors, only: [:new, :create]
+
   def new
+    @avail_days = AvailableDay.where(listing_id: @listing.id).pluck(:day)
     if params[:booking]
       @booking = Booking.new(
         start_date: @start_date,
