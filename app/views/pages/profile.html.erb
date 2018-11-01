@@ -1,14 +1,58 @@
-<h1> Welcome to your profile</h1>
-<p><%= image_tag @user.profile_image.url alt: "Avatar" %>
-<p><%= @user.first_name %></p>
-<p>Joined <%= @user.created_at %></p>
+<% if @user.id == current_user.id %>
+    <h1> Welcome to your profile</h1>
+<% end %>
+
 <p>
-    <%= link_to "Edit Profile",  edit_user_registration_path %>
-</p>
-<p>
-    <% @user.listings.each do |listing| %>
-    <p>
-        <%= link_to listing.title, listing %>
-    </p>
+    <% if @user.profile_image.url != nil %>
+        <%= image_tag @user.profile_image.url, alt: "Avatar" %>
     <% end %>
 </p>
+<p>
+    <%= @user.first_name %>
+</p>
+<p>
+    Joined <%= @user.created_at %></p>
+<% if @user.id == current_user.id %>
+    <p>
+        <%= link_to "Edit Profile",  edit_user_registration_path %>
+    </p>
+<% end %>
+<p>
+    <% if @user.listings.count == 0 %>
+        No current listings
+    <% else %>
+        <%= @user.listings.count %>
+        <%= @user.listings.count == 1 ? "listing" : "listings" %>
+    <% end %>
+</p>
+
+<div>
+    <table>
+        <thead>
+            <tr>
+                <th></th>
+                <th>Title</th>
+                <th>Brand</th>
+                <th>Daily price</th>
+                <th>Weekly price</th>
+                <th colspan="3"></th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <% @user.listings.each do |listing| %>
+            <tr>
+                <td>
+                    <% if listing.listing_images.count > 0 %>
+                    <%= link_to image_tag(listing.listing_images.first.image.url, alt: "Image"), listing %>
+                    <% end %>
+                </td>
+                <td><%= link_to listing.title, listing %></td>
+                <td><%= listing.brand %></td>
+                <td><%= listing.daily_price %></td>
+                <td><%= listing.weekly_price %></td>
+            </tr>
+            <% end %>
+        </tbody>
+    </table>
+</div>

@@ -58,6 +58,7 @@ Google Maps API - Generating maps and location details.
 * As a user I want to be able to contact Sloper through email or social media.
 
 #### Stretch goals
+* As a renter I want to be able to receive lister's confirmation before payment
 * As a user I want to be able to reply to a review about me left by another user.
 * As a user I want to be able to view a lister's last login to filter out inactive listings.
 * As a user I want to be able to slide into another user's DMs.

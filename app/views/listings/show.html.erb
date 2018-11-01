@@ -6,6 +6,12 @@
 </p>
 
 <p>
+    <% if @listing.listing_images.count > 0 %>
+      <%= image_tag @listing.listing_images.first.image.url, alt: "Image" %>
+    <% end %>
+</p>
+
+<p>
   <strong>Title:</strong>
   <%= @listing.title %>
 </p>
@@ -60,32 +66,22 @@
   <%= @listing.weekly_price %>
 </p>
 
-<p>
-  <%= link_to @user.first_name, profile_path(@listing.user_id) %>
-</p>
 <%= link_to 'Back', listings_path %>
 <% if current_user && @listing.user_id == current_user.id %>
 | <%= link_to 'Edit', edit_listing_path(@listing) %> |
 <%= link_to 'Destroy', @listing, method: :delete, data: { confirm: 'Are you sure?' } %>
 <% end %>
 
-<%= form_with url: bookings_path do %>
-  <article>
-    <% if flash[:error].present? %>
-      <div id="error_explanation">
-        <p><%= flash[:error] %></p>
-      </div>
-    <% end %>
-    <label class="amount">
-      <span>Amount: $10.00</span>
-    </label>
-  </article>
+<p>
+  <% if @listing.listing_images.count > 0 %>
+    <%= link_to image_tag(@user.profile_image.url), profile_path(@listing.user_id) %>
+  <% end %>
+</p>
+  <%= link_to @user.first_name, profile_path(@listing.user_id) %>
+  <%# <%= @user.first_name %>
+</p>
+<p>
+    Joined <%= @user.created_at %></p>
+<p>
 
-  <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-          data-key="<%= Rails.application.credentials.stripe[:public_key] %>"
-          data-description="Rent Item"
-          data-amount="1000"
-          data-locale="auto"
-          data-email=<%= current_user ? current_user.email : nil %>
-  </script>
-<% end %>
+<%= link_to "Rent Now", new_listing_booking_path(@listing), class: "btn btn-primary"%>

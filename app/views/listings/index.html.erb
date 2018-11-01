@@ -2,14 +2,18 @@
 
 <h1>Listings</h1>
 
-<table>
+<%= form_tag(listings_path, method: :get) do %>
+  <%= text_field_tag :city, params[:city] %>
+  <%= submit_tag 'Search', name: nil %>
+<% end %>
+
+<table class="table">
   <thead>
     <tr>
       <th>Title</th>
       <th>Brand</th>
       <th>Daily price</th>
       <th>Weekly price</th>
-      <th colspan="3"></th>
       <th>Image</th>
     </tr>
   </thead>
@@ -21,7 +25,7 @@
         <td><%= listing.brand %></td>
         <td><%= listing.daily_price %></td>
         <td><%= listing.weekly_price %></td>
-        <% if listing.listing_images.empty? %> 
+        <% if listing.listing_images.empty? %>
           <td><%= image_tag asset_path("fallback/noimage.png")%></td>
         <% else %>
           <td><%= image_tag listing.listing_images.first.image.url %></td>
