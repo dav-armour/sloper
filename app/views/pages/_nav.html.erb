@@ -4,21 +4,45 @@
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-    <div class="navbar-nav ml-auto">
-      <%= link_to "All Listings",listings_path, class: "nav-item nav-link my-auto" %>
-      <%#= link_to "How It Works", how_it_works_path, class: "nav-item nav-link my-auto" %>
-      <%#= link_to "FAQs", faqs_path, class: "nav-item nav-link my-auto" %>
-      <%#= link_to "About Us", about_path, class: "nav-item nav-link my-auto" %>
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item my-auto">
+        <%= link_to "All Listings",listings_path, class: "nav-item nav-link my-auto" %>
+      </li>
       <% if user_signed_in? %>
-        <%= link_to "Profile", profile_path(current_user.id), class: "nav-item nav-link my-auto" %>
-        <%= link_to "Logout", destroy_user_session_path, method: :delete, class: "nav-item nav-link my-auto" %>
+        <li class="nav-item my-auto ">
+          <%= link_to "Profile", profile_path(current_user.id), class: "nav-item nav-link my-auto" %>
+        </li>
+      <% end %>
+      <li class="nav-item  my-auto dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Help
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+          <a class="dropdown-item" href="#">How It Works</a>
+          <a class="dropdown-item" href="#">FAQs</a>
+          <a class="dropdown-item" href="#">About Us</a>
+          <%#= link_to "How It Works", how_it_works_path, class: "dropdown-item" %>
+          <%#= link_to "FAQs", faqs_path, class: "dropdown-item" %>
+          <%#= link_to "About Us", about_path, class: "dropdown-item" %>
+        </div>
+      </li>
+      <% if user_signed_in? %>
+        <li class="nav-item my-auto ">
+          <%= link_to "Logout", destroy_user_session_path, method: :delete, class: "nav-item nav-link my-auto" %>
+        </li>
       <% else %>
-        <%= link_to "Login", new_user_session_path, class: "nav-item nav-link my-auto" %>
-        <%= link_to "Sign Up", new_user_registration_path, class: "nav-item nav-link my-auto" %>
+        <li class="nav-item my-auto ">
+          <%= link_to "Login", new_user_session_path, class: "nav-item nav-link my-auto" %>
+        </li>
+        <li class="nav-item my-auto ">
+          <%= link_to "Sign Up", new_user_registration_path, class: "nav-item nav-link my-auto" %>
+        </li>
       <% end %>
-      <%= link_to new_listing_path, class: "nav-item nav-link" do %>
-        <button class="btn btn-success btn-sm px-3">List Item</button>
-      <% end %>
-    </div>
+      <li class="nav-item my-auto ">
+        <%= link_to new_listing_path, class: "nav-item nav-link" do %>
+          <button class="btn btn-success btn-sm px-3">List Item</button>
+        <% end %>
+      </li>
+    </ul>
   </div>
 </nav>

@@ -10,7 +10,7 @@ class ListingsController < ApplicationController
     if params[:city]
       @listings = Listing.includes(:location, :listing_images).references(:locations).fuzzy_search({locations: { city: "#{params[:city]}"}})
     else
-      @listings = Listing.includes(:listing_images)
+      @listings = Listing.includes(:location, :listing_images)
     end
   end
 
@@ -93,6 +93,9 @@ class ListingsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def listing_params
-      params.require(:listing).permit(:user_id, :title, :description, :category, :item_type, :size, :brand, :bindings, :boots, :helmet, :daily_price, :weekly_price, :city)
+      params.require(:listing).permit(:user_id, :title, :description,
+                                      :category, :item_type, :size,
+                                      :brand, :bindings, :boots, :helmet,
+                                      :daily_price, :weekly_price)
     end
 end
