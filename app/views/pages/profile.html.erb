@@ -20,7 +20,7 @@
 <p>
     <% if @user.listings.count == 0 %>
         No current listings
-    <% else %> 
+    <% else %>
         <%= @user.listings.count %>
         <%= @user.listings.count == 1 ? "listing" : "listings" %>
     <% end %>
@@ -42,7 +42,7 @@
         <tbody>
             <% @user.listings.each do |listing| %>
             <tr>
-                <td>    
+                <td>
                     <% if listing.listing_images.count > 0 %>
                     <%= link_to image_tag(listing.listing_images.first.image.url, alt: "Image"), listing %>
                     <% end %>

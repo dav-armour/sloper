@@ -29,8 +29,8 @@ brands = %w(burton lib-tech salomon dc volcom capita dakine ripcurl quicksilver 
     bindings: Faker::Boolean.boolean,
     boots: Faker::Boolean.boolean,
     helmet: Faker::Boolean.boolean,
-    daily_price: rand(100) + 1,
-    weekly_price: rand(100) + 1
+    daily_price: rand(5..20) * 100,
+    weekly_price: rand(20..50) * 100
   )
   puts "Listing created: #{listing.brand}."
   location = Location.create(
