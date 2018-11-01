@@ -2,11 +2,13 @@ class BookingsController < ApplicationController
   before_action :set_listing, only: [:new, :create]
   before_action :check_for_errors, only: [:new, :create]
   def new
-    @booking = Booking.new(
-      start_date: @start_date,
-      end_date: @end_date,
-      total_cost: @amount
-    )
+    if params[:booking]
+      @booking = Booking.new(
+        start_date: @start_date,
+        end_date: @end_date,
+        total_cost: @amount
+      )
+    end
   end
 
   def create
@@ -41,8 +43,7 @@ class BookingsController < ApplicationController
     end
 
   rescue Stripe::CardError => e
-    flash[:error] = e.message
-    redirect_to new_charge_path
+    redirect_to new_listing_booking_path(@listing), alert: e.message
   end
 
   private
@@ -56,25 +57,27 @@ class BookingsController < ApplicationController
   end
 
   def check_for_errors
-    begin
-      @start_date = params[:booking][:start_date]
-      @end_date = params[:booking][:end_date]
-      if @end_date <= @start_date
-        raise "Error: Start date needs to be before end date"
+    if params[:booking]
+      begin
+        @start_date = params[:booking][:start_date]
+        @end_date = params[:booking][:end_date]
+        if @end_date <= @start_date
+          raise BookingError, "Error: Start date needs to be before end date"
+        end
+        date_arr = (@start_date..@end_date).to_a
+        @avail_days = AvailableDay.where(listing_id: @listing.id, day: date_arr)
+        if date_arr.count != @avail_days.count
+          raise BookingError, "Error: Dates not available"
+        end
+        @num_days = @avail_days.count
+        @amount = @num_days * @listing.daily_price
+        if params[:booking][:total_cost] && @amount != params[:booking][:total_cost].to_i
+          raise BookingError, "Error: Amount Incorrect - Payment Stopped"
+        end
+      rescue BookingError => e
+        redirect_to new_listing_booking_path(@listing), alert: e.message
+        return
       end
-      date_arr = (@start_date..@end_date).to_a
-      @avail_days = AvailableDay.where(listing_id: @listing.id, day: date_arr)
-      if date_arr.count != @avail_days.count
-        raise "Error: Dates not available"
-      end
-      @num_days = @avail_days.count
-      @amount = @num_days * @listing.daily_price
-      if params[:booking][:total_cost] && @amount != params[:booking][:total_cost].to_i
-        raise "Error: Amount Incorrect - Payment Stopped"
-      end
-    rescue StandardError => e
-      redirect_to listing_path(@listing), alert: e.message
-      return
     end
   end
 end

@@ -43,24 +43,19 @@ brands = %w(burton lib-tech salomon dc volcom capita dakine ripcurl quicksilver 
     listing_id: listing.id
   )
   puts "Location created: #{location.city}."
-  date = Date.new(2018,11,1)
-  90.times do
-    AvailableDay.create(
-      day: date,
-      listing_id: listing.id
-    )
-    date += 1
-  end
+  # Available days added using model scoped after_create_commit
 end
 
 puts "generating bookings"
-100.times do
+300.times do
   # Select random user and listing
   user = User.find(User.pluck(:id).sample)
   listing = Listing.find(Listing.pluck(:id).sample)
-  start_day = rand(0..30)
+  # Select random starting day and length
+  start_day = rand(0..(listing.available_days.count - 14))
   num_days = rand(2..14)
   end_day = start_day + num_days
+  # Create array of rented days
   rented_days = listing.available_days[start_day..end_day]
   Booking.create(
     user_id: user.id,

@@ -83,18 +83,5 @@
 <p>
     Joined <%= @user.created_at %></p>
 <p>
-<%= form_with url: new_listing_booking_path(@listing), method: :get, local: true do |form| %>
-  <%= form.fields_for :booking do |t| %>
-    <div class="form-group">
-      <%= t.label :start_date %>
-      <%= t.date_field :start_date %>
-    </div>
-    <div class="form-group">
-      <%= t.label :end_date %>
-      <%= t.date_field :end_date %>
-    </div>
-  <% end %>
-  <div class="actions">
-    <%= form.submit 'Rent Now' %>
-  </div>
-<% end %>
+
+<%= link_to "Rent Now", new_listing_booking_path(@listing), class: "btn btn-primary"%>
