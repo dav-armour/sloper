@@ -31,7 +31,7 @@ class ListingsController < ApplicationController
       @listing.user_id = current_user.id
       listing_saved = @listing.save
       raise "Couldn't save listing." unless listing_saved
-      if params[:listing][:listing_image] && listing_saved
+      if params[:listing][:listing_image]
         params[:listing][:listing_image][:image].each do |img|
           @image = @listing.listing_images.create(image: img)
           raise "Couldn't create image. #{img}" unless @image
