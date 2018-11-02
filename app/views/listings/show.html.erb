@@ -1,14 +1,12 @@
 <p id="notice"><%= notice %></p>
 <p>
-  <% @listing.listing_images.each do |img| %>
-    <%= image_tag img.image.url alt: "Product Image" %>
-  <% end %>
-</p>
-
-<p>
-    <% if @listing.listing_images.count > 0 %>
-      <%= image_tag @listing.listing_images.first.image.url, alt: "Image" %>
+  <% if @listing.listing_images.empty? %>
+    <%= image_tag asset_path("fallback/noimage.png")%>
+  <% else %>
+    <% @listing.listing_images.each do |img| %>
+      <%= image_tag img.image.url alt: "Product Image" %>
     <% end %>
+  <% end %>
 </p>
 
 <p>

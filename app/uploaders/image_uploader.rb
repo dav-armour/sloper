@@ -15,7 +15,7 @@ class ImageUploader < CarrierWave::Uploader::Base
 
   # Provide a default URL as a default if there hasn't been a file uploaded:
   def default_url(*args)
-      ActionController::Base.helpers.asset_path("fallback/" + [version_name, "noimage.jpg"].compact.join('_'))
+      ActionController::Base.helpers.asset_path("fallback/" + [version_name, "noimage.png"].compact.join('_'))
   end
 
   # Process files as they are uploaded:
@@ -27,7 +27,7 @@ class ImageUploader < CarrierWave::Uploader::Base
 
   # Create different versions of your uploaded files:
   version :thumb do
-    process resize_to_fit: [500, nil]
+    process resize_to_fit: [500, 500]
     process crop: '500x500+0+0'
   end
 
