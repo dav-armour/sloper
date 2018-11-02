@@ -1,4 +1,13 @@
 <p id="notice"><%= notice %></p>
+<p>
+  <% if @listing.listing_images.empty? %>
+    <%= image_tag asset_path("fallback/noimage.png")%>
+  <% else %>
+    <% @listing.listing_images.each do |img| %>
+      <%= image_tag img.image.url alt: "Product Image" %>
+    <% end %>
+  <% end %>
+</p>
 
 <p>
   <strong>Title:</strong>
@@ -8,6 +17,11 @@
 <p>
   <strong>Description:</strong>
   <%= @listing.description %>
+</p>
+
+<p>
+  <strong>Location:</strong>
+  <%= @listing.location.city %>
 </p>
 
 <p>
@@ -56,7 +70,22 @@
 </p>
 
 <%= link_to 'Back', listings_path %>
-<% if @listing.user_id == current_user.id %>
+<%# <% if @listing.user_id == current_user.id %>
+<% if current_user && @listing.user_id == current_user.id %>
 | <%= link_to 'Edit', edit_listing_path(@listing) %> |
 <%= link_to 'Destroy', @listing, method: :delete, data: { confirm: 'Are you sure?' } %>
 <% end %>
+
+<p>
+  <% if @listing.listing_images.count > 0 %>
+    <%= link_to image_tag(@user.profile_image.url), profile_path(@listing.user_id) %>
+  <% end %>
+</p>
+  <%= link_to @user.first_name, profile_path(@listing.user_id) %>
+  <%# <%= @user.first_name %>
+</p>
+<p>
+    Joined <%= @user.created_at %></p>
+<p>
+
+<%= link_to "Rent Now", new_listing_booking_path(@listing), class: "btn btn-primary"%>

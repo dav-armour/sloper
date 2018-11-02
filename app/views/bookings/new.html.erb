@@ -1,0 +1,84 @@
+<h1 class="text-center mb-4">Rental Booking Page</h1>
+
+<div class="row">
+  <div class="col-lg">
+    <%= month_calendar do |date| %>
+      <% if @avail_days.include?(date) %>
+        <div class="available-day">
+      <%else %>
+        <div class="rented-day">
+      <% end %>
+        <%= date.day %>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="col-lg">
+    <h3 class="text-center mb-4">Check Available Dates</h3>
+    <p class="text-center mb-4">
+      <span class="available-day">Available Day</span>
+      <span class="rented-day">Unavailable Day</span>
+    </p>
+    <%= form_with url: new_listing_booking_path(@listing), method: :get, local: true, class: "check-date-form" do |form| %>
+      <%= form.fields_for :booking do |t| %>
+        <div class="form-group">
+          <%= t.label :start_date %>
+          <%= t.date_field :start_date %>
+        </div>
+        <div class="form-group">
+          <%= t.label :end_date %>
+          <%= t.date_field :end_date %>
+        </div>
+      <% end %>
+      <div class="actions">
+        <%= form.submit 'Check Dates', class: "btn btn-primary" %>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<% if @booking %>
+
+  <div class="col text-center mt-4">
+    <h2>Booking Summary:</h2>
+
+    <p>Item: <%= @listing.title %></p>
+
+    <p>Start Date: <%= @booking.start_date %></p>
+
+    <p>End Date: <%= @booking.end_date %></p>
+
+    <p>Number of Days: <%= @num_days %></p>
+
+    <%= form_with model: @booking, url: listing_bookings_path, class: "mb-4" do |form| %>
+      <article class="mb-3">
+        <% if flash[:error].present? %>
+          <div id="error_explanation">
+            <p><%= flash[:error] %></p>
+          </div>
+        <% end %>
+        <label class="amount">
+          <span>Total Cost: $<%= '%.2f' % (@booking.total_cost/100.0) %></span>
+        </label>
+      </article>
+
+      <div class="hidden-group">
+        <%= form.hidden_field :start_date %>
+        <%= form.hidden_field :end_date %>
+        <%= form.hidden_field :total_cost %>
+      </div>
+
+      <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+              data-key="<%= Rails.application.credentials.stripe[:public_key] %>"
+              data-name="Sloper"
+              data-description="Rent Item: <%= @listing.title %>"
+              data-amount="<%= @booking.total_cost %>"
+              data-locale="auto"
+              data-currency="aud"
+              data-email=<%= current_user.email %>
+      ></script>
+    <% end %>
+    <%= image_tag "powered_by_stripe.png" %>
+  </div>
+
+<% end %>
