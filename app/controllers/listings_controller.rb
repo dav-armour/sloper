@@ -23,6 +23,7 @@ class ListingsController < ApplicationController
   # GET /listings/new
   def new
     @listing = Listing.new
+    @listing.location ||= Location.new
   end
 
   # GET /listings/1/edit
@@ -70,6 +71,7 @@ class ListingsController < ApplicationController
       end
     end
     
+    # fix this errors when listing_image is nil
     if params[:listing][:listing_image][:image]
       params[:listing][:listing_image][:image].each do |img|
         @image = @listing.listing_images.create(image: img)
