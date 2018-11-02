@@ -32,22 +32,6 @@ class ListingsController < ApplicationController
   # POST /listings
   # POST /listings.json
   def create
-    # begin
-    #   @listing = Listing.new(listing_params)
-    #   @listing.user_id = current_user.id
-    #   listing_saved = @listing.save
-    #   raise "Couldn't save listing." unless listing_saved
-    #   if params[:listing][:listing_image]
-    #     params[:listing][:listing_image][:image].each do |img|
-    #       @image = @listing.listing_images.create(image: img)
-    #       raise "Couldn't create image. #{img}" unless @image
-    #     end
-    #   end
-    #   redirect_to @listing, notice: 'Listing was successfully created.'
-    # rescue StandardError => e
-    #   redirect_to new_listing_path(@listing), alert: e.message
-    # end
-
     begin
       @listing = Listing.new(listing_params)
       @listing.user_id = current_user.id
