@@ -23,6 +23,7 @@ class ListingsController < ApplicationController
   # GET /listings/new
   def new
     @listing = Listing.new
+    @listing.location ||= Location.new
   end
 
   # GET /listings/1/edit
@@ -63,14 +64,14 @@ class ListingsController < ApplicationController
   # PATCH/PUT /listings/1.json
   def update
     @listing.listing_images.each do |img| 
-      if params[:listing][:listing_image][:remove_image].present?  
+      if params[:listing][:listing_image][:remove_image] == '1'
         img.remove_image!
         img.destroy
         img.save
       end
     end
     
-    if params[:listing][:listing_image][:image]
+    if params[:listing][:listing_image] != nil && params[:listing][:listing_image][:image] 
       params[:listing][:listing_image][:image].each do |img|
         @image = @listing.listing_images.create(image: img)
         raise "Couldn't create image. #{img}" unless @image
