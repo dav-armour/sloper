@@ -1,7 +1,7 @@
 class ListingsController < ApplicationController
+  before_action :authenticate_user!, except: [:index, :show]
   before_action :set_listing, :set_location, only: [:show, :edit, :update, :destroy]
   before_action :check_permissions, only: [:edit, :update, :destroy]
-  before_action :authenticate_user!, except: [:index, :show]
 
   # GET /listings
   # GET /listings.json
