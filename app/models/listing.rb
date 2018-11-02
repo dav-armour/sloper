@@ -4,7 +4,7 @@ class Listing < ApplicationRecord
   belongs_to :user
   has_one :location, dependent: :destroy
   has_many :listing_images, dependent: :destroy
-  accepts_nested_attributes_for :listing_images
+  accepts_nested_attributes_for :listing_images, :location
   has_many :bookings, dependent: :destroy
   has_many :renters, through: :bookings
   has_many :available_days, dependent: :destroy

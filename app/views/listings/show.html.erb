@@ -22,6 +22,11 @@
 </p>
 
 <p>
+  <strong>Location:</strong>
+  <%= @listing.location.city %>
+</p>
+
+<p>
   <strong>Category:</strong>
   <%= @listing.category %>
 </p>
@@ -67,6 +72,7 @@
 </p>
 
 <%= link_to 'Back', listings_path %>
+<%# <% if @listing.user_id == current_user.id %>
 <% if current_user && @listing.user_id == current_user.id %>
 | <%= link_to 'Edit', edit_listing_path(@listing) %> |
 <%= link_to 'Destroy', @listing, method: :delete, data: { confirm: 'Are you sure?' } %>
