@@ -11,7 +11,20 @@
     </div>
   <% end %>
 
-  <%= form.fields_for :listing_image do |t| %>
+  <%= form.fields_for :listing_image, html: { multipart: true } do |t| %>
+    <div>
+      <% @listing.listing_images.each do |img| %>
+        <%= image_tag img.image.url alt: "Product Image" %>
+      <% end %>
+    </div>
+
+    <div>
+      <label>
+        <%= t.check_box :remove_image %>
+        Remove uploaded images
+      </label>
+    </div>
+  
     <div>
       <%= t.label :image %>
       <%= t.file_field :image, :multiple => true %>
@@ -78,3 +91,5 @@
     <%= form.submit %>
   </div>
 <% end %>
+
+<%= params.inspect %>
