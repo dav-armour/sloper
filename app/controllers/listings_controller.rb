@@ -36,7 +36,10 @@ class ListingsController < ApplicationController
     begin
       @listing = Listing.new(listing_params)
       @listing.user_id = current_user.id
-      listing_saved = @listing.save
+      # listing_saved = @listing.save
+      # byebug
+      raise @listing.errors.full_messages.first unless @listing.valid?
+      @listing.save
       raise "Couldn't save listing." unless listing_saved
       if params[:listing][:listing_image]
         params[:listing][:listing_image][:image].each do |img|

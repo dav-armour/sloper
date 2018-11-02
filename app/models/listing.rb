@@ -10,6 +10,10 @@ class Listing < ApplicationRecord
   has_many :available_days, dependent: :destroy
   enum item_type: [:Freestyle, :All_Mountain, :Freeride, :Powder, :Carving, :Other]
   enum category: [:Snowboard, :Ski]
+  # validates_associated :location
+  validates :title, :category, :item_type, :size, :brand, 
+            :daily_price, :weekly_price, presence: { message: "must be given." }
+
 
 
   # Adds 6 months of available days when model is created

@@ -35,7 +35,7 @@
 
   <div class="form-group">
     <%= form.label :title %>
-    <%= form.text_field :title %>
+    <%= form.text_field :title, required: true %>
   </div>
 
   <div class="form-group">
@@ -46,41 +46,41 @@
   <%= form.fields_for :location do |t| %>
     <div class="form-group">
       <%= t.label :address %>
-      <%= t.text_field :address %>
+      <%= t.text_field :address, required: true  %>
     </div>
     <div class="form-group">
       <%= t.label :city %>
-      <%= t.text_field :city %>
+      <%= t.text_field :city, required: true  %>
     </div>
     <div class="form-group">
       <%= t.label :state %>
-      <%= t.text_field :state %>
+      <%= t.text_field :state, required: true  %>
     </div>
     <div class="form-group">
       <%= t.label :postcode %>
-      <%= t.number_field :postcode %>
+      <%= t.number_field :postcode, required: true  %>
     </div>
   <% end %>
 
   <div class="form-group">
     <%= form.label :category %>
     <%# <%= form.number_field :category %>
-    <%= form.select :category, options_for_select(Listing.categories.keys) %>
+    <%= form.select :category, options_for_select(Listing.categories.keys), required: true  %>
   </div>
 
   <div class="form-group">
     <%= form.label :item_type %>
-    <%= form.select :item_type, options_for_select(Listing.item_types.keys) %>
+    <%= form.select :item_type, options_for_select(Listing.item_types.keys), required: true  %>
   </div>
 
   <div class="form-group">
     <%= form.label :size %>
-    <%= form.number_field :size %>
+    <%= form.number_field :size, required: true  %>
   </div>
 
   <div class="form-group">
     <%= form.label :brand %>
-    <%= form.text_field :brand %>
+    <%= form.text_field :brand, required: true  %>
   </div>
 
   <div class="form-group">
@@ -100,12 +100,12 @@
 
   <div class="form-group">
     <%= form.label :daily_price %>
-    <%= form.number_field :daily_price %>
+    <%= form.number_field :daily_price, required: true  %>
   </div>
 
   <div class="form-group">
     <%= form.label :weekly_price %>
-    <%= form.number_field :weekly_price %>
+    <%= form.number_field :weekly_price, required: true  %>
   </div>
 
   <div class="actions">
