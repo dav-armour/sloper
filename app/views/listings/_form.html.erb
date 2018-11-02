@@ -14,16 +14,18 @@
   <%= form.fields_for :listing_image, html: { multipart: true } do |t| %>
     <div>
       <% @listing.listing_images.each do |img| %>
-        <%= image_tag img.image.url alt: "Product Image" %>
+        <%= image_tag img.image.thumb.url alt: "Product Image" %>
       <% end %>
     </div>
 
-    <div>
-      <label>
-        <%= t.check_box :remove_image %>
-        Remove uploaded images
-      </label>
-    </div>
+    <% unless @listing.listing_images.empty? %>
+      <div>
+        <label>
+          <%= t.check_box :remove_image %>
+          Remove uploaded images
+        </label>
+      </div>
+    <% end %>
   
     <div>
       <%= t.label :image %>
