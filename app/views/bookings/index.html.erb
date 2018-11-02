@@ -1,0 +1,57 @@
+<h1>My Bookings</h1>
+
+<h2>As Renter</h2>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Listing</th>
+      <th>Owner</th>
+      <th>Start Date</th>
+      <th>End Date</th>
+      <th>Booking Date</th>
+      <th>Total Cost</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @renter_bookings.each do |booking| %>
+      <tr>
+        <td><%= link_to booking.listing.title, booking.listing %></td>
+        <td><%= link_to booking.listing.user.first_name, profile_path(booking.listing.user) %></td>
+        <td><%= booking.start_date.strftime("%d/%m/%y") %></td>
+        <td><%= booking.end_date.strftime("%d/%m/%y") %></td>
+        <td><%= booking.booking_date.strftime("%d/%m/%y") %></td>
+        <td><%= booking.total_cost %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<h2>As Lister</h2>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Listing</th>
+      <th>Renter</th>
+      <th>Start Date</th>
+      <th>End Date</th>
+      <th>Booking Date</th>
+      <th>Total Cost</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @lister_bookings.each do |booking| %>
+      <tr>
+        <td><%= link_to booking.listing.title, booking.listing %></td>
+        <td><%= link_to booking.user.first_name, profile_path(booking.user) %></td>
+        <td><%= booking.start_date.strftime("%d/%m/%y") %></td>
+        <td><%= booking.end_date.strftime("%d/%m/%y") %></td>
+        <td><%= booking.booking_date.strftime("%d/%m/%y") %></td>
+        <td><%= booking.total_cost %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

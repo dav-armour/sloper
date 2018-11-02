@@ -1,6 +1,15 @@
 class BookingsController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_listing, only: [:new, :create]
   before_action :check_for_errors, only: [:new, :create]
+
+  def index
+    @renter_bookings = Booking.where(user_id: current_user.id).includes(listing: :user).order(start_date: :asc)
+    # @renter_bookings = []
+    listing_ids = Listing.where(user_id: 1).pluck(:id)
+    @lister_bookings = Booking.where(listing_id: listing_ids).includes(:listing, :user)
+    # @lister_bookings = []
+  end
 
   def new
     @avail_days = AvailableDay.where(listing_id: @listing.id).pluck(:day)

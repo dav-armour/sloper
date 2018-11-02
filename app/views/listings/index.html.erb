@@ -1,5 +1,3 @@
-<p id="notice"><%= notice %></p>
-
 <h1>Listings</h1>
 
 <%= form_tag(listings_path, method: :get) do %>
@@ -11,6 +9,7 @@
   <thead>
     <tr>
       <th>Title</th>
+      <th>City</th>
       <th>Brand</th>
       <th>Daily price</th>
       <th>Weekly price</th>
@@ -22,6 +21,7 @@
     <% @listings.each do |listing| %>
       <tr>
         <td><%= link_to listing.title, listing %></td>
+        <td><%= listing.location.city %></td>
         <td><%= listing.brand %></td>
         <td><%= listing.daily_price %></td>
         <td><%= listing.weekly_price %></td>
