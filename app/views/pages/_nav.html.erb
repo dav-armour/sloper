@@ -8,11 +8,6 @@
       <li class="nav-item my-auto">
         <%= link_to "All Listings",listings_path, class: "nav-item nav-link my-auto" %>
       </li>
-      <% if user_signed_in? %>
-        <li class="nav-item my-auto ">
-          <%= link_to "Profile", profile_path(current_user.id), class: "nav-item nav-link my-auto" %>
-        </li>
-      <% end %>
       <li class="nav-item  my-auto dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           Help
@@ -27,6 +22,15 @@
         </div>
       </li>
       <% if user_signed_in? %>
+      <li class="nav-item  my-auto dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Account
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+          <%= link_to "Profile", profile_path(current_user.id), class: "dropdown-item" %>
+          <%= link_to "My Bookings", bookings_path, class: "dropdown-item" %>
+        </div>
+      </li>
         <li class="nav-item my-auto ">
           <%= link_to "Logout", destroy_user_session_path, method: :delete, class: "nav-item nav-link my-auto" %>
         </li>

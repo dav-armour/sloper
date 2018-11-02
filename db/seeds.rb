@@ -56,7 +56,7 @@ puts "generating bookings"
   num_days = rand(2..14)
   end_day = start_day + num_days
   # Create array of rented days
-  rented_days = listing.available_days[start_day..end_day]
+  rented_days = listing.available_days.order(:day)[start_day..end_day]
   Booking.create(
     user_id: user.id,
     listing_id: listing.id,
