@@ -8,6 +8,7 @@ class Listing < ApplicationRecord
   has_many :bookings, dependent: :destroy
   has_many :renters, through: :bookings
   has_many :available_days, dependent: :destroy
+  # has_many :reviews, through: :bookings
   enum item_type: [:Freestyle, :All_Mountain, :Freeride, :Powder, :Carving, :Other]
   enum category: [:Snowboard, :Ski]
 
