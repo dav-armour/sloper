@@ -16,7 +16,11 @@
 </p>
 
 <p>
-  <%= render 'carousel' %>
+  <% if @listing.listing_images.empty? %>
+    <%= image_tag asset_path("fallback/noimage.png")%>
+  <% else %>
+    <%= render 'carousel' %>
+  <% end %>
 </p>
 
 
@@ -87,7 +91,7 @@
     <%= link_to image_tag(@user.profile_image.url), profile_path(@listing.user_id) %>
   <% end %>
 </p>
-  <%= link_to @user.first_name, profile_path(@listing.user_id) %>
+  <%= link_to @user.full_name, profile_path(@listing.user_id) %>
   <%# <%= @user.first_name %>
 </p>
 <p>

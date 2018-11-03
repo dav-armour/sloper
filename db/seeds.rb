@@ -6,10 +6,10 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-brands = %w(burton lib-tech salomon dc volcom capita dakine ripcurl quicksilver )
+brands = %w(Burton Lib-Tech Salomon D.C. Volcom Capita Dakine Ripcurl Quicksilver)
 
 50.times do
-  character = Faker::GameOfThrones.character.split
+  character = Faker::HarryPotter.character.split
   user = User.create(
     first_name: character.first,
     last_name: character.last,
@@ -46,7 +46,7 @@ brands = %w(burton lib-tech salomon dc volcom capita dakine ripcurl quicksilver 
   # Available days added using model scoped after_create_commit
 end
 
-puts "generating bookings"
+puts "generating bookings and reviews"
 300.times do
   # Select random user and listing
   user = User.find(User.pluck(:id).sample)
@@ -66,7 +66,7 @@ puts "generating bookings"
     total_cost: num_days * listing.daily_price
   )
   if rand(10) < 7
-    puts "Creating review"
+    print "."
     Review.create(
       booking_id: booking.id,
       rating: rand(1..5),
