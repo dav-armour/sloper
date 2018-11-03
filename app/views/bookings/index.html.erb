@@ -11,6 +11,7 @@
       <th>End Date</th>
       <th>Booking Date</th>
       <th>Total Cost</th>
+      <th>Review</th>
     </tr>
   </thead>
 
@@ -23,6 +24,11 @@
         <td><%= booking.end_date.strftime("%d/%m/%y") %></td>
         <td><%= booking.booking_date.strftime("%d/%m/%y") %></td>
         <td><%= booking.total_cost %></td>
+        <% if booking.review %>
+          <td><%= link_to "Edit Review", edit_booking_review_path(booking.id) %></td>
+        <% else %>
+          <td><%= link_to "Add Review", new_booking_review_path(booking.id) %></td>
+        <% end %>
       </tr>
     <% end %>
   </tbody>

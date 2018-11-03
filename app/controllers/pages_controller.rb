@@ -3,7 +3,10 @@ class PagesController < ApplicationController
   end
 
   def profile
-    @user = User.find(params[:user_id])
-    # @avatar = current_user.image_url
+    @user = User.includes(:listings, listings: :listing_images).find(params[:user_id])
+    listing_ids = @user.listings.pluck(:id)
+    @reviews = Review.includes(:booking, booking: :user).where(bookings: {listing_id: listing_ids})
+    @average_rating = @reviews.average(:rating)
+    # @average_rating = @reviews.average(:rating).round unless @reviews.empty?
   end
 end

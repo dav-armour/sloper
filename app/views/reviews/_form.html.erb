@@ -11,17 +11,28 @@
     </div>
   <% end %>
 
-  <div class="field">
+  <div class="form-group">
     <%= form.label :rating %>
-    <%= form.number_field :rating %>
+    <span class="star-cb-group">
+      <%= form.radio_button(:rating, 5) %>
+      <label for="review_rating_5"></label>
+      <%= form.radio_button(:rating, 4) %>
+      <label for="review_rating_4"></label>
+      <%= form.radio_button(:rating, 3) %>
+      <label for="review_rating_3"></label>
+      <%= form.radio_button(:rating, 2) %>
+      <label for="review_rating_2"></label>
+      <%= form.radio_button(:rating, 1) %>
+      <label for="review_rating_1"></label>
+    </span>
   </div>
 
-  <div class="field">
+  <div class="form-group">
     <%= form.label :content %>
     <%= form.text_area :content %>
   </div>
 
-  <div class="actions">
+  <div class="form-group">
     <%= form.submit %>
   </div>
 <% end %>

@@ -21,7 +21,7 @@ brands = %w(burton lib-tech salomon dc volcom capita dakine ripcurl quicksilver 
   listing = Listing.create(
     user_id: user.id,
     title: Faker::RockBand.name,
-    description: Faker::Lorem.paragraphs(3),
+    description: Faker::Lorem.paragraphs(5).join("\n"),
     category: rand(2),
     item_type: rand(6),
     size: rand(50) + 120,
@@ -57,7 +57,7 @@ puts "generating bookings"
   end_day = start_day + num_days
   # Create array of rented days
   rented_days = listing.available_days.order(:day)[start_day..end_day]
-  Booking.create(
+  booking = Booking.create(
     user_id: user.id,
     listing_id: listing.id,
     start_date: rented_days.first.day,
@@ -65,6 +65,14 @@ puts "generating bookings"
     booking_date: rented_days.first.day - 7.days,
     total_cost: num_days * listing.daily_price
   )
+  if rand(10) < 7
+    puts "Creating review"
+    Review.create(
+      booking_id: booking.id,
+      rating: rand(1..5),
+      content: Faker::Lorem.paragraph(5)
+    )
+  end
   # Remove rented days from available days
   AvailableDay.where(id: rented_days.pluck(:id)).destroy_all
 end

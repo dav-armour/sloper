@@ -18,6 +18,9 @@ class ListingsController < ApplicationController
   # GET /listings/1.json
   def show
     @user = User.find(@listing.user_id)
+    @reviews = Review.includes(:booking, booking: :user).where(bookings: {listing_id: @listing.id})
+    @average_rating = @reviews.average(:rating)
+    # @average_rating = @reviews.average(:rating).round unless @reviews.empty?
   end
 
   # GET /listings/new
@@ -63,15 +66,15 @@ class ListingsController < ApplicationController
   # PATCH/PUT /listings/1
   # PATCH/PUT /listings/1.json
   def update
-    @listing.listing_images.each do |img| 
+    @listing.listing_images.each do |img|
       if params[:listing][:listing_image][:remove_image] == '1'
         img.remove_image!
         img.destroy
         img.save
       end
     end
-    
-    if params[:listing][:listing_image] != nil && params[:listing][:listing_image][:image] 
+
+    if params[:listing][:listing_image] != nil && params[:listing][:listing_image][:image]
       params[:listing][:listing_image][:image].each do |img|
         @image = @listing.listing_images.create(image: img)
         raise "Couldn't create image. #{img}" unless @image
