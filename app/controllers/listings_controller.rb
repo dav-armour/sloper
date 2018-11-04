@@ -1,6 +1,6 @@
 class ListingsController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
-  before_action :set_listing, :set_location, only: [:show, :edit, :update, :destroy]
+  before_action :set_listing, only: [:show, :edit, :update, :destroy]
   before_action :check_permissions, only: [:edit, :update, :destroy]
 
   # GET /listings
@@ -31,6 +31,8 @@ class ListingsController < ApplicationController
 
   # GET /listings/1/edit
   def edit
+    @listing.daily_price /= 100
+    @listing.weekly_price /= 100
   end
 
   # POST /listings
@@ -38,15 +40,13 @@ class ListingsController < ApplicationController
   def create
     begin
       @listing = Listing.new(listing_params)
+      # Convert dollars to cents
+      @listing.daily_price *= 100
+      @listing.weekly_price *= 100
       @listing.user_id = current_user.id
       listing_saved = @listing.save
-      raise "Couldn't save listing." unless listing_saved
-      if params[:listing][:listing_image]
-        params[:listing][:listing_image][:image].each do |img|
-          @image = @listing.listing_images.create(image: img)
-          raise "Couldn't create image. #{img}" unless @image
-        end
-      end
+      raise ListingError, "Couldn't save listing." unless listing_saved
+      create_images
       location_hash = params[:listing][:location]
       if location_hash
         @location = Location.new
@@ -58,7 +58,7 @@ class ListingsController < ApplicationController
         @location.save
       end
       redirect_to @listing, notice: 'Listing was successfully created.'
-    rescue StandardError => e
+    rescue ListingError => e
       redirect_to new_listing_path(@listing), alert: e.message
     end
   end
@@ -66,40 +66,35 @@ class ListingsController < ApplicationController
   # PATCH/PUT /listings/1
   # PATCH/PUT /listings/1.json
   def update
-    @listing.listing_images.each do |img|
-      if params[:listing][:listing_image][:remove_image] == '1'
-        img.remove_image!
-        img.destroy
-        img.save
+    begin
+      @listing.listing_images.each do |img|
+        if params[:listing][:listing_image][:remove_image] == '1'
+          img.destroy
+        end
       end
-    end
+      create_images
+      # Convert to cents
+      updated_params = listing_params
+      updated_params[:daily_price] = 100 * updated_params[:daily_price].to_i
+      updated_params[:weekly_price] = 100 * updated_params[:weekly_price].to_i
 
-    if params[:listing][:listing_image] != nil && params[:listing][:listing_image][:image]
-      params[:listing][:listing_image][:image].each do |img|
-        @image = @listing.listing_images.create(image: img)
-        raise "Couldn't create image. #{img}" unless @image
-      end
-    end
-    @listing.save
-
-    respond_to do |format|
-      if @listing.update(listing_params)
-        format.html { redirect_to @listing, notice: 'Listing was successfully updated.' }
-        format.json { render :show, status: :ok, location: @listing }
+      if @listing.update(updated_params)
+        redirect_to @listing, notice: 'Listing was successfully updated.'
       else
-        format.html { render :edit }
-        format.json { render json: @listing.errors, status: :unprocessable_entity }
+        render :edit
       end
+    rescue ListingError => e
+      redirect_to new_listing_path(@listing), alert: e.message
     end
   end
 
   # DELETE /listings/1
   # DELETE /listings/1.json
   def destroy
-    @listing.destroy
-    respond_to do |format|
-      format.html { redirect_to listings_url, notice: 'Listing was successfully destroyed.' }
-      format.json { head :no_content }
+    if @listing.destroy
+      redirect_to listings_path, notice: 'Listing was successfully destroyed.'
+    else
+      redirect_to listing_path(@listing), notice: 'Failed to destroy listing.'
     end
   end
 
@@ -109,12 +104,17 @@ class ListingsController < ApplicationController
       @listing = Listing.find(params[:id])
     end
 
-    def set_location
-      @location = Location.all
-    end
-
     def check_permissions
       redirect_back(fallback_location: listing_path(@listing)) unless @listing.user_id == current_user.id
+    end
+
+    def create_images
+      if params[:listing][:listing_image][:image]
+        params[:listing][:listing_image][:image].each do |img|
+          @image = @listing.listing_images.create(image: img)
+          raise ListingError, "Couldn't create image. #{img}" unless @image
+        end
+      end
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
