@@ -10,6 +10,7 @@ class Listing < ApplicationRecord
   enum category: [:Snowboard, :Ski]
   # validates_associated :location
   validates :title, :category, :item_type, :brand, :size, :daily_price, :weekly_price, presence: { message: "must be given." }
-  validates :size, numericality: { greater_than_or_equal_to: 90, less_than_or_equal_to: 220 }
+  validates :size, inclusion: { in: 90..220,
+    message: "%{value} cms is not within range 90 cms to 220 cms" }
   validates :daily_price, :weekly_price, numericality: { greater_than: 0 }
 end
