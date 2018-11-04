@@ -11,18 +11,42 @@
       <th>End Date</th>
       <th>Booking Date</th>
       <th>Total Cost</th>
+      <th>Actions</th>
     </tr>
   </thead>
 
   <tbody>
-    <% @renter_bookings.each do |booking| %>
+    <% @renter_bookings.each_with_index do |booking, i| %>
       <tr>
         <td><%= link_to booking.listing.title, booking.listing %></td>
         <td><%= link_to booking.listing.user.first_name, profile_path(booking.listing.user) %></td>
         <td><%= booking.start_date.strftime("%d/%m/%y") %></td>
         <td><%= booking.end_date.strftime("%d/%m/%y") %></td>
         <td><%= booking.booking_date.strftime("%d/%m/%y") %></td>
-        <td><%= booking.total_cost %></td>
+        <td><%= "$%0.2f" % (booking.total_cost/100.0) %></td>
+        <td>
+          <label class='actions-label' for='<%= "renter-toggle#{i}" %>'>Actions ▼</label>
+          <input type='checkbox' id='<%= "renter-toggle#{i}" %>' class="menu-toggle">
+
+          <div class='menu-panel'>
+            <div class='arrow'></div>
+            <a href='mailto:<%= booking.listing.user.email %>'>
+              Contact Lister
+            </a>
+            <% if Time.now.to_date < booking.start_date %>
+              <a href='#'>
+                Edit Booking
+              </a>
+            <% end %>
+            <% if Time.now.to_date > booking.end_date %>
+              <% if booking.review %>
+                <%= link_to "Edit Review", edit_booking_review_path(booking.id) %>
+              <% else %>
+                <%= link_to "Add Review", new_booking_review_path(booking.id) %>
+              <% end %>
+            <% end %>
+          </div>
+        </td>
       </tr>
     <% end %>
   </tbody>
@@ -39,18 +63,31 @@
       <th>End Date</th>
       <th>Booking Date</th>
       <th>Total Cost</th>
+      <th>Actions</th>
     </tr>
   </thead>
 
   <tbody>
-    <% @lister_bookings.each do |booking| %>
+    <% @lister_bookings.each_with_index do |booking, i| %>
       <tr>
         <td><%= link_to booking.listing.title, booking.listing %></td>
         <td><%= link_to booking.user.first_name, profile_path(booking.user) %></td>
         <td><%= booking.start_date.strftime("%d/%m/%y") %></td>
         <td><%= booking.end_date.strftime("%d/%m/%y") %></td>
         <td><%= booking.booking_date.strftime("%d/%m/%y") %></td>
-        <td><%= booking.total_cost %></td>
+        <td><%= "$%0.2f" % (booking.total_cost/100.0) %></td>
+        <td>
+          <label class='actions-label' for='<%= "lister-toggle#{i}" %>'>Actions ▼</label>
+          <input type='checkbox' id='<%= "lister-toggle#{i}" %>' class="menu-toggle">
+
+          <div class='menu-panel'>
+            <div class='arrow'></div>
+            <a href='mailto:<%= booking.user.email %>'>
+              Contact Renter
+            </a>
+            <%= link_to "Refund Booking", booking_path(booking.id), method: :delete, data: { confirm: 'Are you sure?' }  %>
+          </div>
+        </td>
       </tr>
     <% end %>
   </tbody>

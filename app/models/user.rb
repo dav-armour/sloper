@@ -7,4 +7,8 @@ class User < ApplicationRecord
   has_many :listings
   has_many :bookings
   mount_uploader :profile_image, AvatarUploader
+
+  def full_name
+    "#{self.first_name} #{self.last_name}"
+  end
 end

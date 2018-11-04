@@ -6,10 +6,10 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-brands = %w(burton lib-tech salomon dc volcom capita dakine ripcurl quicksilver )
+brands = %w(Burton Lib-Tech Salomon D.C. Volcom Capita Dakine Ripcurl Quicksilver)
 
 50.times do
-  character = Faker::GameOfThrones.character.split
+  character = Faker::HarryPotter.character.split
   user = User.create(
     first_name: character.first,
     last_name: character.last,
@@ -21,7 +21,7 @@ brands = %w(burton lib-tech salomon dc volcom capita dakine ripcurl quicksilver 
   listing = Listing.create(
     user_id: user.id,
     title: Faker::RockBand.name,
-    description: Faker::Lorem.paragraphs(3),
+    description: Faker::Lorem.paragraphs(5).join("\n"),
     category: rand(2),
     item_type: rand(6),
     size: rand(50) + 120,
@@ -46,25 +46,35 @@ brands = %w(burton lib-tech salomon dc volcom capita dakine ripcurl quicksilver 
   # Available days added using model scoped after_create_commit
 end
 
-puts "generating bookings"
+puts "generating bookings and reviews"
 300.times do
   # Select random user and listing
   user = User.find(User.pluck(:id).sample)
   listing = Listing.find(Listing.pluck(:id).sample)
-  # Select random starting day and length
-  start_day = rand(0..(listing.available_days.count - 14))
-  num_days = rand(2..14)
-  end_day = start_day + num_days
-  # Create array of rented days
-  rented_days = listing.available_days.order(:day)[start_day..end_day]
-  Booking.create(
+  unavail_days = listing.unavailable_days
+  date_range = (3.months.ago.to_date..3.months.from_now.to_date).to_a - unavail_days
+  # Select random date range that is valid
+  begin
+    start_day = date_range.sample
+    num_days = rand(2..14)
+    end_day = start_day + num_days
+  end until ((start_day..end_day).to_a & unavail_days).empty?
+  # Create booking
+  booking = Booking.create(
     user_id: user.id,
     listing_id: listing.id,
-    start_date: rented_days.first.day,
-    end_date: rented_days.last.day,
-    booking_date: rented_days.first.day - 7.days,
+    start_date: start_day,
+    end_date: end_day,
+    booking_date: start_day - 7.days,
     total_cost: num_days * listing.daily_price
   )
-  # Remove rented days from available days
-  AvailableDay.where(id: rented_days.pluck(:id)).destroy_all
+  # Create review 70% of the time for past bookings
+  if end_day < Time.now.to_date && rand(10) < 7
+    print "."
+    Review.create(
+      booking_id: booking.id,
+      rating: rand(1..5),
+      content: Faker::Lorem.paragraph(5)
+    )
+  end
 end

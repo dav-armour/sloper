@@ -1,6 +1,6 @@
-class CreateAvailableDays < ActiveRecord::Migration[5.2]
+class CreateUnavailableDays < ActiveRecord::Migration[5.2]
   def change
-    create_table :available_days do |t|
+    create_table :unavailable_days do |t|
       t.references :listing, foreign_key: true
       t.date :day
 
