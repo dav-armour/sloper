@@ -1,13 +1,14 @@
 class BookingsController < ApplicationController
   before_action :authenticate_user!
+  before_action :set_booking, only: [:destroy]
   before_action :set_listing, only: [:new, :create]
   before_action :check_for_errors, only: [:new, :create]
 
   def index
     @renter_bookings = Booking.where(user_id: current_user.id).includes(listing: :user).order(start_date: :asc)
     # @renter_bookings = []
-    listing_ids = Listing.where(user_id: 1).pluck(:id)
-    @lister_bookings = Booking.where(listing_id: listing_ids).includes(:listing, :user)
+    listing_ids = Listing.where(user_id: current_user.id).pluck(:id)
+    @lister_bookings = Booking.where(listing_id: listing_ids).includes(:listing, :user).order(start_date: :asc)
     # @lister_bookings = []
   end
 
@@ -23,41 +24,60 @@ class BookingsController < ApplicationController
   end
 
   def create
-    # Amount in cents
-    if current_user.stripe_cust_id.nil?
-      customer = Stripe::Customer.create(
-        :email => params[:stripeEmail],
-        :source  => params[:stripeToken]
+    begin
+      # Amount in cents
+      if current_user.stripe_cust_id.nil?
+        customer = Stripe::Customer.create(
+          :email => params[:stripeEmail],
+          :source  => params[:stripeToken]
+        )
+        current_user.stripe_cust_id = customer.id
+        current_user.save
+      end
+
+      charge = Stripe::Charge.create(
+        :customer    => current_user.stripe_cust_id,
+        :amount      => @amount,
+        :description => 'Rails Stripe customer',
+        :currency    => 'aud'
       )
-      current_user.stripe_cust_id = customer.id
-      current_user.save
-    end
+      # Create Booking
+      @booking = Booking.new(booking_params)
+      @booking.user_id = current_user.id
+      @booking.listing_id = @listing.id
+      @booking.booking_date = Date.today
+      @booking.stripe_charge_id = charge.id
+      if @booking.save
+        # Remove booked days from available days table
+        @avail_days.destroy_all
+        redirect_to bookings_path, notice: 'Booking was successfully created.'
+      else
+        redirect_to new_listing_booking_path(@listing), alert: 'Booking failed.'
+      end
 
-    charge = Stripe::Charge.create(
-      :customer    => current_user.stripe_cust_id,
-      :amount      => @amount,
-      :description => 'Rails Stripe customer',
-      :currency    => 'aud'
-    )
-    # Create Booking
-    @booking = Booking.new(booking_params)
-    @booking.user_id = current_user.id
-    @booking.listing_id = @listing.id
-    @booking.booking_date = Date.today
-    @booking.stripe_charge_id = charge.id
-    # Remove booked days from available days table
-    @avail_days.destroy_all
-    if @booking.save
-      redirect_to listing_path(@listing), notice: 'Booking was successfully created.'
-    else
-      redirect_to listing_path(@listing), alert: 'Booking failed'
+    rescue Stripe::CardError => e
+      redirect_to new_listing_booking_path(@listing), alert: e.message
     end
+  end
 
-  rescue Stripe::CardError => e
-    redirect_to new_listing_booking_path(@listing), alert: e.message
+  def destroy
+    begin
+      refund = Stripe::Refund.create(
+        charge: @booking.stripe_charge_id
+      )
+      if @booking.destroy
+        redirect_to bookings_path, notice: "Booking succesfully destroyed and refunded: $#{refund.amount / 100}.00"
+      end
+    rescue Stripe::StripeError => e
+      redirect_to bookings_path, alert: e.message
+    end
   end
 
   private
+
+  def set_booking
+    @booking = Booking.find(params[:id])
+  end
 
   def set_listing
     @listing = Listing.find(params[:listing_id])

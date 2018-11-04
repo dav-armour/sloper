@@ -1,4 +1,4 @@
-<% if @user.id == current_user.id %>
+<% if @user == current_user %>
     <h1> Welcome to your profile</h1>
 <% end %>
 
@@ -8,34 +8,32 @@
     <% end %>
 </p>
 <p>
-    <%= @user.first_name %>
+    <%= @user.full_name %>
 </p>
 <p>
     Joined <%= @user.created_at %></p>
-<% if @user.id == current_user.id %>
+<% if @user == current_user %>
     <p>
         <%= link_to "Edit Profile",  edit_user_registration_path %>
     </p>
 <% end %>
 <p>
-    <% if @user.listings.count == 0 %>
+    <% if @user.listings.empty? %>
         No current listings
     <% else %>
-        <%= @user.listings.count %>
-        <%= @user.listings.count == 1 ? "listing" : "listings" %>
+        <%= pluralize(@user.listings.count, 'listing') %>
     <% end %>
 </p>
 
 <div>
-    <table>
+    <table class="table">
         <thead>
             <tr>
-                <th></th>
+                <th>Image</th>
                 <th>Title</th>
                 <th>Brand</th>
                 <th>Daily price</th>
                 <th>Weekly price</th>
-                <th colspan="3"></th>
             </tr>
         </thead>
 
@@ -43,8 +41,10 @@
             <% @user.listings.each do |listing| %>
             <tr>
                 <td>
-                    <% if listing.listing_images.count > 0 %>
-                    <%= link_to image_tag(listing.listing_images.first.image.url, alt: "Image"), listing %>
+                    <% if listing.listing_images.empty? %>
+                        <%= link_to image_tag(asset_path("fallback/noimage.png"), width: '200px', alt: "Default Image"), listing %>
+                    <% else %>
+                        <%= link_to image_tag(listing.listing_images.first.image.url, width: '200px', alt: "Image"), listing %>
                     <% end %>
                 </td>
                 <td><%= link_to listing.title, listing %></td>
@@ -56,3 +56,8 @@
         </tbody>
     </table>
 </div>
+
+<hr>
+
+<h2>User Reviews</h2>
+<%= render 'reviews/list', reviews: @reviews, average_rating: @average_rating %>

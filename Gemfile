@@ -64,7 +64,6 @@ gem "mini_magick", "~> 4.9"
 
 gem "faker", "~> 1.9"
 
-
 gem "stripe", "~> 3.28"
 
 gem "textacular", "~> 5.1"

@@ -1,0 +1,48 @@
+// Place all the styles related to the Reviews controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+$unchecked-star: '☆';
+$unchecked-color: #000;
+$checked-star: '★';
+$checked-color: #F13525;
+
+.star-cb-group {
+  font-size: 1.75rem;
+  font-family: sans-serif;
+  /* flip the order so we can use the + and ~ combinators */
+  unicode-bidi: bidi-override;
+  direction: rtl;
+  & > input {
+    display: none;
+    & + label {
+      display: inline-block;
+      width: 1.75rem;
+      cursor: pointer;
+      &:before {
+        display: inline-block;
+        content: $unchecked-star;
+        color: $unchecked-color;
+      }
+    }
+    &:checked ~ label:before,
+      & + label:hover ~ label:before,
+      & + label:hover:before {
+      content: $checked-star;
+      color: $checked-color;
+      text-shadow: 0 0 1px #333;
+    }
+  }
+
+  &:hover > input + label:before {
+    content: $unchecked-star;
+    color: $unchecked-color;
+    text-shadow: none;
+  }
+  &:hover > input + label:hover ~ label:before,
+  &:hover > input + label:hover:before {
+    content: $checked-star;
+    color: $checked-color;
+    text-shadow: 0 0 1px #333;
+  }
+}

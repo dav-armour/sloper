@@ -1,0 +1,20 @@
+<% if reviews.nil? || reviews.empty? %>
+  <p>Sorry there are no reviews yet.</p>
+<% else %>
+  <p>
+    <%= pluralize(reviews.count, 'Review') %>
+    <%= render 'reviews/rating_stars', rating: average_rating.round %>
+  </p>
+  <hr>
+  <% reviews.each do |review| %>
+    <p><%= render 'reviews/rating_stars', rating: review.rating %></p>
+    <p><%= review.content %></p>
+    <p><%= pluralize((Time.now.to_date - review.updated_at.to_date).to_i, 'Day') %> Ago</p>
+    <p>Author:
+      <%= link_to profile_path(review.booking.user) do %>
+        <%= review.booking.user.full_name %>
+      <% end %>
+    </p>
+    <hr>
+  <% end %>
+<% end %>

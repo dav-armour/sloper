@@ -8,8 +8,13 @@ class Listing < ApplicationRecord
   has_many :bookings, dependent: :destroy
   has_many :renters, through: :bookings
   has_many :available_days, dependent: :destroy
+  # has_many :reviews, through: :bookings
   enum item_type: [:Freestyle, :All_Mountain, :Freeride, :Powder, :Carving, :Other]
   enum category: [:Snowboard, :Ski]
+  # validates_associated :location
+  validates :title, :category, :item_type, :size, :brand, 
+            :daily_price, :weekly_price, presence: { message: "must be given." }
+
 
 
   # Adds 6 months of available days when model is created
