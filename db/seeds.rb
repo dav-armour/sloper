@@ -51,21 +51,25 @@ puts "generating bookings and reviews"
   # Select random user and listing
   user = User.find(User.pluck(:id).sample)
   listing = Listing.find(Listing.pluck(:id).sample)
-  # Select random starting day and length
-  start_day = rand(0..(listing.available_days.count - 14))
-  num_days = rand(2..14)
-  end_day = start_day + num_days
-  # Create array of rented days
-  rented_days = listing.available_days.order(:day)[start_day..end_day]
+  unavail_days = listing.unavailable_days
+  date_range = (3.months.ago.to_date..3.months.from_now.to_date).to_a - unavail_days
+  # Select random date range that is valid
+  begin
+    start_day = date_range.sample
+    num_days = rand(2..14)
+    end_day = start_day + num_days
+  end until ((start_day..end_day).to_a & unavail_days).empty?
+  # Create booking
   booking = Booking.create(
     user_id: user.id,
     listing_id: listing.id,
-    start_date: rented_days.first.day,
-    end_date: rented_days.last.day,
-    booking_date: rented_days.first.day - 7.days,
+    start_date: start_day,
+    end_date: end_day,
+    booking_date: start_day - 7.days,
     total_cost: num_days * listing.daily_price
   )
-  if rand(10) < 7
+  # Create review 70% of the time for past bookings
+  if end_day < Time.now.to_date && rand(10) < 7
     print "."
     Review.create(
       booking_id: booking.id,
@@ -73,6 +77,4 @@ puts "generating bookings and reviews"
       content: Faker::Lorem.paragraph(5)
     )
   end
-  # Remove rented days from available days
-  AvailableDay.where(id: rented_days.pluck(:id)).destroy_all
 end

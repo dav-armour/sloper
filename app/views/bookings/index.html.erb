@@ -23,7 +23,7 @@
         <td><%= booking.start_date.strftime("%d/%m/%y") %></td>
         <td><%= booking.end_date.strftime("%d/%m/%y") %></td>
         <td><%= booking.booking_date.strftime("%d/%m/%y") %></td>
-        <td><%= booking.total_cost %></td>
+        <td><%= "$%0.2f" % (booking.total_cost/100.0) %></td>
         <td>
           <label class='actions-label' for='<%= "renter-toggle#{i}" %>'>Actions ▼</label>
           <input type='checkbox' id='<%= "renter-toggle#{i}" %>' class="menu-toggle">
@@ -33,18 +33,18 @@
             <a href='mailto:<%= booking.listing.user.email %>'>
               Contact Lister
             </a>
-            <%# if Time.now.to_date < booking.start_date %>
+            <% if Time.now.to_date < booking.start_date %>
               <a href='#'>
                 Edit Booking
               </a>
-            <%# end %>
-            <%# if Time.now.to_date > booking.end_date %>
+            <% end %>
+            <% if Time.now.to_date > booking.end_date %>
               <% if booking.review %>
                 <%= link_to "Edit Review", edit_booking_review_path(booking.id) %>
               <% else %>
                 <%= link_to "Add Review", new_booking_review_path(booking.id) %>
               <% end %>
-            <%# end %>
+            <% end %>
           </div>
         </td>
       </tr>
@@ -75,7 +75,7 @@
         <td><%= booking.start_date.strftime("%d/%m/%y") %></td>
         <td><%= booking.end_date.strftime("%d/%m/%y") %></td>
         <td><%= booking.booking_date.strftime("%d/%m/%y") %></td>
-        <td><%= booking.total_cost %></td>
+        <td><%= "$%0.2f" % (booking.total_cost/100.0) %></td>
         <td>
           <label class='actions-label' for='<%= "lister-toggle#{i}" %>'>Actions ▼</label>
           <input type='checkbox' id='<%= "lister-toggle#{i}" %>' class="menu-toggle">

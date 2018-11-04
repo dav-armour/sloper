@@ -3,10 +3,10 @@
 <div class="row">
   <div class="col-lg">
     <%= month_calendar do |date| %>
-      <% if @avail_days.include?(date) %>
-        <div class="available-day">
-      <%else %>
+      <% if @unavailable_days.include?(date) || date < Time.now.to_date %>
         <div class="rented-day">
+      <%else %>
+        <div class="available-day">
       <% end %>
         <%= date.day %>
       </div>

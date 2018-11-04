@@ -5,11 +5,17 @@ class ListingsController < ApplicationController
 
   # GET /listings
   def index
-    # @listings = Listing.all
-    if params[:city]
-      @listings = Listing.includes(:location, :listing_images).references(:locations).fuzzy_search({locations: { city: "#{params[:city]}"}})
-    else
-      @listings = Listing.includes(:location, :listing_images)
+    @listings = Listing.includes(:location, :listing_images)
+    unless params[:city].blank?
+      @listings = @listings.references(:locations).fuzzy_search({locations: { city: "#{params[:city]}"}})
+    end
+    unless params[:start_date].blank? && params[:end_date].blank?
+      if params[:start_date].to_date < Time.now.to_date
+        @listings = []
+      else
+        date_arr = (params[:start_date].to_date..params[:end_date].to_date).to_a
+        @listings = @listings - @listings.includes(:unavailable_days).where(unavailable_days: {day: date_arr})
+      end
     end
   end
 
