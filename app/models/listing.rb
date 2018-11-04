@@ -9,6 +9,7 @@ class Listing < ApplicationRecord
   enum item_type: [:Freestyle, :All_Mountain, :Freeride, :Powder, :Carving, :Other]
   enum category: [:Snowboard, :Ski]
   # validates_associated :location
-  validates :title, :category, :item_type, :size, :brand,
-            :daily_price, :weekly_price, presence: { message: "must be given." }
+  validates :title, :category, :item_type, :brand, :size, :daily_price, :weekly_price, presence: { message: "must be given." }
+  validates :size, numericality: { greater_than_or_equal_to: 90, less_than_or_equal_to: 220 }
+  validates :daily_price, :weekly_price, numericality: { greater_than: 0 }
 end
