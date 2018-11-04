@@ -13,7 +13,7 @@ class BookingsController < ApplicationController
   end
 
   def new
-    @avail_days = AvailableDay.where(listing_id: @listing.id).pluck(:day)
+    @unavailable_days = UnavailableDay.where(listing_id: @listing.id).pluck(:day)
     if params[:booking]
       @booking = Booking.new(
         start_date: @start_date,
@@ -48,8 +48,6 @@ class BookingsController < ApplicationController
       @booking.booking_date = Date.today
       @booking.stripe_charge_id = charge.id
       if @booking.save
-        # Remove booked days from available days table
-        @avail_days.destroy_all
         redirect_to bookings_path, notice: 'Booking was successfully created.'
       else
         redirect_to new_listing_booking_path(@listing), alert: 'Booking failed.'
@@ -86,21 +84,24 @@ class BookingsController < ApplicationController
   def booking_params
     params.require(:booking).permit(:start_date, :end_date, :total_cost)
   end
-
+0
   def check_for_errors
     if params[:booking]
       begin
-        @start_date = params[:booking][:start_date]
-        @end_date = params[:booking][:end_date]
+        @start_date = params[:booking][:start_date].to_date
+        if @start_date < Time.now.to_date
+          raise BookingError, "Error: Start date can't be in the past"
+        end
+        @end_date = params[:booking][:end_date].to_date
         if @end_date <= @start_date
           raise BookingError, "Error: Start date needs to be before end date"
         end
         date_arr = (@start_date..@end_date).to_a
-        @avail_days = AvailableDay.where(listing_id: @listing.id, day: date_arr)
-        if date_arr.count != @avail_days.count
+        unavail_days = UnavailableDay.where(listing_id: @listing.id, day: date_arr)
+        unless unavail_days.empty?
           raise BookingError, "Error: Dates not available"
         end
-        @num_days = @avail_days.count
+        @num_days = date_arr.count
         @amount = @num_days * @listing.daily_price
         if params[:booking][:total_cost] && @amount != params[:booking][:total_cost].to_i
           raise BookingError, "Error: Amount Incorrect - Payment Stopped"
