@@ -1,15 +1,3 @@
-<!--
-<p>
-  <% if @listing.listing_images.empty? %>
-    <%= image_tag asset_path("fallback/noimage.png")%>
-  <% else %>
-    <% @listing.listing_images.each do |img| %>
-      <%= image_tag img.image.url alt: "Product Image" %>
-    <% end %>
-  <% end %>
-</p>
--->
-
 <p>
   <strong>Title:</strong>
   <%= @listing.title %>
@@ -71,12 +59,12 @@
 
 <p>
   <strong>Daily price:</strong>
-  <%= @listing.daily_price %>
+  <%= "$%0.2f" % (@listing.daily_price/100.0) %>
 </p>
 
 <p>
   <strong>Weekly price:</strong>
-  <%= @listing.weekly_price %>
+  <%= "$%0.2f" % (@listing.weekly_price/100.0) %>
 </p>
 
 <%= link_to 'Back', listings_path %>

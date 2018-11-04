@@ -10,6 +10,8 @@
     <tr>
       <th>Title</th>
       <th>City</th>
+      <th>Category</th>
+      <th>Type</th>
       <th>Brand</th>
       <th>Daily price</th>
       <th>Weekly price</th>
@@ -22,9 +24,11 @@
       <tr>
         <td><%= link_to listing.title, listing %></td>
         <td><%= listing.location.city %></td>
+        <td><%= listing.category %></td>
+        <td><%= listing.item_type %></td>
         <td><%= listing.brand %></td>
-        <td><%= listing.daily_price %></td>
-        <td><%= listing.weekly_price %></td>
+        <td><%= "$%0.2f" % (listing.daily_price/100.0) %></td>
+        <td><%= "$%0.2f" % (listing.weekly_price/100.0) %></td>
         <% if listing.listing_images.empty? %>
           <td><%= image_tag asset_path("fallback/noimage.png")%></td>
         <% else %>

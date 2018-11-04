@@ -4,7 +4,6 @@ class ListingsController < ApplicationController
   before_action :check_permissions, only: [:edit, :update, :destroy]
 
   # GET /listings
-  # GET /listings.json
   def index
     # @listings = Listing.all
     if params[:city]
@@ -15,7 +14,6 @@ class ListingsController < ApplicationController
   end
 
   # GET /listings/1
-  # GET /listings/1.json
   def show
     @user = User.find(@listing.user_id)
     @reviews = Review.includes(:booking, booking: :user).where(bookings: {listing_id: @listing.id})
@@ -36,7 +34,6 @@ class ListingsController < ApplicationController
   end
 
   # POST /listings
-  # POST /listings.json
   def create
     begin
       @listing = Listing.new(listing_params)
@@ -65,7 +62,6 @@ class ListingsController < ApplicationController
   end
 
   # PATCH/PUT /listings/1
-  # PATCH/PUT /listings/1.json
   def update
     begin
       @listing.listing_images.each do |img|
@@ -90,7 +86,6 @@ class ListingsController < ApplicationController
   end
 
   # DELETE /listings/1
-  # DELETE /listings/1.json
   def destroy
     if @listing.destroy
       redirect_to listings_path, notice: 'Listing was successfully destroyed.'
@@ -110,7 +105,7 @@ class ListingsController < ApplicationController
     end
 
     def create_images
-      if params[:listing][:listing_image][:image]
+      if params[:listing][:listing_image] && params[:listing][:listing_image][:image]
         params[:listing][:listing_image][:image].each do |img|
           @image = @listing.listing_images.create(image: img)
           raise ListingError, "Couldn't create image. #{img}" unless @image
