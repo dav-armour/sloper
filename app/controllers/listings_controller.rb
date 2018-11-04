@@ -44,6 +44,7 @@ class ListingsController < ApplicationController
       @listing.daily_price *= 100
       @listing.weekly_price *= 100
       @listing.user_id = current_user.id
+      raise ListingError, @listing.errors.full_messages.first unless @listing.valid?
       listing_saved = @listing.save
       raise ListingError, "Couldn't save listing." unless listing_saved
       create_images
