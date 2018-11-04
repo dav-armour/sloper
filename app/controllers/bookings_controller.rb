@@ -60,11 +60,20 @@ class BookingsController < ApplicationController
 
   def destroy
     begin
-      refund = Stripe::Refund.create(
-        charge: @booking.stripe_charge_id
-      )
-      if @booking.destroy
-        redirect_to bookings_path, notice: "Booking succesfully destroyed and refunded: $#{refund.amount / 100}.00"
+      if @booking.stripe_charge_id == 'fake'
+        @booking.destroy
+        redirect_to bookings_path, notice: "Fake booking destroyed"
+      else
+        refund = Stripe::Refund.create(
+          charge: @booking.stripe_charge_id
+        )
+        if @booking.destroy && refund
+          redirect_to bookings_path, notice: "Booking succesfully destroyed and refunded: $#{refund.amount / 100}.00"
+        elsif refund
+          redirect_to bookings_path, alert: "Booking refunded but failed to be destroyed"
+        else
+          redirect_to bookings_path, alert: "Booking refund and destroy both failed"
+        end
       end
     rescue Stripe::StripeError => e
       redirect_to bookings_path, alert: e.message
