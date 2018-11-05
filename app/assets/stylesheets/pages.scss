@@ -4,7 +4,8 @@
 
 
 /* The hero image */
-.container {
+* {
+    margin: 0;
     padding: 0;
 }
 
@@ -46,7 +47,7 @@
 }
 
 @media (min-width: 700px) {
-    
+
     h1 {
         font-size: 50px;
     }

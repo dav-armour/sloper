@@ -14,7 +14,9 @@
             <%= form.label :category %>
             <%= form.select :category, options_for_select(Listing.categories.keys.unshift("All")) %>
         </div>
-            <%= form.submit 'Search' %>
+        <div>
+            <button class="btn btn-success" type="submit">Search</button>
+            <%# <%= form.submit 'Search' %>
         </div>
     <% end %>
   </div>
