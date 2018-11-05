@@ -1,6 +1,11 @@
 <h1>Listings</h1>
 
-<p>Total Listings: <%= @listings.length %></p>
+<p>
+  Total Listings: <%= @total_listings %>
+  <% if @total_listings > @limit %>
+    (Showing <%= @limit %> per page)
+  <% end %>
+</p>
 
 <%= form_with url: listings_path, method: :get, local: true do |form| %>
   <div class="form-group">
@@ -33,7 +38,7 @@
   </div>
   <div class="form-group">
     <%= form.label :page %>
-    <%= form.number_field :page, value: params[:page] %>
+    <%= form.select :page, options_for_select((1..@pages).to_a, params[:page]) %>
   </div>
   <div class="form-group">
     <%= form.label :results_per_page %>
