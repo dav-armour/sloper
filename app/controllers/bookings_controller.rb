@@ -60,11 +60,20 @@ class BookingsController < ApplicationController
 
   def destroy
     begin
-      refund = Stripe::Refund.create(
-        charge: @booking.stripe_charge_id
-      )
-      if @booking.destroy
-        redirect_to bookings_path, notice: "Booking succesfully destroyed and refunded: $#{refund.amount / 100}.00"
+      if @booking.stripe_charge_id == 'fake'
+        @booking.destroy
+        redirect_to bookings_path, notice: "Fake booking destroyed"
+      else
+        refund = Stripe::Refund.create(
+          charge: @booking.stripe_charge_id
+        )
+        if @booking.destroy && refund
+          redirect_to bookings_path, notice: "Booking succesfully destroyed and refunded: $#{refund.amount / 100}.00"
+        elsif refund
+          redirect_to bookings_path, alert: "Booking refunded but failed to be destroyed"
+        else
+          redirect_to bookings_path, alert: "Booking refund and destroy both failed"
+        end
       end
     rescue Stripe::StripeError => e
       redirect_to bookings_path, alert: e.message
@@ -84,7 +93,7 @@ class BookingsController < ApplicationController
   def booking_params
     params.require(:booking).permit(:start_date, :end_date, :total_cost)
   end
-0
+
   def check_for_errors
     if params[:booking]
       begin
@@ -93,7 +102,7 @@ class BookingsController < ApplicationController
           raise BookingError, "Error: Start date can't be in the past"
         end
         @end_date = params[:booking][:end_date].to_date
-        if @end_date <= @start_date
+        if @end_date < @start_date
           raise BookingError, "Error: Start date needs to be before end date"
         end
         date_arr = (@start_date..@end_date).to_a

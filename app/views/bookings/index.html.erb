@@ -34,9 +34,7 @@
               Contact Lister
             </a>
             <% if Time.now.to_date < booking.start_date %>
-              <a href='#'>
-                Edit Booking
-              </a>
+              <%= link_to "Cancel Booking", booking_path(booking.id), method: :delete, data: { confirm: 'Are you sure?' }  %>
             <% end %>
             <% if Time.now.to_date > booking.end_date %>
               <% if booking.review %>

@@ -1,7 +1,4 @@
 class Location < ApplicationRecord
+  before_save :remove_whitespace
   belongs_to :listing
-
-  def self.find_city_like(city)
-    fuzzy_search(city: "#{city}")
-  end
 end

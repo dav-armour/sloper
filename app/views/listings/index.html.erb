@@ -1,12 +1,43 @@
 <h1>Listings</h1>
 
-<p>Total Listings: <%= @listings.count %></p>
+<p>Total Listings: <%= @listings.size %></p>
 
 <%= form_with url: listings_path, method: :get, local: true do |form| %>
-  <%= form.text_field :city %>
-  <%= form.date_field :start_date %>
-  <%= form.date_field :end_date %>
-  <%= form.submit 'Search' %>
+  <div class="form-group">
+    <%= form.label :city %>
+    <%= form.text_field :city %>
+  </div>
+  <div class="form-group">
+    <%= form.label :start_date %>
+    <%= form.date_field :start_date %>
+  </div>
+  <div class="form-group">
+    <%= form.label :end_date %>
+    <%= form.date_field :end_date %>
+  </div>
+  <div class="form-group">
+    <%= form.label :category %>
+    <%= form.select :category, options_for_select(Listing.categories.keys.unshift("All")) %>
+  </div>
+  <div class="form-group">
+    <%= form.label :item_type %>
+    <%= form.select :item_type, options_for_select(Listing.item_types.keys.unshift("All")) %>
+  </div>
+  <div class="form-group">
+    <%= form.label :size %>
+    <%= form.select :size, options_for_select(@size_array) %>
+  </div>
+  <div class="form-group">
+    <%= form.label :brand %>
+    <%= form.text_field :brand %>
+  </div>
+  <div class="form-group">
+    <%= form.label :results_per_page %>
+    <%= form.select :results_per_page, options_for_select([10,20,30]) %>
+  </div>
+  <div class="form-actions">
+    <%= form.submit 'Search' %>
+  </div>
 <% end %>
 
 <table class="table">
@@ -16,6 +47,7 @@
       <th>City</th>
       <th>Category</th>
       <th>Type</th>
+      <th>Size</th>
       <th>Brand</th>
       <th>Daily price</th>
       <th>Weekly price</th>
@@ -30,6 +62,7 @@
         <td><%= listing.location.city %></td>
         <td><%= listing.category %></td>
         <td><%= listing.item_type %></td>
+        <td><%= listing.size %></td>
         <td><%= listing.brand %></td>
         <td><%= "$%0.2f" % (listing.daily_price/100.0) %></td>
         <td><%= "$%0.2f" % (listing.weekly_price/100.0) %></td>

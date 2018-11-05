@@ -1,4 +1,5 @@
 class Listing < ApplicationRecord
+  before_save :remove_whitespace
   belongs_to :user
   has_one :location, dependent: :destroy
   has_many :listing_images, dependent: :destroy
@@ -8,7 +9,9 @@ class Listing < ApplicationRecord
   has_many :unavailable_days, dependent: :destroy
   enum item_type: [:Freestyle, :All_Mountain, :Freeride, :Powder, :Carving, :Other]
   enum category: [:Snowboard, :Ski]
-  # validates_associated :location
-  validates :title, :category, :item_type, :size, :brand,
-            :daily_price, :weekly_price, presence: { message: "must be given." }
+  validates_associated :location
+  validates :title, :category, :item_type, :brand, :size, :daily_price, :weekly_price, presence: { message: "must be given." }
+  validates :size, inclusion: { in: 90..220,
+    message: "%{value}cm is not within the accepted range of 90cm to 200cm" }
+  validates :daily_price, :weekly_price, numericality: { greater_than: 0 }
 end
