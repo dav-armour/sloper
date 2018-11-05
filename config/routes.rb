@@ -4,8 +4,8 @@ Rails.application.routes.draw do
   resources :listings do
     resources :bookings, only: [:new, :create]
   end
-  resources :bookings, except: [:new, :create] do
-    resource :review
+  resources :bookings, only: [:index] do
+    resource :review, except: [:show]
   end
 
   get '/:user_id/profile', to: 'pages#profile', as: 'profile'
