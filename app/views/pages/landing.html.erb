@@ -1,13 +1,6 @@
 <div class="hero-image">
   <div class="hero-text">
     <h1>Find Gear</h1>
-    <p>And I'm a Photographer</p>
-    <button>Hire me</button>
-  </div>
-</div>
-
-<div>
-    <%# <h1>Find gear</h1> %>
     <%= form_with url: listings_path, method: :get, local: true do |form| %>
         <div class="form-group">
             <%# <%= form.label :city %>
@@ -24,6 +17,12 @@
             <%= form.submit 'Search' %>
         </div>
     <% end %>
+  </div>
+</div>
+
+<div>
+    <%# <h1>Find gear</h1> %>
+    
     
      <h1>How It Works</h1>
 </div>
