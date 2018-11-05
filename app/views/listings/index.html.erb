@@ -32,6 +32,10 @@
     <%= form.text_field :brand, value: params[:brand] %>
   </div>
   <div class="form-group">
+    <%= form.label :page %>
+    <%= form.number_field :page, value: params[:page] %>
+  </div>
+  <div class="form-group">
     <%= form.label :results_per_page %>
     <%= form.select :results_per_page, options_for_select([10,20,30], params[:results_per_page]) %>
   </div>
