@@ -1,4 +1,5 @@
 class Listing < ApplicationRecord
+  before_save :remove_whitespace
   belongs_to :user
   has_one :location, dependent: :destroy
   has_many :listing_images, dependent: :destroy
@@ -14,12 +15,11 @@ class Listing < ApplicationRecord
     message: "%{value} cms is not within range 90 cms to 220 cms" }
   validates :daily_price, :weekly_price, numericality: { greater_than: 0 }
 
-  before_validation(on: :create) do
-    # self.title = title.strip
+  def remove_whitespace
     attribute_names.each do |name|
       if send(name).respond_to?(:strip)
         send("#{name}=", send(name).strip)
       end
-    end 
+    end
   end 
 end
