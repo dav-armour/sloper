@@ -13,5 +13,5 @@ class User < ApplicationRecord
   end
 
   validates_format_of :first_name, :last_name, with: /\A[^0-9`!@#\$%\^&*+_=\?\(\)\,\\\/]+\z/
-  validates :phone, numericality: true
+  validates_format_of :phone, with: /\A^\s*(?:\+?(\d{1,3}))?([-. (]*(\d{3})[-. )]*)?((\d{3})[-. ]*(\d{2,4})(?:[-.x ]*(\d+))?)\s*\z/
 end

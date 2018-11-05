@@ -47,8 +47,9 @@ brands = %w(Burton Lib-Tech Salomon D.C. Volcom Capita Dakine Ripcurl Quicksilve
 end
 
 puts "generating bookings and reviews"
-300.times do
+300.times do |i|
   # Select random user and listing
+  puts i
   user = User.find(User.pluck(:id).sample)
   listing = Listing.find(Listing.pluck(:id).sample)
   unavail_days = listing.unavailable_days
