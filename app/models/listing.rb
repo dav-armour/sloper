@@ -14,12 +14,4 @@ class Listing < ApplicationRecord
   validates :size, inclusion: { in: 90..220,
     message: "%{value} cms is not within range 90 cms to 220 cms" }
   validates :daily_price, :weekly_price, numericality: { greater_than: 0 }
-
-  def remove_whitespace
-    attribute_names.each do |name|
-      if send(name).respond_to?(:strip)
-        send("#{name}=", send(name).strip)
-      end
-    end
-  end 
 end
