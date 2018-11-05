@@ -8,6 +8,7 @@ class ListingsController < ApplicationController
     @listings = Listing.includes(:location, :listing_images)
     unless params[:city].blank?
       @listings = @listings.references(:locations).fuzzy_search({locations: { city: "#{params[:city]}"}})
+      @listings = [] if @listings.blank?
     end
     unless params[:category].blank? || params[:category] == "All"
       @listings = @listings.where(category: "#{params[:category]}")
@@ -23,9 +24,12 @@ class ListingsController < ApplicationController
         @listings = []
       else
         date_arr = (params[:start_date].to_date..params[:end_date].to_date).to_a
-        @listings = @listings - @listings.includes(:unavailable_days).where(unavailable_days: {day: date_arr})
+        unavailable_list_ids = UnavailableDay.select(:listing_id).where(day: date_arr)
+        @listings = @listings.where.not(id: unavailable_list_ids)
       end
     end
+    params[:results_per_page] ||= '10'
+    @listings = @listings.limit(params[:results_per_page])
   end
 
   # GET /listings/1

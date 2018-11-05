@@ -1,6 +1,6 @@
 <h1>Listings</h1>
 
-<p>Total Listings: <%= @listings.count %></p>
+<p>Total Listings: <%#= @listings.size %></p>
 
 <%= form_with url: listings_path, method: :get, local: true do |form| %>
   <%= form.text_field :city %>
@@ -10,6 +10,7 @@
   <%= form.select :item_type, options_for_select(Listing.item_types.keys.unshift("All")), required: true %>
   <%= form.text_field :brand, required: false %>
 
+  <%= form.select :results_per_page, options_for_select([10,20,30]) %>
   <%= form.submit 'Search' %>
 <% end %>
 
