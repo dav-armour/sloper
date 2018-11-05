@@ -102,7 +102,7 @@ class BookingsController < ApplicationController
           raise BookingError, "Error: Start date can't be in the past"
         end
         @end_date = params[:booking][:end_date].to_date
-        if @end_date <= @start_date
+        if @end_date < @start_date
           raise BookingError, "Error: Start date needs to be before end date"
         end
         date_arr = (@start_date..@end_date).to_a
