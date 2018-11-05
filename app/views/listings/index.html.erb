@@ -1,11 +1,12 @@
 <h1>Listings</h1>
 
-<p>Total Listings: <%= @listings.count %></p>
+<p>Total Listings: <%= @listings.size %></p>
 
 <%= form_with url: listings_path, method: :get, local: true do |form| %>
   <%= form.text_field :city %>
   <%= form.date_field :start_date %>
   <%= form.date_field :end_date %>
+  <%= form.select :results_per_page, options_for_select([10,20,30]) %>
   <%= form.submit 'Search' %>
 <% end %>
 

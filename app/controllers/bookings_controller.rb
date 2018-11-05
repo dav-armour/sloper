@@ -93,7 +93,7 @@ class BookingsController < ApplicationController
   def booking_params
     params.require(:booking).permit(:start_date, :end_date, :total_cost)
   end
-0
+
   def check_for_errors
     if params[:booking]
       begin
