@@ -5,11 +5,35 @@ class ListingsController < ApplicationController
 
   # GET /listings
   def index
+    @size_array = ["All"]
+    (90...200).step(10) do |n|
+      @size_array << "#{n} - #{n+9}"
+    end
+
     @listings = Listing.includes(:location, :listing_images)
+
     unless params[:city].blank?
       @listings = @listings.references(:locations).fuzzy_search({locations: { city: "#{params[:city]}"}})
       @listings = [] if @listings.blank?
     end
+
+    unless params[:category].blank? || params[:category] == "All"
+      @listings = @listings.where(category: "#{params[:category]}")
+    end
+
+    unless params[:item_type].blank? || params[:item_type] == "All"
+      @listings = @listings.where(item_type: "#{params[:item_type]}")
+    end
+
+    unless params[:size].blank? || params[:size] == "All"
+      size_range = Range.new(*params[:size].split(" - ").map(&:to_i))
+      @listings = @listings.where(size: size_range)
+    end
+
+    unless params[:brand].blank?
+      @listings = @listings.fuzzy_search(brand: "#{params[:brand]}")
+    end
+
     unless params[:start_date].blank? || params[:end_date].blank?
       if params[:start_date].to_date < Time.now.to_date
         @listings = []
