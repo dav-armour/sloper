@@ -17,7 +17,7 @@
     <%= f.label :last_name %><br />
     <%= f.text_field :last_name %>
   </div>
-
+  
   <div class="field">
     <%= f.label :email %><br />
     <%= f.email_field :email, autocomplete: "email" %>
@@ -25,12 +25,7 @@
 
   <div class="field">
     <%= f.label :phone %><br />
-    <%= f.phone_field :phone, autocomplete: "phone", placeholder: "xxx-xxx-xxxx"%>
-  </div>
-
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+    <%= f.telephone_field :phone, autocomplete: "phone", placeholder: "xxxx xxx xxx"%>
   </div>
 
   <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>

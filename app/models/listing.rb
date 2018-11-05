@@ -9,9 +9,9 @@ class Listing < ApplicationRecord
   has_many :unavailable_days, dependent: :destroy
   enum item_type: [:Freestyle, :All_Mountain, :Freeride, :Powder, :Carving, :Other]
   enum category: [:Snowboard, :Ski]
-  # validates_associated :location
+  validates_associated :location
   validates :title, :category, :item_type, :brand, :size, :daily_price, :weekly_price, presence: { message: "must be given." }
   validates :size, inclusion: { in: 90..200,
-    message: "%{value} cms is not within range 90 cms to 200 cms" }
+    message: "%{value}cm is not within accepted range of 90cm to 200cm" }
   validates :daily_price, :weekly_price, numericality: { greater_than: 0 }
 end

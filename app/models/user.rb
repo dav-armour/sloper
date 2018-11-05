@@ -11,4 +11,7 @@ class User < ApplicationRecord
   def full_name
     "#{self.first_name} #{self.last_name}"
   end
+
+  validates_format_of :first_name, :last_name, with: /\A[^0-9`!@#\$%\^&*+_=\?\(\)\,\\\/]+\z/
+  validates :phone, numericality: true
 end
