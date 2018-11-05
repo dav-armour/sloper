@@ -9,7 +9,16 @@ class ListingsController < ApplicationController
     unless params[:city].blank?
       @listings = @listings.references(:locations).fuzzy_search({locations: { city: "#{params[:city]}"}})
     end
-    unless params[:start_date].blank? && params[:end_date].blank?
+    unless params[:category].blank? || params[:category] == "All"
+      @listings = @listings.where(category: "#{params[:category]}")
+    end
+    unless params[:item_type].blank? || params[:item_type] == "All"
+      @listings = @listings.where(item_type: "#{params[:item_type]}")
+    end
+    unless params[:brand].blank?
+      @listings = @listings.fuzzy_search(brand: "#{params[:brand]}")
+    end
+    unless params[:start_date].blank? || params[:end_date].blank?
       if params[:start_date].to_date < Time.now.to_date
         @listings = []
       else

@@ -6,6 +6,10 @@
   <%= form.text_field :city %>
   <%= form.date_field :start_date %>
   <%= form.date_field :end_date %>
+  <%= form.select :category, options_for_select(Listing.categories.keys.unshift("All")), required: true %>
+  <%= form.select :item_type, options_for_select(Listing.item_types.keys.unshift("All")), required: true %>
+  <%= form.text_field :brand, required: false %>
+
   <%= form.submit 'Search' %>
 <% end %>
 
