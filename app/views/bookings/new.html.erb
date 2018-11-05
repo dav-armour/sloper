@@ -23,11 +23,11 @@
       <%= form.fields_for :booking do |t| %>
         <div class="form-group">
           <%= t.label :start_date %>
-          <%= t.date_field :start_date %>
+          <%= t.date_field :start_date, value: params[:booking][:start_date] %>
         </div>
         <div class="form-group">
           <%= t.label :end_date %>
-          <%= t.date_field :end_date %>
+          <%= t.date_field :end_date, value: params[:booking][:end_date] %>
         </div>
       <% end %>
       <div class="actions">
