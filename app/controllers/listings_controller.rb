@@ -12,11 +12,7 @@ class ListingsController < ApplicationController
 
     @listings = Listing.includes(:location, :listing_images)
     unless params[:city].blank?
-      locations = Location.fuzzy_search(city: "#{params[:city]}")
-      listing_ids = locations.map {|loc| loc.listing_id }
-      @listings = @listings.where(id: listing_ids)
-      # @listings = @listings.references(:locations).fuzzy_search(locations: {city: "#{params[:city]}"})
-      @listings = [] if @listings.blank?
+      @listings = @listings.references(:locations).fuzzy_search(locations: {city: "#{params[:city]}"})
     end
     unless params[:category].blank? || params[:category] == "All"
       @listings = @listings.where(category: "#{params[:category]}")
@@ -36,10 +32,8 @@ class ListingsController < ApplicationController
         @listings = @listings.where.not(id: unavailable_list_ids)
       end
     end
-    unless @listings.blank?
-      params[:results_per_page] ||= '10'
-      @listings = @listings.limit(params[:results_per_page])
-    end
+    params[:results_per_page] ||= '10'
+    @listings = @listings.limit(params[:results_per_page])
   end
 
   # GET /listings/1

@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/dav-armour/textacular.git
-  revision: f14dac12e8ac6016403fd90a5db2da9558345d06
+  revision: 57e2e162aee34856a0aaff68f73e47ff8c0a535a
   branch: change-assemble-query
   specs:
     textacular (5.1.0)
