@@ -5,19 +5,8 @@ class ListingsController < ApplicationController
 
   # GET /listings
   def index
-    # Set default limit to 10 and max to 50
-    params[:results_per_page] ||= 10
-    limit = params[:results_per_page]
-    limit = limit.to_i
-    limit = 10 unless limit.between?(1,50)
-    # Set default page to 1 and calculate offset
-    params[:page] ||= 1
-    page = params[:page]
-    page = page.to_i
-    page = 1 if page < 1
-    offset = (page - 1) * limit
     # Eager load location and listing images for use in view and searching location
-    @listings = Listing.includes(:location, :listing_images).limit(limit).offset(offset)
+    @listings = Listing.includes(:location, :listing_images)
     # Search by city (Fuzzy Search)
     unless params[:city].blank?
       params[:city].strip
@@ -51,12 +40,28 @@ class ListingsController < ApplicationController
           # Exclude unavailable listings from results
           @listings = @listings.where.not(id: unavailable_list_ids)
         end
-      # Rescue invalid dates
+        # Rescue invalid dates
       rescue ArgumentError => e
         @listings = []
         flash[:alert] = e.message
       end
     end
+    # Using count crashes fuzzy search with nested table, using size instead
+    @total_listings = @listings.size
+    # Set default limit to 10 and max to 50
+    params[:results_per_page] ||= 10
+    @limit = params[:results_per_page]
+    @limit = @limit.to_i
+    @limit = 10 unless @limit.between?(1,50)
+    # Set default page to 1 and calculate offset
+    params[:page] ||= 1
+    page = params[:page]
+    page = page.to_i
+    page = 1 if page < 1
+    offset = (page - 1) * @limit
+    @listings = @listings.limit(@limit).offset(offset) if @total_listings > 0
+    # Total pages used for dropdown in view
+    @pages = (@total_listings / @limit.to_f).ceil
 
     # Create select options for size
     @size_array = ["All"]
