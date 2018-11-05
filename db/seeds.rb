@@ -66,7 +66,8 @@ puts "generating bookings and reviews"
     start_date: start_day,
     end_date: end_day,
     booking_date: start_day - 7.days,
-    total_cost: num_days * listing.daily_price
+    total_cost: num_days * listing.daily_price,
+    stripe_charge_id: 'fake'
   )
   # Create review 70% of the time for past bookings
   if end_day < Time.now.to_date && rand(10) < 7

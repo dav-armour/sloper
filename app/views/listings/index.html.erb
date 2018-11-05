@@ -31,6 +31,10 @@
     <%= form.label :brand %>
     <%= form.text_field :brand %>
   </div>
+  <div class="form-group">
+    <%= form.label :results_per_page %>
+    <%= form.select :results_per_page, options_for_select([10,20,30]) %>
+  </div>
   <div class="form-actions">
     <%= form.submit 'Search' %>
   </div>
