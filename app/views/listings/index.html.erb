@@ -1,6 +1,6 @@
 <h1>Listings</h1>
 
-<p>Total Listings: <%= @listings.size %></p>
+<p>Total Listings: <%= @listings.length %></p>
 
 <%= form_with url: listings_path, method: :get, local: true do |form| %>
   <div class="form-group">

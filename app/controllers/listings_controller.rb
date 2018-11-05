@@ -11,29 +11,22 @@ class ListingsController < ApplicationController
     end
 
     @listings = Listing.includes(:location, :listing_images)
-
     unless params[:city].blank?
-      @listings = @listings.references(:locations).fuzzy_search({locations: { city: "#{params[:city]}"}})
+      locations = Location.fuzzy_search(city: "#{params[:city]}")
+      listing_ids = locations.map {|loc| loc.listing_id }
+      @listings = @listings.where(id: listing_ids)
+      # @listings = @listings.references(:locations).fuzzy_search(locations: {city: "#{params[:city]}"})
       @listings = [] if @listings.blank?
     end
-
     unless params[:category].blank? || params[:category] == "All"
       @listings = @listings.where(category: "#{params[:category]}")
     end
-
     unless params[:item_type].blank? || params[:item_type] == "All"
       @listings = @listings.where(item_type: "#{params[:item_type]}")
     end
-
-    unless params[:size].blank? || params[:size] == "All"
-      size_range = Range.new(*params[:size].split(" - ").map(&:to_i))
-      @listings = @listings.where(size: size_range)
-    end
-
     unless params[:brand].blank?
       @listings = @listings.fuzzy_search(brand: "#{params[:brand]}")
     end
-
     unless params[:start_date].blank? || params[:end_date].blank?
       if params[:start_date].to_date < Time.now.to_date
         @listings = []
@@ -43,8 +36,10 @@ class ListingsController < ApplicationController
         @listings = @listings.where.not(id: unavailable_list_ids)
       end
     end
-    params[:results_per_page] ||= '10'
-    @listings = @listings.limit(params[:results_per_page])
+    unless @listings.blank?
+      params[:results_per_page] ||= '10'
+      @listings = @listings.limit(params[:results_per_page])
+    end
   end
 
   # GET /listings/1
