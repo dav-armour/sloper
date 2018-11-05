@@ -5,46 +5,64 @@ class ListingsController < ApplicationController
 
   # GET /listings
   def index
+    # Set default limit to 10 and max to 50
+    params[:results_per_page] ||= 10
+    limit = params[:results_per_page]
+    limit = limit.to_i
+    limit = 10 unless limit.between?(1,50)
+    # Set default page to 1 and calculate offset
+    params[:page] ||= 1
+    page = params[:page]
+    page = page.to_i
+    page = 1 if page < 1
+    offset = (page - 1) * limit
+    # Eager load location and listing images for use in view and searching location
+    @listings = Listing.includes(:location, :listing_images).limit(limit).offset(offset)
+    # Search by city (Fuzzy Search)
+    unless params[:city].blank?
+      params[:city].strip
+      @listings = @listings.references(:locations).fuzzy_search(locations: {city: "#{params[:city]}"})
+    end
+    # Search by category
+    unless params[:category].blank? || params[:category] == "All"
+      @listings = @listings.where(category: "#{params[:category]}")
+    end
+    # Search by type
+    unless params[:item_type].blank? || params[:item_type] == "All"
+      @listings = @listings.where(item_type: "#{params[:item_type]}")
+    end
+    # Search by brand (Fuzzy Search)
+    unless params[:brand].blank?
+      params[:brand].strip
+      @listings = @listings.fuzzy_search(brand: "#{params[:brand]}")
+    end
+    # Search by available dates
+    unless params[:start_date].blank? || params[:end_date].blank?
+      begin
+        # Don't allow dates in the past
+        if params[:start_date].to_date < Time.now.to_date
+          @listings = []
+          flash[:alert] = "Search dates can't be in the past"
+        else
+          # Make array of date range
+          date_arr = (params[:start_date].to_date..params[:end_date].to_date).to_a
+          # Get all list ids that have those days unavailable
+          unavailable_list_ids = UnavailableDay.select(:listing_id).where(day: date_arr)
+          # Exclude unavailable listings from results
+          @listings = @listings.where.not(id: unavailable_list_ids)
+        end
+      # Rescue invalid dates
+      rescue ArgumentError => e
+        @listings = []
+        flash[:alert] = e.message
+      end
+    end
+
+    # Create select options for size
     @size_array = ["All"]
     (90...200).step(10) do |n|
       @size_array << "#{n} - #{n+9}"
     end
-
-    @listings = Listing.includes(:location, :listing_images)
-
-    unless params[:city].blank?
-      @listings = @listings.references(:locations).fuzzy_search({locations: { city: "#{params[:city]}"}})
-      @listings = [] if @listings.blank?
-    end
-
-    unless params[:category].blank? || params[:category] == "All"
-      @listings = @listings.where(category: "#{params[:category]}")
-    end
-
-    unless params[:item_type].blank? || params[:item_type] == "All"
-      @listings = @listings.where(item_type: "#{params[:item_type]}")
-    end
-
-    unless params[:size].blank? || params[:size] == "All"
-      size_range = Range.new(*params[:size].split(" - ").map(&:to_i))
-      @listings = @listings.where(size: size_range)
-    end
-
-    unless params[:brand].blank?
-      @listings = @listings.fuzzy_search(brand: "#{params[:brand]}")
-    end
-
-    unless params[:start_date].blank? || params[:end_date].blank?
-      if params[:start_date].to_date < Time.now.to_date
-        @listings = []
-      else
-        date_arr = (params[:start_date].to_date..params[:end_date].to_date).to_a
-        unavailable_list_ids = UnavailableDay.select(:listing_id).where(day: date_arr)
-        @listings = @listings.where.not(id: unavailable_list_ids)
-      end
-    end
-    params[:results_per_page] ||= '10'
-    @listings = @listings.limit(params[:results_per_page])
   end
 
   # GET /listings/1
@@ -52,7 +70,6 @@ class ListingsController < ApplicationController
     @user = User.find(@listing.user_id)
     @reviews = Review.includes(:booking, booking: :user).where(bookings: {listing_id: @listing.id})
     @average_rating = @reviews.average(:rating)
-    # @average_rating = @reviews.average(:rating).round unless @reviews.empty?
   end
 
   # GET /listings/new

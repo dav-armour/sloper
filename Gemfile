@@ -66,6 +66,6 @@ gem "faker", "~> 1.9"
 
 gem "stripe", "~> 3.28"
 
-gem "textacular", "~> 5.1"
+gem "textacular", "~> 5.1", git: 'https://github.com/dav-armour/textacular.git', branch: 'change-assemble-query'
 
 gem "simple_calendar", "~> 2.3"

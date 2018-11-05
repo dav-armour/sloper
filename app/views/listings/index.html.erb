@@ -1,39 +1,43 @@
 <h1>Listings</h1>
 
-<p>Total Listings: <%= @listings.size %></p>
+<p>Total Listings: <%= @listings.length %></p>
 
 <%= form_with url: listings_path, method: :get, local: true do |form| %>
   <div class="form-group">
     <%= form.label :city %>
-    <%= form.text_field :city %>
+    <%= form.text_field :city, value: params[:city] %>
   </div>
   <div class="form-group">
     <%= form.label :start_date %>
-    <%= form.date_field :start_date %>
+    <%= form.date_field :start_date, value: params[:start_date] %>
   </div>
   <div class="form-group">
     <%= form.label :end_date %>
-    <%= form.date_field :end_date %>
+    <%= form.date_field :end_date, value: params[:end_date] %>
   </div>
   <div class="form-group">
     <%= form.label :category %>
-    <%= form.select :category, options_for_select(Listing.categories.keys.unshift("All")) %>
+    <%= form.select :category, options_for_select(Listing.categories.keys.unshift("All"), params[:category])  %>
   </div>
   <div class="form-group">
     <%= form.label :item_type %>
-    <%= form.select :item_type, options_for_select(Listing.item_types.keys.unshift("All")) %>
+    <%= form.select :item_type, options_for_select(Listing.item_types.keys.unshift("All"), params[:item_type])  %>
   </div>
   <div class="form-group">
     <%= form.label :size %>
-    <%= form.select :size, options_for_select(@size_array) %>
+    <%= form.select :size, options_for_select(@size_array, params[:size]) %>
   </div>
   <div class="form-group">
     <%= form.label :brand %>
-    <%= form.text_field :brand %>
+    <%= form.text_field :brand, value: params[:brand] %>
+  </div>
+  <div class="form-group">
+    <%= form.label :page %>
+    <%= form.number_field :page, value: params[:page] %>
   </div>
   <div class="form-group">
     <%= form.label :results_per_page %>
-    <%= form.select :results_per_page, options_for_select([10,20,30]) %>
+    <%= form.select :results_per_page, options_for_select([10,20,30], params[:results_per_page]) %>
   </div>
   <div class="form-actions">
     <%= form.submit 'Search' %>
