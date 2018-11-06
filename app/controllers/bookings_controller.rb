@@ -31,22 +31,25 @@ class BookingsController < ApplicationController
 
   def create
     begin
-      # Amount in cents
-      # if current_user.stripe_cust_id.nil?
+      # Create customer if neeeded
+      if current_user.stripe_cust_id.nil?
         customer = Stripe::Customer.create(
           :email => params[:stripeEmail],
-          :source  => params[:stripeToken]
         )
-        # Update stripe customer id
+        # Save stripe customer id
         current_user.stripe_cust_id = customer.id
         current_user.save
-      # end
+      end
+      # Update source
+      customer = Stripe::Customer.retrieve(current_user.stripe_cust_id)
+      customer.source = params[:stripeToken]
+      customer.save
 
       # Create stripe charge for given date range
       charge = Stripe::Charge.create(
         :customer    => current_user.stripe_cust_id,
         :amount      => @amount,
-        :description => "Booking for #{@numdays} days: #{@start_date} to #{@end_date}",
+        :description => "Booking for listing id: #{@listing.id}, for #{@num_days} days: #{@start_date} to #{@end_date}",
         :currency    => 'aud'
       )
       # Create Booking
