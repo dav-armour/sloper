@@ -5,40 +5,51 @@ class BookingsController < ApplicationController
   before_action :check_for_errors, only: [:new, :create]
 
   def index
+    # Eager load listing and owner to allow for title and name in view
     @renter_bookings = Booking.where(user_id: current_user.id).includes(listing: :user).order(start_date: :asc)
-    # @renter_bookings = []
+    # Get current user's listings ids to allow booking retrieval
     listing_ids = Listing.where(user_id: current_user.id).pluck(:id)
+    # Eager load listing and user to allow for title and name in view
     @lister_bookings = Booking.where(listing_id: listing_ids).includes(:listing, :user).order(start_date: :asc)
-    # @lister_bookings = []
   end
 
   def new
+    # Generate array of unavailable days to use with displaying calendar
     @unavailable_days = UnavailableDay.where(listing_id: @listing.id).pluck(:day)
+    # Generate booking summary if date's are submitted
     if params[:booking]
       @booking = Booking.new(
         start_date: @start_date,
         end_date: @end_date,
         total_cost: @amount
       )
+    else
+      # Used to fix bug with view remembering last searched dates
+      params[:booking] = Hash.new
     end
   end
 
   def create
     begin
-      # Amount in cents
+      # Create customer if neeeded
       if current_user.stripe_cust_id.nil?
         customer = Stripe::Customer.create(
           :email => params[:stripeEmail],
-          :source  => params[:stripeToken]
         )
+        # Save stripe customer id
         current_user.stripe_cust_id = customer.id
         current_user.save
       end
+      # Update source
+      customer = Stripe::Customer.retrieve(current_user.stripe_cust_id)
+      customer.source = params[:stripeToken]
+      customer.save
 
+      # Create stripe charge for given date range
       charge = Stripe::Charge.create(
         :customer    => current_user.stripe_cust_id,
         :amount      => @amount,
-        :description => 'Rails Stripe customer',
+        :description => "Booking for listing id: #{@listing.id}, for #{@num_days} days: #{@start_date} to #{@end_date}",
         :currency    => 'aud'
       )
       # Create Booking
@@ -115,7 +126,12 @@ class BookingsController < ApplicationController
         if params[:booking][:total_cost] && @amount != params[:booking][:total_cost].to_i
           raise BookingError, "Error: Amount Incorrect - Payment Stopped"
         end
+      # Catches custom errors above
       rescue BookingError => e
+        redirect_to new_listing_booking_path(@listing), alert: e.message
+        return
+      # Catches invalid dates
+      rescue ArgumentError => e
         redirect_to new_listing_booking_path(@listing), alert: e.message
         return
       end
