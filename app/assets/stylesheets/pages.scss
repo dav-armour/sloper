@@ -2,12 +2,11 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+// .btn-success {
+//     @include button-variant(red, darken(red, 7.5%), darken(red, 10%), lighten(red,5%), lighten(red, 10%), darken(red,30%));
+//   }
 
 /* The hero image */
-* {
-    margin: 0;
-    padding: 0;
-}
 
 .hero-image {
     /* Use "linear-gradient" to add a darken background effect to the image (photographer.jpg). This will make the text easier to read */
@@ -60,3 +59,4 @@
         }
     }
 }
+

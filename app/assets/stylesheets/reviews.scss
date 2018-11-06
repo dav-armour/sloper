@@ -3,12 +3,11 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 $unchecked-star: '☆';
-$unchecked-color: #000;
 $checked-star: '★';
 $checked-color: #F13525;
 
 .star-cb-group {
-  font-size: 1.75rem;
+  font-size: 1.5rem;
   font-family: sans-serif;
   /* flip the order so we can use the + and ~ combinators */
   unicode-bidi: bidi-override;
@@ -17,32 +16,32 @@ $checked-color: #F13525;
     display: none;
     & + label {
       display: inline-block;
-      width: 1.75rem;
+      width: 1.5rem;
       cursor: pointer;
       &:before {
         display: inline-block;
         content: $unchecked-star;
-        color: $unchecked-color;
+        color: $black;
       }
     }
     &:checked ~ label:before,
       & + label:hover ~ label:before,
       & + label:hover:before {
       content: $checked-star;
-      color: $checked-color;
+      color: $red;
       text-shadow: 0 0 1px #333;
     }
   }
 
   &:hover > input + label:before {
     content: $unchecked-star;
-    color: $unchecked-color;
+    color: $black;
     text-shadow: none;
   }
   &:hover > input + label:hover ~ label:before,
   &:hover > input + label:hover:before {
     content: $checked-star;
-    color: $checked-color;
+    color: $red;
     text-shadow: 0 0 1px #333;
   }
 }

@@ -7,23 +7,39 @@ class ListingsController < ApplicationController
   def index
     # Eager load location and listing images for use in view and searching location
     @listings = Listing.includes(:location, :listing_images)
+    
     # Search by city (Fuzzy Search)
     unless params[:city].blank?
       params[:city].strip
       @listings = @listings.references(:locations).fuzzy_search(locations: {city: "#{params[:city]}"})
     end
-    # Search by category
-    unless params[:category].blank? || params[:category] == "All"
-      @listings = @listings.where(category: "#{params[:category]}")
+    # Search by category, ignore both or none checked
+    if params[:ski] == '1' && params[:snowboard] == '0'
+      category = "Ski"
+    elsif params[:ski] == '0' && params[:snowboard] == '1'
+      category = "Snowboard"
+    end
+    if category
+      @listings = @listings.where(category: category)
     end
     # Search by type
-    unless params[:item_type].blank? || params[:item_type] == "All"
+    unless params[:item_type].blank? || params[:item_type] == 'All'
       @listings = @listings.where(item_type: "#{params[:item_type]}")
     end
     # Search by brand (Fuzzy Search)
     unless params[:brand].blank?
       params[:brand].strip
       @listings = @listings.fuzzy_search(brand: "#{params[:brand]}")
+    end
+    # Create select options for size
+    @size_array = ["All"]
+    (90...200).step(10) do |n|
+      @size_array << "#{n} - #{n+9}"
+    end
+    # Search by size
+    unless params[:size].blank? || params[:size] == 'All'
+      size_range = Range.new(*params[:size].split(" - ").map(&:to_i))
+      @listings = @listings.where(size: size_range)
     end
     # Search by available dates
     unless params[:start_date].blank? || params[:end_date].blank?
@@ -32,6 +48,9 @@ class ListingsController < ApplicationController
         if params[:start_date].to_date < Time.now.to_date
           @listings = []
           flash[:alert] = "Search dates can't be in the past"
+        elsif params[:start_date].to_date < params[:end_date]
+          @listings = []
+          flash[:alert] = "Start date needs to be before end date"
         else
           # Make array of date range
           date_arr = (params[:start_date].to_date..params[:end_date].to_date).to_a
@@ -62,12 +81,6 @@ class ListingsController < ApplicationController
     @listings = @listings.limit(@limit).offset(offset) if @total_listings > 0
     # Total pages used for dropdown in view
     @pages = (@total_listings / @limit.to_f).ceil
-
-    # Create select options for size
-    @size_array = ["All"]
-    (90...200).step(10) do |n|
-      @size_array << "#{n} - #{n+9}"
-    end
   end
 
   # GET /listings/1
@@ -112,7 +125,7 @@ class ListingsController < ApplicationController
         @location.save
       end
       redirect_to @listing, notice: 'Listing was successfully created.'
-    rescue ListingError => e
+    rescue ListingError, ArgumentError => e
       redirect_to new_listing_path(@listing), alert: e.message
     end
   end
@@ -134,10 +147,10 @@ class ListingsController < ApplicationController
       if @listing.update(updated_params)
         redirect_to @listing, notice: 'Listing was successfully updated.'
       else
-        render :edit
+        raise ListingError, "Failed to update listing"
       end
-    rescue ListingError => e
-      redirect_to new_listing_path(@listing), alert: e.message
+    rescue ListingError, ArgumentError => e
+      redirect_to edit_listing_path(@listing), alert: e.message
     end
   end
 

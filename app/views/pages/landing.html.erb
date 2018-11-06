@@ -7,22 +7,29 @@
             <%= form.text_field :city, placeholder: "Pick-up location", id: 'city' %>
         </div>
         <div class="form-group">
-            <%= form.date_field :start_date, value: Time.now.strftime('%d-%m-%Y') %>
-            <%= form.date_field :end_date, placeholder: "Drop off" %>
+            <%= form.date_field :start_date, value: params[:start_date] %>
+            <%= form.date_field :end_date, value: params[:end_date] %>
         </div>
-        <div class="form-group">
-            <%= form.label :category %>
-            <%= form.select :category, options_for_select(Listing.categories.keys.unshift("All")) %>
+        <div class="form-group category-filter">
+            <%= form.check_box :snowboard,
+                { class: "sr-only", checked: (params[:snowboard] == "1") } %>
+            <%= form.label :snowboard, 'Snowboard' do %>
+                <%= image_tag("snowboard.svg", alt: "snowboard") %>
+            <% end %>
+            <%= form.check_box :ski,
+                { class: "sr-only", checked: (params[:ski] == "1") } %>
+            <%= form.label :ski, 'Ski' do %>
+                <%= image_tag("ski.svg", alt: "ski") %>
+            <% end %>
         </div>
         <div>
-            <button class="btn btn-success" type="submit">Search</button>
-            <%# <%= form.submit 'Search' %>
+            <%= form.submit 'Search', class: "btn btn-success" %>
         </div>
     <% end %>
   </div>
 </div>
 
 <div class="body">
-     <h1>How It Works</h1>
+    <h1>How It Works</h1>
 </div>
 

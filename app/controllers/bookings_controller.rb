@@ -1,12 +1,12 @@
 class BookingsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_booking, only: [:destroy]
+  before_action :set_booking, :check_permission, only: [:destroy]
   before_action :set_listing, only: [:new, :create]
   before_action :check_for_errors, only: [:new, :create]
 
   def index
-    # Eager load listing and owner to allow for title and name in view
-    @renter_bookings = Booking.where(user_id: current_user.id).includes(listing: :user).order(start_date: :asc)
+    # Eager load listing, owner and reviews to allow for title and name and review links in view
+    @renter_bookings = Booking.where(user_id: current_user.id).includes(:review, listing: :user).order(start_date: :asc)
     # Get current user's listings ids to allow booking retrieval
     listing_ids = Listing.where(user_id: current_user.id).pluck(:id)
     # Eager load listing and user to allow for title and name in view
@@ -105,6 +105,20 @@ class BookingsController < ApplicationController
     params.require(:booking).permit(:start_date, :end_date, :total_cost)
   end
 
+  def check_permission
+    begin
+      unless @booking.user_id == current_user.id || @booking.user_id == @booking.listing.user_id
+        raise BookingError, "Error: Permission denied - Invalid User"
+      end
+      if @booking.user_id == current_user.id && @booking.start_date <= Time.now.to_date
+        raise BookingError, "Error: Permission denied - Cancelling past booking not allowed"
+      end
+    rescue BookingError => e
+      redirect_to bookings_path(@listing), alert: e.message
+      return
+    end
+  end
+
   def check_for_errors
     if params[:booking]
       begin
@@ -122,16 +136,18 @@ class BookingsController < ApplicationController
           raise BookingError, "Error: Dates not available"
         end
         @num_days = date_arr.count
-        @amount = @num_days * @listing.daily_price
+        if @num_days < 7
+          # Daily rate
+          @amount = @num_days * @listing.daily_price
+        else
+          # Weekly rate if renting 1 week or more
+          @amount = (@num_days * (@listing.weekly_price / 7.0)).to_i
+        end
         if params[:booking][:total_cost] && @amount != params[:booking][:total_cost].to_i
           raise BookingError, "Error: Amount Incorrect - Payment Stopped"
         end
-      # Catches custom errors above
-      rescue BookingError => e
-        redirect_to new_listing_booking_path(@listing), alert: e.message
-        return
-      # Catches invalid dates
-      rescue ArgumentError => e
+      # Catches custom errors above and invalid dates
+      rescue BookingError, ArgumentError => e
         redirect_to new_listing_booking_path(@listing), alert: e.message
         return
       end
