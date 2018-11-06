@@ -165,7 +165,10 @@ class ListingsController < ApplicationController
     end
 
     def check_permissions
-      redirect_back(fallback_location: listing_path(@listing)) unless @listing.user_id == current_user.id
+      unless @listing.user_id == current_user.id
+        redirect_back(fallback_location: listing_path(@listing),
+          alert: "Error: Permission denied - Invalid User")
+      end
     end
 
     def create_images
