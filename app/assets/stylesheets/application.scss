@@ -23,3 +23,8 @@
 @import 'pages';
 @import 'my_bookings';
 @import 'reviews';
+
+a, a:link, a:hover, a:visited, a:active {
+  text-decoration: none;
+  color: black;
+}

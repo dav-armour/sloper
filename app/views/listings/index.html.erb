@@ -1,90 +1,76 @@
-<h1>Listings</h1>
+<div class="container h-100">
+  <h1>Listings</h1>
 
-<p>
-  Total Listings: <%= @total_listings %>
-  <% if @total_listings > @limit %>
-    (Showing <%= @limit %> per page)
-  <% end %>
-</p>
-
-<%= form_with url: listings_path, method: :get, local: true do |form| %>
-  <div class="form-group">
-    <%= form.label :city %>
-    <%= form.text_field :city, value: params[:city] %>
-  </div>
-  <div class="form-group">
-    <%= form.label :start_date %>
-    <%= form.date_field :start_date, value: params[:start_date] %>
-  </div>
-  <div class="form-group">
-    <%= form.label :end_date %>
-    <%= form.date_field :end_date, value: params[:end_date] %>
-  </div>
-  <div class="form-group">
-    <%= form.label :category %>
-    <%= form.select :category, options_for_select(Listing.categories.keys.unshift("All"), params[:category])  %>
-  </div>
-  <div class="form-group">
-    <%= form.label :item_type %>
-    <%= form.select :item_type, options_for_select(Listing.item_types.keys.unshift("All"), params[:item_type])  %>
-  </div>
-  <div class="form-group">
-    <%= form.label :size %>
-    <%= form.select :size, options_for_select(@size_array, params[:size]) %>
-  </div>
-  <div class="form-group">
-    <%= form.label :brand %>
-    <%= form.text_field :brand, value: params[:brand] %>
-  </div>
-  <div class="form-group">
-    <%= form.label :page %>
-    <%= form.select :page, options_for_select((1..@pages).to_a, params[:page]) %>
-  </div>
-  <div class="form-group">
-    <%= form.label :results_per_page %>
-    <%= form.select :results_per_page, options_for_select([10,20,30], params[:results_per_page]) %>
-  </div>
-  <div class="form-actions">
-    <%= form.submit 'Search' %>
-  </div>
-<% end %>
-
-<table class="table">
-  <thead>
-    <tr>
-      <th>Title</th>
-      <th>City</th>
-      <th>Category</th>
-      <th>Type</th>
-      <th>Size</th>
-      <th>Brand</th>
-      <th>Daily price</th>
-      <th>Weekly price</th>
-      <th>Image</th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @listings.each do |listing| %>
-      <tr>
-        <td><%= link_to listing.title, listing %></td>
-        <td><%= listing.location.city %></td>
-        <td><%= listing.category %></td>
-        <td><%= listing.item_type %></td>
-        <td><%= listing.size %></td>
-        <td><%= listing.brand %></td>
-        <td><%= "$%0.2f" % (listing.daily_price/100.0) %></td>
-        <td><%= "$%0.2f" % (listing.weekly_price/100.0) %></td>
-        <% if listing.listing_images.empty? %>
-          <td><%= image_tag asset_path("fallback/noimage.png")%></td>
-        <% else %>
-          <td><%= image_tag listing.listing_images.first.image.url %></td>
-        <% end %>
-      </tr>
+  <p>
+    Total Listings: <%= @total_listings %>
+    <% if @total_listings > @limit %>
+      (Showing <%= @limit %> per page)
     <% end %>
-  </tbody>
-</table>
+  </p>
 
-<br>
+  <%= form_with url: listings_path, method: :get, local: true do |form| %>
+    <div class="form-group">
+        <%= form.text_field :city, placeholder: "Pick-up location", id: 'city', value: params[:city] %>
+    </div>
+    <div class="form-group">
+        <%= form.date_field :start_date, value: params[:start_date] %>
+        <%= form.date_field :end_date, placeholder: "Drop off", value: params[:end_date] %>
+    </div>
+    <div id="show-filters" class="mb-3">Add Filters ▼</div>
+    <div id="filters">
+      <div class="form-group">
+        <%= form.check_box :snowboard,
+          { class: "sr-only", checked: (params[:snowboard] == "1") } %>
+        <%= form.label :snowboard, 'Snowboard' do %>
+            <%= image_tag("snowboard.svg", alt: "snowboard") %>
+        <% end %>
+        <%= form.check_box :ski,
+          { class: "sr-only", checked: (params[:ski] == "1") } %>
+        <%= form.label :ski, 'Ski' do %>
+            <%= image_tag("ski.svg", alt: "ski") %>
+        <% end %>
+      </div>
+      <div class="form-group">
+        <%= form.label :item_type %>
+        <%= form.select :item_type, options_for_select(Listing.item_types.keys.unshift("All"), params[:item_type])  %>
+      </div>
+      <div class="form-group">
+        <%= form.label :size %>
+        <%= form.select :size, options_for_select(@size_array, params[:size]) %>
+      </div>
+      <div class="form-group">
+        <%= form.label :brand %>
+        <%= form.text_field :brand, value: params[:brand] %>
+      </div>
+      <div class="form-group">
+        <%= form.label :page %>
+        <%= form.select :page, options_for_select((1..@pages).to_a, params[:page]) %>
+      </div>
+      <div class="form-group">
+        <%= form.label :results_per_page %>
+        <%= form.select :results_per_page, options_for_select([10,20,30], params[:results_per_page]) %>
+      </div>
+    </div>
+    <div class="form-actions">
+      <%= form.submit 'Search', class: "btn btn-success" %>
+    </div>
+  <% end %>
 
-<%= link_to 'New Listing', new_listing_path %>
+  <div class="d-flex flex-wrap">
+    <% @listings.each do |listing| %>
+      <%= link_to listing_path(listing.id), class: "card-block" do %>
+        <div class="card my-3 mx-3" style="width: 350px;">
+          <%= image_tag asset_path("fallback/noimage.png"), class: "card-img-top", alt: "Card image cap"%>
+          <div class="card-body">
+            <h5 class="card-title"><%= listing.brand %> - <%= listing.title %></h5>
+            <p class="card-text"><%= listing.category %> - <%= listing.location.city %></p>
+            <p> <%= "$%0.2f" % (listing.daily_price/100.0) %> Daily </p>
+            <p> <%= "$%0.2f" % (listing.weekly_price/100.0) %> Weekly </p>
+          </div>
+          <% end %>
+        </div>
+    <% end %>
+  </div>
+    <%= link_to 'New Listing', new_listing_path %>
+  </div>
+</div>

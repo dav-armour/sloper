@@ -12,12 +12,17 @@ class ListingsController < ApplicationController
       params[:city].strip
       @listings = @listings.references(:locations).fuzzy_search(locations: {city: "#{params[:city]}"})
     end
-    # Search by category
-    unless params[:category].blank? || params[:category] == "All"
-      @listings = @listings.where(category: "#{params[:category]}")
+    # Search by category, ignore both or none checked
+    if params[:ski] == '1' && params[:snowboard] == '0'
+      category = "Ski"
+    elsif params[:ski] == '0' && params[:snowboard] == '1'
+      category = "Snowboard"
+    end
+    if category
+      @listings = @listings.where(category: category)
     end
     # Search by type
-    unless params[:item_type].blank? || params[:item_type] == "All"
+    unless params[:item_type].blank? || params[:item_type] == 'All'
       @listings = @listings.where(item_type: "#{params[:item_type]}")
     end
     # Search by brand (Fuzzy Search)

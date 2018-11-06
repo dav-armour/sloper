@@ -28,3 +28,27 @@ body {
   }
 }
 
+label {
+  cursor: pointer;
+  filter: grayscale(100%);
+
+  img {
+    height: 4em;
+  }
+}
+
+label:hover {
+  filter: grayscale(80%);
+}
+
+input[type="checkbox"]:checked + label {
+  filter: grayscale(40%);
+}
+
+#show-filters{
+  // background-color: $green;
+}
+
+#filters {
+  display:  none;
+}
