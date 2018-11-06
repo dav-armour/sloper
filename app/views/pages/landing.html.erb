@@ -11,9 +11,19 @@
             <%= form.date_field :end_date, placeholder: "Drop off" %>
         </div>
         <div class="form-group">
-            <%= form.label :category %>
-            <%= form.select :category, options_for_select(Listing.categories.keys.unshift("All")) %>
+            <input type="radio" name="category" class="sr-only" id="snowboard" value="0">
+            <label for="snowboard">
+                <%= image_tag("snowboard.svg", alt: "snowboard") %>
+            </label>
+            <input type="radio" name="category" class="sr-only" id="ski" value="1">
+            <label for="ski">
+                <%= image_tag("ski.svg", alt: "ski") %>
+            </label>
         </div>
+        <%# <div class="form-group">
+            <%= form.label :category
+            <%= form.select :category, options_for_select(Listing.categories.keys.unshift("All"))
+        </div> %>
         <div>
             <button class="btn btn-success" type="submit">Search</button>
             <%# <%= form.submit 'Search' %>

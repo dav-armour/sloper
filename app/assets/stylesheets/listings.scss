@@ -28,3 +28,23 @@ body {
   }
 }
 
+label {
+  cursor: pointer;
+  filter: grayscale(100%);
+
+  img {
+    height: 4em;
+  }
+}
+
+label:hover {
+  filter: grayscale(80%);
+}
+
+input[type="radio"]:checked + label {
+  filter: grayscale(40%);
+}
+
+a.card-block {
+  color: black; 
+}
