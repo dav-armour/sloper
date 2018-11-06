@@ -45,5 +45,10 @@ input[type="radio"]:checked + label {
   filter: grayscale(40%);
 }
 
+#show-filters{ 
+  // background-color: $green;
+}
 
-
+#filters {
+  display:  none;
+}

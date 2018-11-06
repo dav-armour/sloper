@@ -2,11 +2,9 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-@import "bootstrap";
-
-.btn-success {
-    @include button-variant($green, darken($green, 7.5%), darken($green, 10%), lighten($green,5%), lighten($green, 10%), darken($green,30%));
-  }
+// .btn-success {
+//     @include button-variant(red, darken(red, 7.5%), darken(red, 10%), lighten(red,5%), lighten(red, 10%), darken(red,30%));
+//   }
 
 /* The hero image */
 * {
