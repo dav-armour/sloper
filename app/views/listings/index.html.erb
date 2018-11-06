@@ -18,7 +18,7 @@
     </div>
     <div id="show-filters" class="mb-3">Add Filters ▼</div>
     <div id="filters">
-      <div class="form-group">
+      <div class="form-group category-filters">
         <%= form.check_box :snowboard,
           { class: "sr-only", checked: (params[:snowboard] == "1") } %>
         <%= form.label :snowboard, 'Snowboard' do %>

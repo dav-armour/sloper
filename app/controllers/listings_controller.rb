@@ -120,7 +120,7 @@ class ListingsController < ApplicationController
         @location.save
       end
       redirect_to @listing, notice: 'Listing was successfully created.'
-    rescue ListingError => e
+    rescue ListingError, ArgumentError => e
       redirect_to new_listing_path(@listing), alert: e.message
     end
   end
@@ -142,10 +142,10 @@ class ListingsController < ApplicationController
       if @listing.update(updated_params)
         redirect_to @listing, notice: 'Listing was successfully updated.'
       else
-        render :edit
+        raise ListingError, "Failed to update listing"
       end
-    rescue ListingError => e
-      redirect_to new_listing_path(@listing), alert: e.message
+    rescue ListingError, ArgumentError => e
+      redirect_to edit_listing_path(@listing), alert: e.message
     end
   end
 

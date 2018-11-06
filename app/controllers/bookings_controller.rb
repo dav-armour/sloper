@@ -146,12 +146,8 @@ class BookingsController < ApplicationController
         if params[:booking][:total_cost] && @amount != params[:booking][:total_cost].to_i
           raise BookingError, "Error: Amount Incorrect - Payment Stopped"
         end
-      # Catches custom errors above
-      rescue BookingError => e
-        redirect_to new_listing_booking_path(@listing), alert: e.message
-        return
-      # Catches invalid dates
-      rescue ArgumentError => e
+      # Catches custom errors above and invalid dates
+      rescue BookingError, ArgumentError => e
         redirect_to new_listing_booking_path(@listing), alert: e.message
         return
       end

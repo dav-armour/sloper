@@ -8,10 +8,6 @@
   color: #F13525;
 }
 
-body {
-  margin: 0;
-}
-
 .carousel {
   width: 100%;
   height: auto;
@@ -28,21 +24,23 @@ body {
   }
 }
 
-label {
-  cursor: pointer;
-  filter: grayscale(100%);
+.category-filter {
+  label {
+    cursor: pointer;
+    filter: grayscale(100%);
 
-  img {
-    height: 4em;
+    &:hover {
+      filter: grayscale(80%);
+    }
+
+    img {
+      height: 4em;
+    }
   }
-}
 
-label:hover {
-  filter: grayscale(80%);
-}
-
-input[type="checkbox"]:checked + label {
-  filter: grayscale(40%);
+  input[type="checkbox"]:checked + label {
+    filter: grayscale(50%);
+  }
 }
 
 #show-filters{
@@ -51,4 +49,14 @@ input[type="checkbox"]:checked + label {
 
 #filters {
   display:  none;
+}
+
+a.card-block {
+  &:link,
+  &:hover,
+  &:visited,
+  &:active {
+    text-decoration: none;
+    color: black;
+  }
 }
