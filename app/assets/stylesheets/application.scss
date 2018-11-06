@@ -9,22 +9,17 @@
  * compiled file so the styles you add here take precedence over styles defined in any other CSS/SCSS
  * files in this directory. Styles in this file should be added after the last require_* statement.
  * It is generally better to create a new file per style scope.
- *
- *= require_tree .
- *= require_self
  */
+
 
 * {
   margin: 0;
   padding: 0;
 }
 
-//  Primary colours:
-$lblue: #9fc5f8;
-$blue: #3a5199;
-// Background colours:
-$white: #fff;
-$lgrey: #eff4fa;
-// Accent colours:
-$green: #247a00;
-$red: #f13525;
+@import 'variables';
+@import 'bookings';
+@import 'listings';
+@import 'pages';
+@import 'my_bookings';
+@import 'reviews';

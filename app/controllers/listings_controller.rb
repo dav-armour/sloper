@@ -32,6 +32,9 @@ class ListingsController < ApplicationController
         if params[:start_date].to_date < Time.now.to_date
           @listings = []
           flash[:alert] = "Search dates can't be in the past"
+        elsif params[:start_date].to_date < params[:end_date]
+          @listings = []
+          flash[:alert] = "Start date needs to be before end date"
         else
           # Make array of date range
           date_arr = (params[:start_date].to_date..params[:end_date].to_date).to_a
