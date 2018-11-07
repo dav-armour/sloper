@@ -10,5 +10,6 @@ class PagesController < ApplicationController
     @reviews = Review.includes(:booking, booking: :user).where(bookings: {listing_id: listing_ids})
     @total_reviews = @reviews.count
     @average_rating = @reviews.average(:rating)
+    @last_sign_in = @user.last_sign_in_at
   end
 end

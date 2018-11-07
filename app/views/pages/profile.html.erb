@@ -9,7 +9,13 @@
             <%= @user.full_name %>
         </p>
         <p>
-            Joined <%= @user.created_at.to_date %></p>
+            Joined <%= @user.created_at.to_date %>
+        </p>
+        <% unless @last_sign_in.nil? %>
+            <p>
+                Last login: <%= @last_sign_in.to_date %>
+            </p>
+        <% end %>
         <% if @user == current_user %>
             <p>
                 <%= link_to "Edit Profile",  edit_user_registration_path %>
@@ -26,7 +32,7 @@
             <% end %>
         </p>
 
-    <%= render 'listings/search_results' %>
+        <%= render 'listings/search_results' %>
     </div>
 
     <hr>
