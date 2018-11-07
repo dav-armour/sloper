@@ -1,7 +1,7 @@
-<div class="profile-avatar-details">   
+<div class="avatar-container d-flex flex-column align-items-center">   
     <p>
         <% if @user.profile_image.url != nil %>
-            <%= image_tag @user.profile_image.url, alt: "Avatar" %>
+            <%= image_tag @user.profile_image.url, alt: "Avatar", class: "rounded-circle" %>
         <% end %>
     </p>
     <p>
@@ -16,7 +16,7 @@
     <% end %>
 </div>
 
-<div class="profile-listings">
+<div class="profile-listings-container">
     <p>
         <% if @user.listings.empty? %>
             No current listings

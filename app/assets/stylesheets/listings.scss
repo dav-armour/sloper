@@ -20,12 +20,14 @@
   margin-bottom: 0;
 }
 
-a.card-block {
-  &:link,
-  &:hover,
-  &:visited,
-  &:active {
-    text-decoration: none;
-    color: black;
+.search-results {
+  .card-block {
+    &:link,
+    &:hover,
+    &:visited,
+    &:active {
+      text-decoration: none;
+      color: black;
+    }
   }
 }
