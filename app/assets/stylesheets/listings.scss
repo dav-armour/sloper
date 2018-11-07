@@ -5,15 +5,14 @@
 .filter-body {
   margin-top: 1em;
   text-align: center;
-}
 
-#show-filters{
-  // background-color: $green;
+  #show-filters {
+    cursor: pointer;
+  }
 
-}
-
-#filters {
+  #filters {
   display:  none;
+  }
 }
 
 .listings-text p {
