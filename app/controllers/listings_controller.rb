@@ -48,7 +48,7 @@ class ListingsController < ApplicationController
         if params[:start_date].to_date < Time.now.to_date
           @listings = []
           flash[:alert] = "Search dates can't be in the past"
-        elsif params[:start_date].to_date < params[:end_date]
+        elsif params[:start_date].to_date > params[:end_date].to_date
           @listings = []
           flash[:alert] = "Start date needs to be before end date"
         else
@@ -60,9 +60,9 @@ class ListingsController < ApplicationController
           @listings = @listings.where.not(id: unavailable_list_ids)
         end
         # Rescue invalid dates
-      rescue ArgumentError => e
-        @listings = []
-        flash[:alert] = e.message
+      # rescue ArgumentError => e
+      #   @listings = []
+      #   flash[:alert] = e.message
       end
     end
     # Using count crashes fuzzy search with nested table, using size instead
