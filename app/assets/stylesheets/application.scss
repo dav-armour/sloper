@@ -75,7 +75,11 @@
 
   &:before {
     content: '\FF0B';
-  }
+	}
+
+	&:hover {
+		cursor: pointer;
+	}
 }
 
 .max-width-300 {

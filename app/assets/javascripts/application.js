@@ -41,8 +41,12 @@ var ready = function() {
     readURL(this);
   });
 
-  $(".upload-button").on('click', function() {
+  $(".upload-button, #plus-icon").on('click', function() {
      $(".file-upload").click();
+  });
+
+  $("#changePass").click(function(){
+    $(".new-pass-input").attr("disabled",!this.checked);
   });
 };
 

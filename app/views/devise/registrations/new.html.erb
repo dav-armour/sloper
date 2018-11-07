@@ -39,16 +39,11 @@
 
       <div class="form-group">
         <%= f.label :password, class: "sr-only" %>
-        <!--
-        <%# if @minimum_password_length %>
-        <em>(<%#= @minimum_password_length %> characters minimum)</em>
-        <% #end %>
-        -->
         <%= f.password_field :password, autocomplete: "new-password", placeholder: "Password", class: "form-control" %>
       </div>
 
       <div class="form-group">
-        <%= f.submit "Sign up", class: "btn btn-success w-100" %>
+        <%= f.submit "Sign up", class: "btn btn-success form-control" %>
       </div>
 
     <% end %>
