@@ -1,8 +1,8 @@
-<% if reviews.nil? || reviews.empty? %>
+<% if total_reviews == 0 %>
   <p>Sorry there are no reviews yet.</p>
 <% else %>
   <p>
-    <%= pluralize(reviews.count, 'Review') %>
+    <%= pluralize(total_reviews, 'Review') %>
     <%= render 'reviews/rating_stars', rating: average_rating.round %>
   </p>
   <hr>

@@ -1,63 +1,65 @@
 <% if @user == current_user %>
-    <h1> Welcome to your profile</h1>
+  <h1> Welcome to your profile</h1>
 <% end %>
 
 <p>
-    <% if @user.profile_image.url != nil %>
-        <%= image_tag @user.profile_image.url, alt: "Avatar" %>
-    <% end %>
+  <% if @user.profile_image.url != nil %>
+    <%= image_tag @user.profile_image.url, alt: "Avatar" %>
+  <% end %>
 </p>
 <p>
-    <%= @user.full_name %>
+  <%= @user.full_name %>
 </p>
 <p>
-    Joined <%= @user.created_at %></p>
+  Joined <%= @user.created_at %></p>
 <% if @user == current_user %>
-    <p>
-        <%= link_to "Edit Profile",  edit_user_registration_path %>
-    </p>
+  <p>
+    <%= link_to "Edit Profile",  edit_user_registration_path %>
+  </p>
 <% end %>
 <p>
-    <% if @user.listings.empty? %>
-        No current listings
-    <% else %>
-        <%= pluralize(@user.listings.count, 'listing') %>
-    <% end %>
+  <% if @total_listings == 0 %>
+    No current listings
+  <% else %>
+    <%= pluralize(@total_listings, 'listing') %>
+  <% end %>
 </p>
 
 <div>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Image</th>
-                <th>Title</th>
-                <th>Brand</th>
-                <th>Daily price</th>
-                <th>Weekly price</th>
-            </tr>
-        </thead>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Image</th>
+        <th>Title</th>
+        <th>City</th>
+        <th>Brand</th>
+        <th>Daily price</th>
+        <th>Weekly price</th>
+      </tr>
+    </thead>
 
-        <tbody>
-            <% @user.listings.each do |listing| %>
-            <tr>
-                <td>
-                    <% if listing.listing_images.empty? %>
-                        <%= link_to image_tag(asset_path("fallback/noimage.png"), width: '200px', alt: "Default Image"), listing %>
-                    <% else %>
-                        <%= link_to image_tag(listing.listing_images.first.image.url, width: '200px', alt: "Image"), listing %>
-                    <% end %>
-                </td>
-                <td><%= link_to listing.title, listing %></td>
-                <td><%= listing.brand %></td>
-                <td><%= listing.daily_price %></td>
-                <td><%= listing.weekly_price %></td>
-            </tr>
-            <% end %>
-        </tbody>
-    </table>
+    <tbody>
+      <% @listings.each do |listing| %>
+      <tr>
+        <td>
+          <% if listing.listing_images.empty? %>
+            <%= link_to image_tag(asset_path("fallback/noimage.png"), width: '200px', alt: "Default Image"), listing %>
+          <% else %>
+            <%= link_to image_tag(listing.listing_images.first.image.url, width: '200px', alt: "Image"), listing %>
+          <% end %>
+        </td>
+        <td><%= link_to listing.title, listing %></td>
+        <td><%= listing.city %></td>
+        <td><%= listing.brand %></td>
+        <td><%= listing.daily_price %></td>
+        <td><%= listing.weekly_price %></td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
 </div>
 
 <hr>
 
 <h2>User Reviews</h2>
-<%= render 'reviews/list', reviews: @reviews, average_rating: @average_rating %>
+<%= render 'reviews/list', reviews: @reviews, total_reviews: @total_reviews, average_rating: @average_rating %>

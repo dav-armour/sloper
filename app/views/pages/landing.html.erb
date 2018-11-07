@@ -8,11 +8,11 @@
                 </div>
             </div>
             <div class="form-group">
-                <%= form.date_field :start_date, value: params[:start_date] %>
+                <%= form.date_field :start_date, class: "rounded", value: params[:start_date] %>
                 to
-                <%= form.date_field :end_date, value: params[:end_date] %>
+                <%= form.date_field :end_date, class: "rounded", value: params[:end_date] %>
             </div>
-            <div class="form-group category-filter">
+            <div class="form-group category-filter mb-2">
                 <%= form.check_box :snowboard,
                     { class: "sr-only", checked: (params[:snowboard] == "1") } %>
                 <%= form.label :snowboard, 'Snowboard' do %>
