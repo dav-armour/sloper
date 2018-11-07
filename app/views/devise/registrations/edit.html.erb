@@ -4,8 +4,22 @@
   <%= devise_error_messages! %>
 
   <div class="field">
-    <%= f.label :profile_image %><br />
-    <%= f.file_field :profile_image %>
+    <div>
+      <%= image_tag @user.profile_image.url %>
+    </div>
+
+    <% if @user.profile_image.present? %>
+      <div>
+        <label>
+          <%= f.check_box :remove_profile_image %>
+          Delete avatar
+        </label>
+      </div>
+    <% end %>
+    
+    <div>
+      <%= f.file_field :profile_image %>
+    </div>
   </div>
 
   <div class="field">

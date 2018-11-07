@@ -9,4 +9,5 @@ Rails.application.routes.draw do
   end
 
   get '/:user_id/profile', to: 'pages#profile', as: 'profile'
+  get '*path' => redirect('/')
 end

@@ -7,6 +7,7 @@ class ListingsController < ApplicationController
   def index
     # Eager load location and listing images for use in view and searching location
     @listings = Listing.includes(:location, :listing_images)
+    
     # Search by city (Fuzzy Search)
     unless params[:city].blank?
       params[:city].strip
@@ -29,6 +30,16 @@ class ListingsController < ApplicationController
     unless params[:brand].blank?
       params[:brand].strip
       @listings = @listings.fuzzy_search(brand: "#{params[:brand]}")
+    end
+    # Create select options for size
+    @size_array = ["All"]
+    (90...200).step(10) do |n|
+      @size_array << "#{n} - #{n+9}"
+    end
+    # Search by size
+    unless params[:size].blank? || params[:size] == 'All'
+      size_range = Range.new(*params[:size].split(" - ").map(&:to_i))
+      @listings = @listings.where(size: size_range)
     end
     # Search by available dates
     unless params[:start_date].blank? || params[:end_date].blank?
@@ -70,12 +81,6 @@ class ListingsController < ApplicationController
     @listings = @listings.limit(@limit).offset(offset) if @total_listings > 0
     # Total pages used for dropdown in view
     @pages = (@total_listings / @limit.to_f).ceil
-
-    # Create select options for size
-    @size_array = ["All"]
-    (90...200).step(10) do |n|
-      @size_array << "#{n} - #{n+9}"
-    end
   end
 
   # GET /listings/1
@@ -128,11 +133,7 @@ class ListingsController < ApplicationController
   # PATCH/PUT /listings/1
   def update
     begin
-      @listing.listing_images.each do |img|
-        if params[:listing][:listing_image][:remove_image] == '1'
-          img.destroy
-        end
-      end
+      delete_images
       create_images
       # Convert to cents
       updated_params = listing_params
@@ -165,7 +166,18 @@ class ListingsController < ApplicationController
     end
 
     def check_permissions
-      redirect_back(fallback_location: listing_path(@listing)) unless @listing.user_id == current_user.id
+      unless @listing.user_id == current_user.id
+        redirect_back(fallback_location: listing_path(@listing),
+          alert: "Error: Permission denied - Invalid User")
+      end
+    end
+
+    def delete_images
+      @listing.listing_images.each do |img|
+        if params[:listing][:listing_image][:remove_image] == '1'
+          img.destroy
+        end
+      end
     end
 
     def create_images
