@@ -1,5 +1,4 @@
 <div class="filter-body row justify-content-center">
-<%# <div class="filter-body"> %>
   <%= form_with url: listings_path, method: :get, local: true do |form| %>
     <div class="form-group">
         <%= form.text_field :city, placeholder: "Pick-up location", class: "form-control", id: 'city', value: params[:city] %>
@@ -48,46 +47,44 @@
         <div class="col-8">
           <%= form.text_field :brand, class: "form-control form-control-sm", value: params[:brand] %>
         </div>
-      </div>
-      <div class="form-actions mb-3">
-        <%= form.submit 'Search', class: "btn btn-success" %>
-      </div>
-      <div class="d-flex justify-content-between">
-        <div class="form-group mb-0">
-          <%= form.label :page %>
-          <%= form.select :page, options_for_select((1..@pages).to_a, params[:page]),
-            {}, { class: "auto_submit_item" } %>
-        </div>
-        <div class="form-group mb-0">
-          <span>Showing</span>
-          <%= form.label :results_per_page, class: "sr-only" %>
-          <%= form.select :results_per_page, options_for_select([10,25,50], params[:results_per_page]),
-            {}, { class: "auto_submit_item" } %>
-          <span>Of <%= @total_listings %> Results</span>
-        </div>
-      </div>
-    <% end %>
-  </div>
-
-  <div class="search-results d-flex flex-wrap">
-    <div class="row justify-content-center">
-      <% @listings.each do |listing| %>
-        <%= link_to listing_path(listing.id), class: "card-block" do %>
-          <div class="card my-3 mx-3" style="width: 350px;">
-            <% if listing.listing_images.empty? %>
-              <%= image_tag asset_path("fallback/noimage.png"), class: "card-img-top", alt: "Card image cap"%>
-            <% else %>
-              <%= image_tag listing.listing_images.first.image.url, class: "card-img-top", alt: "Card image cap" %>
-            <% end %>
-            <div class="card-body">
-              <h5 class="card-title"><%= listing.brand %> - <%= listing.title %></h5>
-              <p class="card-text"><%= listing.category %> - <%= listing.city %></p>
-              <p> <%= "$%0.2f" % (listing.daily_price/100.0) %> Daily </p>
-              <p> <%= "$%0.2f" % (listing.weekly_price/100.0) %> Weekly </p>
-            </div>
-          </div>
-        <% end %>
-      <% end %>
+      </div>     
     </div>
-  </div>
+    <div class="form-actions mb-3">
+        <%= form.submit 'Search', class: "btn btn-success" %>
+    </div>
+    <div class="d-flex justify-content-between">
+      <div class="form-group mb-0">
+        <%= form.label :page %>
+        <%= form.select :page, options_for_select((1..@pages).to_a, params[:page]),
+          {}, { class: "auto_submit_item" } %>
+      </div>
+      <div class="form-group mb-0">
+        <span>Showing</span>
+        <%= form.label :results_per_page, class: "sr-only" %>
+        <%= form.select :results_per_page, options_for_select([10,25,50], params[:results_per_page]),
+          {}, { class: "auto_submit_item" } %>
+        <span>Of <%= @total_listings %> Results</span>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<div class="search-results d-flex justify-content-center flex-wrap">
+    <% @listings.each do |listing| %>
+      <%= link_to listing_path(listing.id), class: "card-block" do %>
+        <div class="card my-3 mx-3" style="width: 350px;">
+          <% if listing.listing_images.empty? %>
+            <%= image_tag asset_path("fallback/noimage.png"), class: "card-img-top", alt: "Card image cap"%>
+          <% else %>
+            <%= image_tag listing.listing_images.first.image.url, class: "card-img-top", alt: "Card image cap" %>
+          <% end %>
+          <div class="card-body">
+            <h5 class="card-title"><%= listing.brand %> - <%= listing.title %></h5>
+            <p class="card-text"><%= listing.category %> - <%= listing.city %></p>
+            <p> <%= "$%0.2f" % (listing.daily_price/100.0) %> Daily </p>
+            <p> <%= "$%0.2f" % (listing.weekly_price/100.0) %> Weekly </p>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
 </div>

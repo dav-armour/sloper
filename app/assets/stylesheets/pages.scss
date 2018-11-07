@@ -7,10 +7,6 @@
 //   }
 
 /* The hero image */
-
-.container {
-}
-
 .hero-image {
     /* Use "linear-gradient" to add a darken background effect to the image (photographer.jpg). This will make the text easier to read */
     background-image: linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25)), image-url('sb-hero.jpg');
@@ -32,7 +28,6 @@
         left: 50%;
         transform: translate(-50%, -50%);
         color: white;
-        // width: 400px;
 
         .search .row .form-control {
             width: 90%;
@@ -51,11 +46,12 @@
 }
 
 .profile-listings-container {
-
 }
 
 @media (min-width: 700px) {
+}
 
+@media (min-width: 400px) {
     h1 {
         font-size: 50px;
     }

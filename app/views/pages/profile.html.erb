@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <div class="avatar-container d-flex flex-column align-items-center">   
     <p>
         <% if @user.profile_image.url != nil %>
@@ -61,4 +62,4 @@
 <hr>
 
 <h2>User Reviews</h2>
-<%= render 'reviews/list', reviews: @reviews, average_rating: @average_rating %>
+<%= render 'reviews/list', reviews: @reviews, total_reviews: @total_reviews, average_rating: @average_rating %>
