@@ -70,6 +70,7 @@
           <% if @total_listings > @limit %>
             (Showing <%= @limit %> per page)
           <% end %>
+<<<<<<< HEAD
         </p>
       </div>
       <% @listings.each do |listing| %>
@@ -87,6 +88,14 @@
               <p> <%= "$%0.2f" % (listing.weekly_price/100.0) %> Weekly </p>
             </div>
             <% end %>
+=======
+
+          <div class="card-body">
+            <h5 class="card-title"><%= listing.brand %> - <%= listing.title %></h5>
+            <p class="card-text"><%= listing.category %> - <%= listing.city %></p>
+            <p> <%= "$%0.2f" % (listing.daily_price/100.0) %> Daily </p>
+            <p> <%= "$%0.2f" % (listing.weekly_price/100.0) %> Weekly </p>
+>>>>>>> 94472fb31db0fe940fe5320838cb6a4053209d00
           </div>
       <% end %>
   </div>
