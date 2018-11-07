@@ -1,5 +1,5 @@
 class Listing < ApplicationRecord
-  before_save :remove_whitespace
+  before_save :remove_whitespace, :normalize_attributes
   belongs_to :user
   has_one :location, dependent: :destroy
   has_many :listing_images, dependent: :destroy
@@ -14,4 +14,9 @@ class Listing < ApplicationRecord
   validates :size, inclusion: { in: 90..200,
     message: "%{value}cm is not within accepted range of 90cm to 200cm" }
   validates :daily_price, :weekly_price, numericality: { greater_than: 0 }
+
+  def normalize_attributes
+    self.title = self.title.downcase.titleize
+    self.brand = self.brand.downcase.titleize
+  end
 end

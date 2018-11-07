@@ -2,61 +2,32 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-.rating-stars {
-  font-size: 1rem;
-  font-family: sans-serif;
-  color: #F13525;
-}
+.filter-body {
+  margin-top: 1em;
+  text-align: center;
 
-.carousel {
-  width: 100%;
-  height: auto;
-
-  .carousel-item {
-    text-align: center
-  }
-
-  img {
-    max-width: 100%;
-    max-height: 100%;
-    // height: auto;
-    // width: auto;
-  }
-}
-
-.category-filter {
-  label {
+  #show-filters {
     cursor: pointer;
-    filter: grayscale(100%);
-
-    &:hover {
-      filter: grayscale(80%);
-    }
-
-    img {
-      height: 4em;
-    }
   }
 
-  input[type="checkbox"]:checked + label {
-    filter: grayscale(50%);
-  }
-}
-
-#show-filters{
-  // background-color: $green;
-}
-
-#filters {
+  #filters {
   display:  none;
+  }
 }
 
-a.card-block {
-  &:link,
-  &:hover,
-  &:visited,
-  &:active {
-    text-decoration: none;
-    color: black;
+.listings-text p {
+  margin-top: 1em;
+  margin-bottom: 0;
+}
+
+.search-results {
+  .card-block {
+    &:link,
+    &:hover,
+    &:visited,
+    &:active {
+      text-decoration: none;
+      color: black;
+    }
   }
 }

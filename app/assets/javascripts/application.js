@@ -19,6 +19,10 @@ var ready = function() {
     $("#show-filters").on('click', function(){
         $("#filters").slideToggle();
     });
+
+    $(".auto_submit_item").on('change', function() {
+        $(this).parents("form").submit();
+    });
 };
 
 $(function() {

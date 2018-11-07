@@ -4,8 +4,13 @@
   <%= devise_error_messages! %>
 
   <div class="field">
-    <%= f.label :profile_image %><br />
-    <%= f.file_field :profile_image %>
+    <div>
+      <%= image_tag @user.profile_image.url %>
+    </div>
+    
+    <div>
+      <%= f.file_field :profile_image %>
+    </div>
   </div>
 
   <div class="field">

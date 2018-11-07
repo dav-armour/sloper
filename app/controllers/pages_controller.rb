@@ -3,10 +3,12 @@ class PagesController < ApplicationController
   end
 
   def profile
-    @user = User.includes(:listings, listings: :listing_images).find(params[:user_id])
-    listing_ids = @user.listings.pluck(:id)
+    @user = User.find(params[:user_id])
+    @listings = Listing.includes(:listing_images).joins(:location).select("listings.*, locations.city").where(user_id: params[:user_id])
+    listing_ids = @listings.pluck(:id)
+    @total_listings = listing_ids.count
     @reviews = Review.includes(:booking, booking: :user).where(bookings: {listing_id: listing_ids})
+    @total_reviews = @reviews.count
     @average_rating = @reviews.average(:rating)
-    # @average_rating = @reviews.average(:rating).round unless @reviews.empty?
   end
 end

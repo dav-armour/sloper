@@ -5,9 +5,9 @@ class ListingsController < ApplicationController
 
   # GET /listings
   def index
-    # Eager load location and listing images for use in view and searching location
-    @listings = Listing.includes(:location, :listing_images)
-    
+    # Eager load listing images for use in view and join location to get city for searching location
+    @listings = Listing.includes(:listing_images).joins(:location).select("listings.*, locations.city")
+
     # Search by city (Fuzzy Search)
     unless params[:city].blank?
       params[:city].strip
@@ -106,11 +106,11 @@ class ListingsController < ApplicationController
   def create
     begin
       @listing = Listing.new(listing_params)
+      raise ListingError, "Please fix form errors" unless @listing.valid?
       # Convert dollars to cents
       @listing.daily_price *= 100
       @listing.weekly_price *= 100
       @listing.user_id = current_user.id
-      raise ListingError, @listing.errors.full_messages.first unless @listing.valid?
       listing_saved = @listing.save
       raise ListingError, "Couldn't save listing." unless listing_saved
       create_images
@@ -126,18 +126,15 @@ class ListingsController < ApplicationController
       end
       redirect_to @listing, notice: 'Listing was successfully created.'
     rescue ListingError, ArgumentError => e
-      redirect_to new_listing_path(@listing), alert: e.message
+      flash[:alert] = e.message
+      render 'new'
     end
   end
 
   # PATCH/PUT /listings/1
   def update
     begin
-      @listing.listing_images.each do |img|
-        if params[:listing][:listing_image][:remove_image] == '1'
-          img.destroy
-        end
-      end
+      delete_images
       create_images
       # Convert to cents
       updated_params = listing_params
@@ -147,7 +144,7 @@ class ListingsController < ApplicationController
       if @listing.update(updated_params)
         redirect_to @listing, notice: 'Listing was successfully updated.'
       else
-        raise ListingError, "Failed to update listing"
+        raise ListingError, @listing.errors.full_messages.to_s
       end
     rescue ListingError, ArgumentError => e
       redirect_to edit_listing_path(@listing), alert: e.message
@@ -170,7 +167,18 @@ class ListingsController < ApplicationController
     end
 
     def check_permissions
-      redirect_back(fallback_location: listing_path(@listing)) unless @listing.user_id == current_user.id
+      unless @listing.user_id == current_user.id
+        redirect_back(fallback_location: listing_path(@listing),
+          alert: "Error: Permission denied - Invalid User")
+      end
+    end
+
+    def delete_images
+      @listing.listing_images.each do |img|
+        if params[:listing][:listing_image][:remove_image] == '1'
+          img.destroy
+        end
+      end
     end
 
     def create_images
