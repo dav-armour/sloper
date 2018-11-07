@@ -60,9 +60,9 @@ class ListingsController < ApplicationController
           @listings = @listings.where.not(id: unavailable_list_ids)
         end
         # Rescue invalid dates
-      # rescue ArgumentError => e
-      #   @listings = []
-      #   flash[:alert] = e.message
+      rescue ArgumentError => e
+        @listings = []
+        flash[:alert] = e.message
       end
     end
     # Using count crashes fuzzy search with nested table, using size instead
@@ -74,11 +74,14 @@ class ListingsController < ApplicationController
     @limit = 10 unless @limit.between?(1,50)
     # Set default page to 1 and calculate offset
     params[:page] ||= 1
-    page = params[:page]
-    page = page.to_i
+    page = params[:page].to_i
     page = 1 if page < 1
-    offset = (page - 1) * @limit
-    @listings = @listings.limit(@limit).offset(offset) if @total_listings > 0
+    @offset = (page - 1) * @limit
+    if @offset > @total_listings
+      @offset = 0
+      params[:page] = 1
+    end
+    @listings = @listings.limit(@limit).offset(@offset) if @total_listings > 0
     # Total pages used for dropdown in view
     @pages = (@total_listings / @limit.to_f).ceil
   end
