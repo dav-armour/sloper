@@ -1,0 +1,18 @@
+.category-filter {
+  label {
+    cursor: pointer;
+    filter: grayscale(100%);
+
+    &:hover {
+      filter: grayscale(70%);
+    }
+
+    img {
+      height: 4em;
+    }
+  }
+
+  input[type="checkbox"]:checked + label {
+    filter: grayscale(20%);
+  }
+}

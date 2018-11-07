@@ -11,7 +11,8 @@
   }
 
   #filters {
-  display:  none;
+    display:  none;
+    @import 'search_filter';
   }
 }
 
