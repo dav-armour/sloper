@@ -10,11 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_07_090858) do
+ActiveRecord::Schema.define(version: 2018_11_07_232412) do
 
   # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
   enable_extension "pg_trgm"
+  enable_extension "plpgsql"
 
   create_table "available_days", force: :cascade do |t|
     t.bigint "listing_id"
@@ -82,6 +82,7 @@ ActiveRecord::Schema.define(version: 2018_11_07_090858) do
     t.string "state"
     t.float "latitude"
     t.float "longitude"
+    t.string "country"
     t.index ["listing_id"], name: "index_locations_on_listing_id"
   end
 
