@@ -32,7 +32,8 @@ This will be a seperate database to development / testing.
 ### Detail any third party services that your App will use.
 AWS - S3 Bucket used to store uploaded images.
 Stripe - Used for taking payments from users.
-Google Maps API - Generating maps and location details.
+Mailgun -
+<!-- Google Maps API - Generating maps and location details. -->
 ### Describe (in general terms) the data structure of marketplace apps that are similar to your own (e.g. eBay, Airbnb).
 
 

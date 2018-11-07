@@ -8,6 +8,9 @@
 
 /* The hero image */
 
+.container {
+}
+
 .hero-image {
     /* Use "linear-gradient" to add a darken background effect to the image (photographer.jpg). This will make the text easier to read */
     background-image: linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25)), image-url('sb-hero.jpg');
@@ -20,24 +23,24 @@
     background-repeat: no-repeat;
     background-size: cover;
     position: relative;
-}
+    /* Place text in the middle of the image */
 
-/* Place text in the middle of the image */
-.hero-text {
-    text-align: center;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: white;
-    width: 400px;
+    .hero-text {
+        text-align: center;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: white;
+        // width: 400px;
 
-    #city {
-        width: 330px;
+        .search .row .form-control {
+            width: 90%;
+        }
     }
+
+
 }
-
-
 
 .body {
     h1 {

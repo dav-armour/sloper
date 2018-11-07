@@ -7,6 +7,5 @@ class PagesController < ApplicationController
     listing_ids = @user.listings.pluck(:id)
     @reviews = Review.includes(:booking, booking: :user).where(bookings: {listing_id: listing_ids})
     @average_rating = @reviews.average(:rating)
-    # @average_rating = @reviews.average(:rating).round unless @reviews.empty?
   end
 end
