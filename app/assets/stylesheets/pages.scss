@@ -32,7 +32,6 @@
         left: 50%;
         transform: translate(-50%, -50%);
         color: white;
-        // width: 400px;
 
         .search .row .form-control {
             width: 90%;
@@ -48,7 +47,7 @@
     }
 }
 
-@media (min-width: 700px) {
+@media (min-width: 600px) {
 
     h1 {
         font-size: 50px;
