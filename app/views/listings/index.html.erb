@@ -76,7 +76,7 @@
           <% if listing.listing_images.empty? %>
             <%= image_tag asset_path("fallback/noimage.png"), class: "card-img-top", alt: "Card image cap"%>
           <% else %>
-            <%= image_tag listing.listing_images.first.image.url, class: "card-img-top", alt: "Card image cap" %>
+            <%= image_tag listing.listing_images.first.image.thumb.url, class: "card-img-top", alt: "Card image cap" %>
           <% end %>
           <div class="card-body">
             <h5 class="card-title"><%= listing.brand %> - <%= listing.title %></h5>
