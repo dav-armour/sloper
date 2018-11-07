@@ -4,7 +4,6 @@
 
 $unchecked-star: '☆';
 $checked-star: '★';
-$checked-color: #F13525;
 
 .star-cb-group {
   font-size: 1.5rem;
@@ -21,7 +20,7 @@ $checked-color: #F13525;
       &:before {
         display: inline-block;
         content: $unchecked-star;
-        color: $black;
+        color: $red;
       }
     }
     &:checked ~ label:before,
@@ -35,7 +34,7 @@ $checked-color: #F13525;
 
   &:hover > input + label:before {
     content: $unchecked-star;
-    color: $black;
+    color: $red;
     text-shadow: none;
   }
   &:hover > input + label:hover ~ label:before,
@@ -49,5 +48,5 @@ $checked-color: #F13525;
 .rating-stars {
   font-size: 1rem;
   font-family: sans-serif;
-  color: #F13525;
+  color: $red;
 }

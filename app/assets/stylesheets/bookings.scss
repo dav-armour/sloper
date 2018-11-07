@@ -1,6 +1,8 @@
-// Place all the styles related to the charges controller here.
+// Place all the styles related to the bookings controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+// New Booking Page
 
 .calendar-heading {
   text-align: center;
@@ -40,4 +42,47 @@ td.day {
   label {
     display: block;
   }
+}
+
+// My Bookings Page (Bookings Index)
+
+.actions-label {
+  color: #007bff;
+
+  &:hover {
+    cursor: pointer;
+    color: #0056b3;
+  }
+}
+
+input.menu-toggle { display: none; }
+input.menu-toggle + .menu-panel { display: none; }
+input.menu-toggle:checked + .menu-panel { display: flex; }
+
+.menu-panel {
+	position: absolute;
+	margin-top: 5px;
+	padding: 0 10px 10px;
+	background-color: white;
+	border-radius: 3px;
+	box-shadow: 0 2px 2px rgba( 0, 0, 0, 0.2 );
+  flex-direction: column;
+	justify-content: center;
+  align-items: flex-start;
+  transform:translateX(-10px);
+
+  a {
+    text-decoration: none;
+  }
+}
+
+.arrow {
+	position: relative;
+	top: -11px;
+	margin-left: 59px;
+	width: 0;
+	height: 0;
+	border-left: 6px solid transparent;
+	border-right: 6px solid transparent;
+	border-bottom: 11px solid #007bff;
 }
