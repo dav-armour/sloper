@@ -133,11 +133,7 @@ class ListingsController < ApplicationController
   # PATCH/PUT /listings/1
   def update
     begin
-      @listing.listing_images.each do |img|
-        if params[:listing][:listing_image][:remove_image] == '1'
-          img.destroy
-        end
-      end
+      delete_images
       create_images
       # Convert to cents
       updated_params = listing_params
@@ -171,6 +167,14 @@ class ListingsController < ApplicationController
 
     def check_permissions
       redirect_back(fallback_location: listing_path(@listing)) unless @listing.user_id == current_user.id
+    end
+
+    def delete_images
+      @listing.listing_images.each do |img|
+        if params[:listing][:listing_image][:remove_image] == '1'
+          img.destroy
+        end
+      end
     end
 
     def create_images
