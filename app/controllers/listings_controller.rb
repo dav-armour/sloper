@@ -106,11 +106,11 @@ class ListingsController < ApplicationController
   def create
     begin
       @listing = Listing.new(listing_params)
+      @listing.user_id = current_user.id
       raise ListingError, "Please fix form errors" unless @listing.valid?
       # Convert dollars to cents
       @listing.daily_price *= 100
       @listing.weekly_price *= 100
-      @listing.user_id = current_user.id
       listing_saved = @listing.save
       raise ListingError, "Couldn't save listing." unless listing_saved
       create_images
