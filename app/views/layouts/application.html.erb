@@ -16,7 +16,7 @@
   <body>
     <%= render 'pages/nav' %>
     <% if notice && !notice.empty? %>
-      <div class="alert alert-success alert-dismissable text-center ">
+      <div class="alert alert-success alert-dismissable text-center mb-0">
         <span><%= notice %></span>
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
           <span aria-hidden="true">&times;</span>
@@ -24,7 +24,7 @@
       </div>
     <% end %>
     <% if alert && !alert.empty? %>
-      <div class="alert alert-danger alert-dismissable text-center">
+      <div class="alert alert-danger alert-dismissable text-center mb-0">
         <span><%= alert %></span>
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
           <span aria-hidden="true">&times;</span>

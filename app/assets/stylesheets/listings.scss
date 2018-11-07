@@ -7,23 +7,9 @@
   text-align: center;
 }
 
-.category-filter {
-  label {
-    cursor: pointer;
-    filter: grayscale(100%);
+#show-filters{
+  // background-color: $green;
 
-    &:hover {
-      filter: grayscale(80%);
-    }
-
-    img {
-      height: 4em;
-    }
-  }
-
-  input[type="checkbox"]:checked + label {
-    filter: grayscale(50%);
-  }
 }
 
 #filters {
