@@ -13,7 +13,8 @@ class Listing < ApplicationRecord
   validates :title, :category, :item_type, :brand, :size, :daily_price, :weekly_price, presence: { message: "must be given." }
   validates :size, inclusion: { in: 90..200,
     message: "%{value}cm is not within accepted range of 90cm to 200cm" }
-  validates :daily_price, :weekly_price, numericality: { greater_than: 0 }
+  validates :daily_price, :weekly_price, numericality: { greater_than: 0, less_than: 10000000,
+    message: "must be greater than $0.00 and less than $100,000.00" }
 
   def normalize_attributes
     self.title = self.title.downcase.titleize
