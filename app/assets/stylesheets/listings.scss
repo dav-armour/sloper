@@ -2,26 +2,9 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-.rating-stars {
-  font-size: 1rem;
-  font-family: sans-serif;
-  color: #F13525;
-}
-
-.carousel {
-  width: 100%;
-  height: auto;
-
-  .carousel-item {
-    text-align: center
-  }
-
-  img {
-    max-width: 100%;
-    max-height: 100%;
-    // height: auto;
-    // width: auto;
-  }
+.filter-body {
+  margin-top: 1em;
+  text-align: center;
 }
 
 .category-filter {
@@ -43,12 +26,13 @@
   }
 }
 
-#show-filters{
-  // background-color: $green;
-}
-
 #filters {
   display:  none;
+}
+
+.listings-text p {
+  margin-top: 1em;
+  margin-bottom: 0;
 }
 
 a.card-block {
