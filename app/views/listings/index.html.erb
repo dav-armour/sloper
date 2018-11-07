@@ -1,51 +1,52 @@
-<div class="container h-100">
-  <div class="filter-body row mr-0 justify-content-center">
-    <%= form_with url: listings_path, method: :get, local: true do |form| %>
-      <div class="form-group">
-          <%= form.text_field :city, placeholder: "Pick-up location", class: "form-control", id: 'city', value: params[:city] %>
+<div class="filter-body row justify-content-center">
+<%# <div class="filter-body"> %>
+  <%= form_with url: listings_path, method: :get, local: true do |form| %>
+    <div class="form-group">
+        <%= form.text_field :city, placeholder: "Pick-up location", class: "form-control", id: 'city', value: params[:city] %>
+    </div>
+    <div class="form-group">
+        <%= form.date_field :start_date, value: params[:start_date] %>
+        to
+        <%= form.date_field :end_date, placeholder: "Drop off", value: params[:end_date] %>
+    </div>
+    <div id="show-filters" class="mb-3">
+      Add Filters ▼
+    </div>
+    <div id="filters">
+      <div class="form-group category-filter">
+        <%= form.check_box :snowboard,
+          { class: "sr-only", checked: (params[:snowboard] == "1") } %>
+        <%= form.label :snowboard, 'Snowboard' do %>
+            <%= image_tag("snowboard.svg", alt: "snowboard") %>
+        <% end %>
+        <%= form.check_box :ski,
+          { class: "sr-only", checked: (params[:ski] == "1") } %>
+        <%= form.label :ski, 'Ski' do %>
+            <%= image_tag("ski.svg", alt: "ski") %>
+        <% end %>
       </div>
-      <div class="form-group">
-          <%= form.date_field :start_date, value: params[:start_date] %>
-          to
-          <%= form.date_field :end_date, placeholder: "Drop off", value: params[:end_date] %>
+      <div class="form-group row">
+        <div class="col-4">
+          <%= form.label :item_type %>
+        </div>
+        <div class="col-8">
+          <%= form.select(:item_type, options_for_select(Listing.item_types.keys.unshift("All"), params[:item_type]), {}, {class: "form-control form-control-sm"}) %>
+        </div>
       </div>
-      <div id="show-filters" class="mb-3">Add Filters ▼</div>
-      <div id="filters">
-        <div class="form-group category-filter">
-          <%= form.check_box :snowboard,
-            { class: "sr-only", checked: (params[:snowboard] == "1") } %>
-          <%= form.label :snowboard, 'Snowboard' do %>
-              <%= image_tag("snowboard.svg", alt: "snowboard") %>
-          <% end %>
-          <%= form.check_box :ski,
-            { class: "sr-only", checked: (params[:ski] == "1") } %>
-          <%= form.label :ski, 'Ski' do %>
-              <%= image_tag("ski.svg", alt: "ski") %>
-          <% end %>
+      <div class="form-group row">
+        <div class="col-4">
+          <%= form.label :size %>
         </div>
-        <div class="form-group row">
-          <div class="col-4">
-            <%= form.label :item_type %>
-          </div>
-          <div class="col-8">
-            <%= form.select(:item_type, options_for_select(Listing.item_types.keys.unshift("All"), params[:item_type]), {}, {class: "form-control form-control-sm"}) %>
-          </div>
+        <div class="col-8">
+          <%= form.select(:size, options_for_select(@size_array, params[:size]), {}, {class: "form-control form-control-sm"}) %>
         </div>
-        <div class="form-group row">
-          <div class="col-4">
-            <%= form.label :size %>
-          </div>
-          <div class="col-8">
-            <%= form.select(:size, options_for_select(@size_array, params[:size]), {}, {class: "form-control form-control-sm"}) %>
-          </div>
+      </div>
+      <div class="form-group row">
+        <div class="col-4">
+          <%= form.label :brand %>
         </div>
-        <div class="form-group row">
-          <div class="col-4">
-            <%= form.label :brand %>
-          </div>
-          <div class="col-8">
-            <%= form.text_field :brand, class: "form-control form-control-sm", value: params[:brand] %>
-          </div>
+        <div class="col-8">
+          <%= form.text_field :brand, class: "form-control form-control-sm", value: params[:brand] %>
         </div>
       </div>
       <div class="form-actions mb-3">
@@ -84,8 +85,9 @@
               <p> <%= "$%0.2f" % (listing.daily_price/100.0) %> Daily </p>
               <p> <%= "$%0.2f" % (listing.weekly_price/100.0) %> Weekly </p>
             </div>
-            <% end %>
           </div>
+        <% end %>
       <% end %>
+    </div>
   </div>
 </div>
