@@ -1,7 +1,7 @@
 <div class="search-results d-flex justify-content-center flex-wrap">
   <% @listings.each do |listing| %>
     <%= link_to listing_path(listing.id), class: "card-block" do %>
-      <div class="card my-3 mx-3" style="width: 320px;">
+      <div class="card my-3 mx-3 max-width: 100%">
         <% if listing.listing_images.empty? %>
           <%= image_tag asset_path("fallback/noimage.png"), class: "card-img-top", alt: "Card image cap"%>
         <% else %>

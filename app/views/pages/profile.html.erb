@@ -1,34 +1,36 @@
-<div class="avatar-container d-flex flex-column align-items-center"> 
-    <p>
-        <% if @user.profile_image.url != nil %>
-            <%= image_tag @user.profile_image.url, alt: "Avatar", class: "rounded-circle" %>
-        <% end %>
-    </p>
-    <p>
-        <%= @user.full_name %>
-    </p>
-    <p>
-        Joined <%= @user.created_at %></p>
-    <% if @user == current_user %>
+<div class="container">
+    <div class="avatar-container d-flex flex-column align-items-center"> 
         <p>
-            <%= link_to "Edit Profile",  edit_user_registration_path %>
+            <% if @user.profile_image.url != nil %>
+                <%= image_tag @user.profile_image.url, alt: "Avatar", class: "rounded-circle" %>
+            <% end %>
         </p>
-    <% end %>
-</div>
-
-<div class="profile-listings-container">
-    <p>
-        <% if @total_listings == 0 %>
-            No current listings
-        <% else %>
-            <%= pluralize(@total_listings, 'listing') %>
+        <p>
+            <%= @user.full_name %>
+        </p>
+        <p>
+            Joined <%= @user.created_at.to_date %></p>
+        <% if @user == current_user %>
+            <p>
+                <%= link_to "Edit Profile",  edit_user_registration_path %>
+            </p>
         <% end %>
-    </p>
+    </div>
 
-   <%= render 'listings/search_results' %>
+    <div class="profile-listings-container">
+        <p>
+            <% if @total_listings == 0 %>
+                No current listings
+            <% else %>
+                <%= pluralize(@total_listings, 'listing') %>
+            <% end %>
+        </p>
+
+    <%= render 'listings/search_results' %>
+    </div>
+
+    <hr>
+
+    <h2>User Reviews</h2>
+    <%= render 'reviews/list', reviews: @reviews, total_reviews: @total_reviews, average_rating: @average_rating %>
 </div>
-
-<hr>
-
-<h2>User Reviews</h2>
-<%= render 'reviews/list', reviews: @reviews, total_reviews: @total_reviews, average_rating: @average_rating %>
