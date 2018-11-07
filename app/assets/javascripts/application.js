@@ -15,19 +15,44 @@
 //= require turbolinks
 //= require_tree .
 
-var ready = function() {
-    $("#show-filters").on('click', function(){
-        $("#filters").slideToggle();
-    });
+var readURL = function(input) {
+  if (input.files && input.files[0]) {
+    var reader = new FileReader();
 
-    $(".auto_submit_item").on('change', function() {
-        $(this).parents("form").submit();
-    });
+    reader.onload = function (e) {
+      $('.profile-pic').attr('src', e.target.result);
+    }
+
+    reader.readAsDataURL(input.files[0]);
+  }
+}
+
+var ready = function() {
+  $("#show-filters").on('click', function(){
+    $("#filters").slideToggle();
+  });
+
+  $(".auto_submit_item").on('change', function() {
+    $(this).parents("form").submit();
+  });
+
+
+  $(".file-upload").on('change', function(){
+    readURL(this);
+  });
+
+  $(".upload-button, #plus-icon").on('click', function() {
+     $(".file-upload").click();
+  });
+
+  $("#changePass").click(function(){
+    $(".new-pass-input").attr("disabled",!this.checked);
+  });
 };
 
 $(function() {
-    ready;
-  });
+  ready;
+});
 
 $(document).on('turbolinks:load', ready);
 

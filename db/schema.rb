@@ -10,11 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_04_075034) do
+ActiveRecord::Schema.define(version: 2018_11_07_090858) do
 
   # These are extensions that must be enabled in order to support this database
-  enable_extension "pg_trgm"
   enable_extension "plpgsql"
+  enable_extension "pg_trgm"
+
+  create_table "available_days", force: :cascade do |t|
+    t.bigint "listing_id"
+    t.date "day"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["listing_id"], name: "index_available_days_on_listing_id"
+  end
 
   create_table "bookings", force: :cascade do |t|
     t.bigint "user_id"
@@ -107,6 +115,11 @@ ActiveRecord::Schema.define(version: 2018_11_04_075034) do
     t.string "phone"
     t.string "profile_image"
     t.text "stripe_cust_id"
+    t.integer "sign_in_count", default: 0, null: false
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.inet "current_sign_in_ip"
+    t.inet "last_sign_in_ip"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
