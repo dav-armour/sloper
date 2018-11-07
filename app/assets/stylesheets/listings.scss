@@ -5,15 +5,14 @@
 .filter-body {
   margin-top: 1em;
   text-align: center;
-}
 
-#show-filters{
-  // background-color: $green;
+  #show-filters {
+    cursor: pointer;
+  }
 
-}
-
-#filters {
+  #filters {
   display:  none;
+  }
 }
 
 .listings-text p {
@@ -21,12 +20,14 @@
   margin-bottom: 0;
 }
 
-a.card-block {
-  &:link,
-  &:hover,
-  &:visited,
-  &:active {
-    text-decoration: none;
-    color: black;
+.search-results {
+  .card-block {
+    &:link,
+    &:hover,
+    &:visited,
+    &:active {
+      text-decoration: none;
+      color: black;
+    }
   }
 }

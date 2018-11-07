@@ -41,8 +41,17 @@
     }
 }
 
-@media (min-width: 400px) {
+.avatar-container {
+    margin-top: 3em;
+}
 
+.profile-listings-container {
+}
+
+@media (min-width: 700px) {
+}
+
+@media (min-width: 400px) {
     h1 {
         font-size: 50px;
     }
