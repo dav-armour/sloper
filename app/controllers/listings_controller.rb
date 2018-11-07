@@ -87,6 +87,7 @@ class ListingsController < ApplicationController
   def show
     @user = User.find(@listing.user_id)
     @reviews = Review.includes(:booking, booking: :user).where(bookings: {listing_id: @listing.id})
+    @total_reviews = @reviews.count
     @average_rating = @reviews.average(:rating)
   end
 
