@@ -1,7 +1,7 @@
 class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
-  before_save :remove_whitespace, :downcase_attributes
+  before_save :remove_whitespace, :normalize_attributes
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
@@ -15,9 +15,10 @@ class User < ApplicationRecord
     "#{self.first_name} #{self.last_name}".titleize
   end
 
-  def downcase_attributes
-    self.name.downcase!
-    self.email
+  def normalize_attributes
+    self.first_name = self.first_name.downcase.titleize
+    self.last_name = self.last_name.downcase.titleize
+    self.email.downcase!
   end
 
 end
