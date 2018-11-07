@@ -6,7 +6,7 @@ class ListingsController < ApplicationController
   # GET /listings
   def index
     # Eager load listing images for use in view and join location to get city for searching location
-    @listings = Listing.includes(:listing_images).joins(:location).select("listings.*, locations.city")
+    @listings = Listing.includes(:listing_images).joins(:location).select("listings.*, locations.city, locations.country")
 
     # Search by city (Fuzzy Search)
     unless params[:city].blank?

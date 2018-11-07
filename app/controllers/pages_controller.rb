@@ -5,7 +5,7 @@ class PagesController < ApplicationController
   def profile
     @user = User.find(params[:user_id])
     # Eager load images attached to each listing. Join location to show city. Only show listing's of current profile's user
-    @listings = Listing.includes(:listing_images).joins(:location).select("listings.*, locations.city").where(user_id: params[:user_id])
+    @listings = Listing.includes(:listing_images).joins(:location).select("listings.*, locations.city, locations.country").where(user_id: params[:user_id])
     # Get just the listing id's to be used in review query
     listing_ids = @listings.pluck(:id)
     @total_listings = listing_ids.count

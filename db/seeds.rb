@@ -38,6 +38,7 @@ brands = %w(Burton Lib-Tech Salomon D.C. Volcom Capita Dakine Ripcurl Quicksilve
     city: Faker::Address.city,
     state: Faker::Address.state,
     postcode: Faker::Address.postcode,
+    country: Faker::Address.country,
     latitude: Faker::Address.latitude,
     longitude: Faker::Address.longitude,
     listing_id: listing.id
