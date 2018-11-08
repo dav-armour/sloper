@@ -8,14 +8,30 @@
 
 brands = %w(Burton Lib-Tech Salomon D.C. Volcom Capita Dakine Ripcurl Quicksilver)
 
-50.times do
+file = "storage/snowboard_image_urls.txt"
+snowboard_image_urls = []
+f = File.open(file, "r")
+f.each_line { |line|
+  snowboard_image_urls << line.chomp
+}
+f.close
+file = "storage/ski_image_urls.txt"
+ski_image_urls = []
+f = File.open(file, "r")
+f.each_line { |line|
+  ski_image_urls << line.chomp
+}
+f.close
+
+50.times do |i|
   character = Faker::HarryPotter.character.split
   user = User.create(
     first_name: character.first,
     last_name: character.last,
     email: Faker::Internet.email,
     password: 'testing123',
-    phone: Faker::PhoneNumber.cell_phone
+    phone: Faker::PhoneNumber.cell_phone,
+    remote_profile_image_url: Faker::Avatar.image
   )
   puts "User created: #{character.first}."
   listing = Listing.create(
@@ -31,6 +47,12 @@ brands = %w(Burton Lib-Tech Salomon D.C. Volcom Capita Dakine Ripcurl Quicksilve
     helmet: Faker::Boolean.boolean,
     daily_price: rand(5..20) * 100,
     weekly_price: rand(20..50) * 100
+  )
+  url = ski_image_urls[i % 30] if listing.category == "Ski"
+  url = snowboard_image_urls[i % 30] if listing.category == "Snowboard"
+  ListingImage.create(
+    listing_id: listing.id,
+    remote_image_url: url
   )
   puts "Listing created: #{listing.brand}."
   location = Location.create(

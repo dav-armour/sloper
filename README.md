@@ -38,10 +38,26 @@ Mailgun -
 
 
 ### Discuss the database relations to be implemented.
-
+We will be using two database relation types in our app.
+- One to One
+This is used when 1 record in 1 table relates to only one record in another table. To set this up in rails one model needs to be given a belongs_to relationship and the related model needs to be set to has_one. Example: One booking can only have one review
+- One to Many
+This relationship is used when a single record in one table has many related records in another table. This is achieved by using belongs_to and has_many in the rails models. Example: One user can have many listings.
+- Many to Many
+This relationship was not needed for our application. It allows for records in table A to have many related records in table B and vice versa. Example: A student can have many classes and classes can have many students.
 
 ### Describe your project’s models in terms of the relationships (active record associations) they have with each other.
+- User Model
+- Listing Model
+- Booking Model
+- Location Model
+- ListingImage Model
+- UnavailableDay Model
+
+
+
 ### Provide your database schema design.
+![database schema image](http://i68.tinypic.com/rlgvtz.png)
 
 ### Provide User stories for your App.
 * As a user I want to be able to sign up so I can rent and list gear.
