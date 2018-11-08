@@ -1,95 +1,104 @@
-<p>
-  <strong>Title:</strong>
-  <%= @listing.title %>
-</p>
+ <div class="container">
+  <%# <div class="profile-container d-flex flex-column align-items-center"> %>
+    <div class="body-top w-100 align-items-start">
+      <div class="listing-image d-flex py-4 flex-column align-items-center">
+        <% if @listing.listing_images.empty? %>
+          <%= image_tag asset_path("fallback/noimage.png"), class:"img-thumbnail"%>
+        <% else %>
+          <%= render 'carousel' %>
+        <% end %>
+      </div>
+      <p>
+        <strong> <%= @listing.title %></strong> - <%= @listing.brand %>
+      </p>
+      <p>
+        <%= @listing.category %> - <%= @listing.item_type %> (<%= @listing.size %> cms)
+      </p>
+      <p>
+        <strong>Location:</strong>
+        <%= @listing.location.city %>
+      </p>
+    </div>
+  <div class="body-bottom align-items-start">
+  <hr>
+    <div class="d-flex justify-content-around accessories">
+      <%= image_tag ("bindings.png"), alt: "Avatar", class: "rounded-circle" %>
+      <%= image_tag ("boots.png"), alt: "Avatar", class: "rounded-circle" %>
+      <%= image_tag ("helmet.png"), alt: "Avatar", class: "rounded-circle" %>
+    </div>
+      <%# <div class="card"> %>
+        <%#= image_tag ("bindings.png"), class: "card-img-top", alt: "Card image cap" %>
+        <%# <div class="card-body">
+          <p class="card-text">Bindings</p>
+        </div>
+      </div>
+    </div> %>
+    <p>
+      <strong>Bindings:</strong>
+      <%= @listing.bindings %>
+    </p>
+    <p>
+      <strong>Boots:</strong>
+      <%= @listing.boots %>
+    </p>
 
-<p>
-  <% if @listing.listing_images.empty? %>
-    <%= image_tag asset_path("fallback/noimage.png")%>
-  <% else %>
-    <%= render 'carousel' %>
-  <% end %>
-</p>
+    <p>
+      <strong>Helmet:</strong>
+      <%= @listing.helmet %>
+    </p>
+    <p>
+      <strong>Description:</strong>
+      <%= @listing.description %>
+    </p>
 
+    <%= link_to 'Back', listings_path %>
+    <%# <% if @listing.user_id == current_user.id %>
+    <% if current_user && @listing.user_id == current_user.id %>
+    | <%= link_to 'Edit', edit_listing_path(@listing) %> |
+    <%= link_to 'Destroy', @listing, method: :delete, data: { confirm: 'Are you sure?' } %>
+    <% end %>
 
-<p>
-  <strong>Description:</strong>
-  <%= @listing.description %>
-</p>
+    <hr>
 
-<p>
-  <strong>Location:</strong>
-  <%= @listing.location.city %>
-  <%= @listing.location.country %>
-</p>
+    <h2>Reviews</h2>
+    <%= render 'reviews/list', reviews: @reviews, total_reviews: @total_reviews, average_rating: @average_rating %>
 
-<p>
-  <strong>Category:</strong>
-  <%= @listing.category %>
-</p>
+    <div class="container">
+      <div class="avatar-container d-flex flex-column align-items-center"> 
+          <p>
+              <% if @user.profile_image.url != nil %>
+                  <%= link_to image_tag(@user.profile_image.url, alt: "Avatar", class: "rounded-circle"), profile_path(@listing.user_id) %>
+              <% end %>
+          </p>
+          <p>
+              <%= link_to @user.full_name, profile_path(@listing.user_id) %>
+          </p>
+          <p>
+              Joined <%= @user.created_at.to_date %>
+          </p>
+          <% unless @last_sign_in.nil? %>
+              <p>
+                  Last login: <%= @last_sign_in.to_date %>
+              </p>
+          <% end %>
+      </div>
+    </div>
+  </div>
+</div>
 
-<p>
-  <strong>Type:</strong>
-  <%= @listing.item_type %>
-</p>
-
-<p>
-  <strong>Size:</strong>
-  <%= @listing.size %>
-</p>
-
-<p>
-  <strong>Brand:</strong>
-  <%= @listing.brand %>
-</p>
-
-<p>
-  <strong>Bindings:</strong>
-  <%= @listing.bindings %>
-</p>
-
-<p>
-  <strong>Boots:</strong>
-  <%= @listing.boots %>
-</p>
-
-<p>
-  <strong>Helmet:</strong>
-  <%= @listing.helmet %>
-</p>
-
-<p>
-  <strong>Daily price:</strong>
-  <%= "$%0.2f" % (@listing.daily_price/100.0) %>
-</p>
-
-<p>
-  <strong>Weekly price:</strong>
-  <%= "$%0.2f" % (@listing.weekly_price/100.0) %>
-</p>
-
-<%= link_to 'Back', listings_path %>
-<%# <% if @listing.user_id == current_user.id %>
-<% if current_user && @listing.user_id == current_user.id %>
-| <%= link_to 'Edit', edit_listing_path(@listing) %> |
-<%= link_to 'Destroy', @listing, method: :delete, data: { confirm: 'Are you sure?' } %>
-<% end %>
-
-<p>
-  <% if @listing.listing_images.count > 0 %>
-    <%= link_to image_tag(@user.profile_image.url), profile_path(@listing.user_id) %>
-  <% end %>
-</p>
-  <%= link_to @user.full_name, profile_path(@listing.user_id) %>
-  <%# <%= @user.first_name %>
-</p>
-<p>
-    Joined <%= @user.created_at %></p>
-<p>
-
-<%= link_to "Rent Now", new_listing_booking_path(@listing), class: "btn btn-primary"%>
-
-<hr>
-
-<h2>Listing Reviews</h2>
-<%= render 'reviews/list', reviews: @reviews, total_reviews: @total_reviews, average_rating: @average_rating %>
+<footer class="footer">
+  <div class="container h-100">
+    <div class="row h-100">
+      <div class="col-9 d-flex align-items-center">
+        <p class="mb-0"><strong><%= "$%0.2f" % (@listing.daily_price/100.0) %></strong> / day - 
+        <strong><%= "$%0.2f" % (@listing.weekly_price/100.0) %></strong> / week</p>
+        <p></p>
+      </div>
+      <div class="col-3 d-flex justify-content-end align-items-center">
+        <p class="mb-0">
+          <%= link_to "Rent Now", new_listing_booking_path(@listing), class: "btn btn-primary"%>
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
