@@ -1,5 +1,26 @@
 # Rails Marketplace
 
+[Live Heroku app link](https://sloper.herokuapp.com)
+[Github repo link](https://github.com/dav-armour/sloper)
+
+<!-- TO DO list (PLEASE DELETE AS U COMPLETE THEM)
+Description of your project, including,
+Problem definition / purpose
+Functionality / features
+Screenshots
+Tech stack (e.g. html, css, deployment platform, etc)
+Instructions on how to setup, configure and use your App.
+Design documentation including,
+Design process
+User stories
+A workflow diagram of the user journey/s.
+Wireframes
+Database Entity Relationship Diagrams
+Details of planning process including,
+Project plan & timeline
+Screenshots of Trello board(s)
+-->
+
 ## Short Answer Questions
 
 ### What is the need (i.e. challenge) that you will be addressing in your project?
