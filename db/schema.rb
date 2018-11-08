@@ -16,14 +16,6 @@ ActiveRecord::Schema.define(version: 2018_11_07_232412) do
   # enable_extension "pg_trgm"
   enable_extension "plpgsql"
 
-  create_table "available_days", force: :cascade do |t|
-    t.bigint "listing_id"
-    t.date "day"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["listing_id"], name: "index_available_days_on_listing_id"
-  end
-
   create_table "bookings", force: :cascade do |t|
     t.bigint "user_id"
     t.bigint "listing_id"

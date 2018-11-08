@@ -28,24 +28,26 @@
           <%= @listing.description %>
         </p>
       </div>
-      <p><strong>Accessories:</strong></p>
-      <div class="d-flex justify-content-around accessories">
-        <% if @listing.bindings? %>
-          <div class="accessory-icons bindings-icon-true"></div>
-        <% end %>
-        <% if @listing.boots? %>
-          <div class="accessory-icons boots-icon-true"></div>
-        <% end %>
-        <% if @listing.helmet? %>
-          <div class="accessory-icons helmet-icon-true"></div>
-        <% end %>
+      <div>
+        <h5>Accessories:</h5>
+        <div class="d-flex accessories">
+          <% if @listing.bindings? %>
+            <div class="accessory-icons bindings-icon-true mx-3"></div>
+          <% end %>
+          <% if @listing.boots? %>
+            <div class="accessory-icons boots-icon-true mx-3"></div>
+          <% end %>
+          <% if @listing.helmet? %>
+            <div class="accessory-icons helmet-icon-true mx-3"></div>
+          <% end %>
+        </div>
       </div>
     </div>
     <hr>
-    <div class="links">
+    <div class="d-flex justify-content-center links">
       <% if current_user && @listing.user_id == current_user.id %>
-        <%= link_to 'Edit', edit_listing_path(@listing) %>
-        <%= link_to 'Destroy', @listing, method: :delete, data: { confirm: 'Are you sure?' } %>
+        <%= link_to 'Edit', edit_listing_path(@listing), class: "btn btn-primary mr-2 px-2" %>
+        <%= link_to 'Destroy', @listing, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger px-2 ml-2" %>
       <% end %>
     </div>
     <hr>

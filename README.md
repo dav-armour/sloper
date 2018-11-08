@@ -65,12 +65,28 @@ This relationship is used when a single record in one table has many related rec
 This relationship was not needed for our application. It allows for records in table A to have many related records in table B and vice versa. Example: A student can have many classes and classes can have many students.
 
 ### Describe your project’s models in terms of the relationships (active record associations) they have with each other.
-- User Model
-- Listing Model
-- Booking Model
-- Location Model
-- ListingImage Model
-- UnavailableDay Model
+- User Model - Stores user information
+  - Has many Listings
+  - Has many Bookings
+- Listing Model - Stores details of each listing
+  - Has many Bookings
+  - Has many Renters through Bookings
+  - Has many Listing Images
+  - Has many Unavailable Days
+  - Has one Location
+- Booking Model - Stores transactions when user rents a listing
+  - Belongs to User
+  - Belongs to Listing
+  - Has one Review
+- Location Model - Stores geo data of listing location
+  - Belongs to Listing
+- ListingImage Model - Stores all uploaded images of the listing
+  - Belongs to Listing
+- UnavailableDay Model - Keeps track of what days each listing has been rented
+  - Belongs to Listing
+- Review Model - Users can leave a review after renting an item.
+  - Belongs to Booking
+  - Has one User through Booking
 
 ### Provide your database schema design.
 ![database schema image](http://i68.tinypic.com/rlgvtz.png)
