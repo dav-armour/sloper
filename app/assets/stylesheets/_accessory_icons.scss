@@ -1,0 +1,61 @@
+.accessory-icons {
+  height: 80px;
+  width: 80px;
+  border-radius: 50%;
+  background-size: cover;
+}
+
+label.accessory-icons {
+  cursor: pointer;
+}
+
+.bindings-check + label  {
+  background-image:
+    linear-gradient(
+      rgba(0, 0, 0, 0.5),
+      rgba(0, 0, 0, 0.5)
+    ),
+    image-url('bindings.png');
+}
+
+.bindings-check:checked + label {
+  background-image: image-url('bindings.png');
+}
+
+.bindings-icon-true {
+  background-image: image-url('bindings.png');
+}
+
+.boots-check + label  {
+  background-image:
+    linear-gradient(
+      rgba(0, 0, 0, 0.5),
+      rgba(0, 0, 0, 0.5)
+    ),
+    image-url('boots.png');
+}
+
+.boots-check:checked + label {
+  background-image: image-url('boots.png');
+}
+
+.boots-icon-true {
+  background-image: image-url('boots.png');
+}
+
+.helmet-check + label  {
+  background-image:
+    linear-gradient(
+      rgba(0, 0, 0, 0.5),
+      rgba(0, 0, 0, 0.5)
+    ),
+    image-url('helmet.png');
+}
+
+.helmet-check:checked + label {
+  background-image: image-url('helmet.png');
+}
+
+.helmet-icon-true {
+  background-image: image-url('helmet.png');
+}
