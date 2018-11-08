@@ -71,19 +71,16 @@
           <% end %>
         </p>
         <p>
-            <%= @user.full_name %>
+            <%= link_to @user.full_name, profile_path(@listing.user_id) %>
         </p>
+        <p>
+            Joined <%= @user.created_at.strftime("%B %Y") %>
+        </p>
+        <% unless @user.last_sign_in_at.nil? %>
           <p>
-              <%= link_to @user.full_name, profile_path(@listing.user_id) %>
+              Last login: <%= pluralize((Time.now.to_date - @user.last_sign_in_at.to_date).to_i, 'day') %> ago
           </p>
-          <p>
-              Joined <%= @user.created_at.to_date %>
-          </p>
-          <% unless @last_sign_in.nil? %>
-              <p>
-                  Last login: <%= @last_sign_in.to_date %>
-              </p>
-          <% end %>
+        <% end %>
       </div>
     </div>
   </div>
