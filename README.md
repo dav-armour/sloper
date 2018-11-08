@@ -41,13 +41,14 @@ Browser <--> Web Server --> Controller <--> Model <--> Database
                 |               v
                 ------------- View
 
-The architecture of our app follows the default rails 
-
-
+Our app is structured as a layered, multi-tiered architecture in the form of the MVC framework. This can be separated into the presentation layer (view), logic layer (controller) and the data layer (model). 
+At the core is our data layer (model), which stores and retrieves information using a database. 
+This information is both provided and requested for by our logic layer (controller), which handles basically all of the calculations and decision-making for our app. The controller is also responsible for moving data to and from our model and view.
+Our presentation layer (view) is responsible solely for interacting with the user by transforming data from the controller into a user-friendly interface.
+Additionally, our app utilises rail's web framework. 
+Users interface with our app via a web browser, with CRUD requests being sent through to our web server. We are currently using Puma as our web server. Puma interprets the requests and routes them through to our app's controller, Action Controller. Ultimately, when data is returned from our view it is sent through to the web server before being passed on to the user's browser.
 
 ### Explain the different high-level components (abstractions) in your App.
-Our app utilises rail's web framework. 
-Users interface with our app via a web browser, with CRUD requests being sent through to our web server. We are currently using Puma as our web server. Puma interprets the requests and routes them through to our app's controller, Action Controller.
 
 Rails employs a Model View Controller (MVC) architectural pattern. In accordance with the design principle of 'separation of concerns', each component (model, view and controller) handles a specific set of actions for our app.
 
@@ -114,6 +115,22 @@ After pulling from our development branch to our local branch before pushing to 
 We also maintained a google spreadsheet with test cases, expected results and actual results for each user action on the site. This was tested before deploying to Heroku.
 
 ### Discuss and analyse requirements related to information system security.
-### Discuss methods you will use to protect information and data.
-### Research what your legal obligations are in relation to handling user data.
+1. Webpage form inputs must be sanitised or validated before being passed through to the database as malicious code in the form of an SQL injection can both harm the database and retrieve database information.
+2. Passwords cannot be stored as plain text for a website as it is not secure. Any user with access to the database can also access all passwords stored on the site. The most common form of security for a password is hashing the password.
+3. Any transmission or storage of payment data must be subject to the most stringent security available as it is extremely sensitive data. There are multiple technologies that have become the standard to ensure secure payment processing. these include TLS (transport layer security), PCI (Payment Card Industry) compliance, and tokenisation of ID authentication.
 
+### Discuss methods you will use to protect information and data.
+1. To protect against SQL injection attacks, we validate our form fields, as well as sanitizing our parameters before they are passed to the model.
+2. Using Devise's default settings, all user passwords are hashed using BCrypt.
+3. Our app neither handles nor stores payment data. All payments go through Stripe, which forces TLS encryption, PCI DSS and tokenisation. Our app only store the payment ID in our database as a payment reference.
+
+### Research what your legal obligations are in relation to handling user data.
+As per Australia's privacy laws, and in accordance with Google's requirements, our website needs to include a privacy policy. For each piece of personal information, we would need to include:
+* the type of data
+* our purpose for the data
+* how we collect and store the data securely
+* a promise to not disclose emails
+* how a user can access, change and remove data
+* whether data is disclosed to other parties
+* our contact details
+* privacy complaint handling
