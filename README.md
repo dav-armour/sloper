@@ -92,10 +92,53 @@ rails s
 ```
 6. Open web browser and goto http://localhost:3000
 
+### Project Plan and Timeline
+1. Day 1
+- Brainstorm ideas
+- Do wireframes
+- Come up with colour scheme
+- Work on short answer questions
+- Set up trello board
+- Decide on MVP features
+2. Day 2
+- Create ERDs
+- Start coding
+- Implement basic devise
+- Add bootstrap
+3. Day 3
+- Implement carrierwave and AWS set up
+- Set up models
+- Create database seeds
+4. Day 4
+- Work on creating and showing listings
+- Create booking system
+- Implement stripe
+5. Day 5
+- Improve seeds
+- Finish booking system
+6. Day 6
+- Implement filters on search
+- Add reviews
+7. Day 7
+- Add images to seeds
+- Finish implementing features
+8. Day 8
+- Add email for forgot password
+- Start styling
+- Finish testing
+- Styling
+9. Day 9
+- Finish styling
+- Prepare documentation
+- Code comments
+10. Day 10
+- Presentation
+- Submit assignment
+
+
 ### Trello Board
 [Link to board](https://trello.com/b/SMIF5bUm/sloper)
 ![trello board screenshot](http://i63.tinypic.com/dom99f.png)
-
 
 ## Short Answer Questions
 
