@@ -43,11 +43,17 @@
     }
 }
 
-.avatar-container {
-    margin-top: 3em;
-}
 
-.profile-listings-container {
+
+.profile-container {
+    .avatar-container {
+        margin-top: 3em;
+    }
+    .profile-listings-container {
+        .profile-listings-count {
+            margin-left: 2em;
+        }
+    }
 }
 
 @media (min-width: 700px) {

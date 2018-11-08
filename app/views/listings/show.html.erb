@@ -1,16 +1,12 @@
-<p>
-  <strong>Title:</strong>
-  <%= @listing.title %>
-</p>
-
-<p>
   <% if @listing.listing_images.empty? %>
     <%= image_tag asset_path("fallback/noimage.png")%>
   <% else %>
     <%= render 'carousel' %>
   <% end %>
-</p>
 
+<p>
+  <strong><%= @listing.title %></strong>
+</p>
 
 <p>
   <strong>Description:</strong>
