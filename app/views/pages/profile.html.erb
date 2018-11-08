@@ -1,4 +1,4 @@
-<div class="container">
+<div class="profile-container">
     <div class="avatar-container d-flex flex-column align-items-center"> 
         <p>
             <% if @user.profile_image.url != nil %>
@@ -22,16 +22,14 @@
             </p>
         <% end %>
     </div>
-
     <div class="profile-listings-container">
-        <p>
+        <p class="profile-listings-count">
             <% if @total_listings == 0 %>
                 No current listings
             <% else %>
                 <%= pluralize(@total_listings, 'listing') %>
             <% end %>
         </p>
-
         <%= render 'listings/search_results' %>
     </div>
 
