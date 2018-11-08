@@ -5,18 +5,6 @@
 ### GitHub Repo
 [GitHub Link](https://github.com/dav-armour/sloper)
 
-<!-- TO DO list (PLEASE DELETE AS U COMPLETE THEM)
-Design documentation including,
-Design process
-User stories
-A workflow diagram of the user journey/s.
-Wireframes
-Database Entity Relationship Diagrams
-Details of planning process including,
-Project plan & timeline
-Screenshots of Trello board(s)
--->
-
 ### Project Description
 
 This project aims to create a two sided marketplace where people can rent unused snow gear from the many people that own gear and do not use it for the majority of the year.
@@ -127,6 +115,10 @@ We reiterated over the ERD, wireframes and site colours multiple times over the 
 
 ### Database Entity Relationship Diagram
 [Link to ERD (Open with Draw.io)](https://drive.google.com/open?id=1m7_Sz9i8pdh3QcPdqbcF39FfrjUe6NsY)
+
+## Planning process
+
+### Project plan and timeline
 
 ### Trello Board
 [Link to board](https://trello.com/b/SMIF5bUm/sloper)
