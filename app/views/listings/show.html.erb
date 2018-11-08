@@ -3,7 +3,7 @@
     <div class="body-top w-100 align-items-start">
       <div class="listing-image d-flex py-4 flex-column align-items-center">
         <% if @listing.listing_images.empty? %>
-          <%= image_tag asset_path("fallback/noimage.png"), class:"img-thumbnail"%>
+          <%= image_tag asset_path("fallback/thumb_noimage.png"), class:"img-thumbnail"%>
         <% else %>
           <%= render 'carousel' %>
         <% end %>
