@@ -4,7 +4,7 @@ class PagesController < ApplicationController
 
   def profile
     @user = User.find(params[:user_id])
-    @listings = Listing.includes(:listing_images).joins(:location).select("listings.*, locations.city, locations.country").where(user_id: params[:user_id])
+    @listings = Listing.includes(:listing_images).joins(:location).select("listings.*, locations.city").where(user_id: params[:user_id])
     listing_ids = @listings.pluck(:id)
     @total_listings = listing_ids.count
     @reviews = Review.includes(:booking, booking: :user).where(bookings: {listing_id: listing_ids})
