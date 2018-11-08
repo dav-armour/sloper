@@ -74,7 +74,7 @@
             <%= link_to @user.full_name, profile_path(@listing.user_id) %>
         </p>
         <p>
-            Joined <%= @user.created_at.to_date %>
+            Joined <%= @user.created_at.strftime("%B %Y") %>
         </p>
         <% unless @user.last_sign_in_at.nil? %>
           <p>
