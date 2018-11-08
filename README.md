@@ -35,12 +35,6 @@ Postresql database will be used in production as it is hosted by Heroku.
 This will be a seperate database to development / testing.
 
 ### Describe the architecture of your App.
-
-Browser <--> Web Server --> Controller <--> Model <--> Database
-                ^               |
-                |               v
-                ------------- View
-
 Our app is structured as a layered, multi-tiered architecture in the form of the MVC framework. This can be separated into the presentation layer (view), logic layer (controller) and the data layer (model). 
 At the core is our data layer (model), which stores and retrieves information using a database. 
 This information is both provided and requested for by our logic layer (controller), which handles basically all of the calculations and decision-making for our app. The controller is also responsible for moving data to and from our model and view.
@@ -61,10 +55,10 @@ Minimal logic is present in our view layer, which takes data instantiated by our
 ### Detail any third party services that your App will use.
 AWS - S3 Bucket used to store uploaded images.
 Stripe - Used for taking payments from users.
-Mailgun -
-<!-- Google Maps API - Generating maps and location details. -->
-### Describe (in general terms) the data structure of marketplace apps that are similar to your own (e.g. eBay, Airbnb).
+Mailgun - Transactional email API for generating forgotten password emails
 
+### Describe (in general terms) the data structure of marketplace apps that are similar to your own (e.g. eBay, Airbnb).
+In essence, we are a peer-to-peer product rental app, and thus our data structure resembles other product rental apps such as ToolMates for tool renting, Spinlister for bike lending and Turo for car renting. Users can sign up with the personal information and have the ability to both add new products as well as search through and access products listed by other users. Once a booking is confirmed, the booking details are stored in the database and the product is unavailable during that timeframe.
 
 ### Discuss the database relations to be implemented.
 
