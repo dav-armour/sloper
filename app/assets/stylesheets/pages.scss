@@ -36,7 +36,7 @@
         }
 
         .rounded {
-            width: 170px;
+            width: 160px;
         }
     }
 }
@@ -79,12 +79,12 @@
 }
 
 .landing-find, .landing-choose, .landing-book {
-    height: 680px;
+    height: 650px;
     margin-top: 25px;
     margin-bottom: 25px;
 }
 
-@media (min-width: 400px) {
+@media (min-width: 375px) {
     h1 {
         font-size: 50px;
     }
@@ -94,19 +94,17 @@
     .hero-text {
         #city, #search-btn {
             width: 360px;
-        }
+        } 
     }
 }
 
-@media (min-width: 600) {
-    .landing-body{
-        width: 570;
-        margin: auto;
+@media (min-width: 600px) {
+    .hero-image .hero-text .rounded {
+        width: 170px;
     }
-    .steps {
-        .landing-find, .landing-choose, .landing-book {
-            // width: 200px;
-        }
+    .landing-body{
+        width: 570px;
+        margin: auto;
     }
 }
 
@@ -118,6 +116,10 @@
     .steps {
         .landing-find, .landing-choose, .landing-book {
             width: 200px;
+
+            p {
+                text-align: center;
+            }
         }
     }
 }
