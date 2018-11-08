@@ -25,6 +25,23 @@
   width: 100%;
 }
 
+.footer {
+  position: sticky;
+  bottom: 0;
+  width: 100%;
+  height: 70px;
+  background: #fafafa;
+  border-top: solid 1px #eee;
+}
+
+.accessories {
+  height: 80px;
+  // filter: grayscale(90%);
+  img.rounded-circle {
+        width: 80px;
+  }
+}
+
 .search-results {
   .card-block {
     &:link,
