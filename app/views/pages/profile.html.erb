@@ -1,6 +1,6 @@
 <div class="profile-container">
     <div class="avatar-container d-flex flex-column align-items-center"> 
-        <p class>
+        <p class="avatar-image-container">
             <% if @user.profile_image.url != nil %>
                 <%= image_tag @user.profile_image.url, alt: "Avatar", class: "rounded-circle" %>
             <% end %>
