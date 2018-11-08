@@ -80,6 +80,17 @@ rails s
 ```
 6. Open web browser and goto http://localhost:3000
 
+## Design Documentation
+
+### Design Process
+Initially, we did some research into existing rental product p2p apps to draw UI inspiration. Due to budget and time constraints, we did very little (read: none) external research into user pain points. Looking at competitor offerings,we determined that it was essential to allow the user to search for items on the landing page, for that is the main reason why users would visit the site.
+
+We then designed the wireframes for the site look on Balsamiq, before working on our ERD.
+
+We then looked through colour inspo. Our colour inspo board can be found here: [colours moodboard](https://pollunit.com/en/polls/ViQdBCsrCU_O1RCSpGxSGA).
+
+We reiterated over the ERD, wireframes and site colours multiple times over the course of the assessment.
+
 ### Project Plan and Timeline
 1. Day 1
 - Brainstorm ideas
@@ -122,17 +133,6 @@ rails s
 10. Day 10
 - Presentation
 - Submit assignment
-
-## Design Documentation
-
-### Design Process
-Initially, we did some research into existing rental product p2p apps to draw UI inspiration. Due to budget and time constraints, we did very little (read: none) external research into user pain points. Looking at competitor offerings,we determined that it was essential to allow the user to search for items on the landing page, for that is the main reason why users would visit the site.
-
-We then designed the wireframes for the site look on Balsamiq, before working on our ERD.
-
-We then looked through colour inspo. Our colour inspo board can be found here: [colours moodboard](https://pollunit.com/en/polls/ViQdBCsrCU_O1RCSpGxSGA).
-
-We reiterated over the ERD, wireframes and site colours multiple times over the course of the assessment.
 
 ### User Stories
 * As a user I want to be able to sign up so I can rent and list gear.
@@ -152,55 +152,24 @@ We reiterated over the ERD, wireframes and site colours multiple times over the 
 * As a user I want to be able to view a lister's last login to filter out inactive listings.
 
 ### User journey workflow diagram
+![Workflow diagram image](http://i68.tinypic.com/207rehj.jpg)
+
 [Link to User journey workflow diagram](https://drive.google.com/open?id=1ZxWKv6rfBLRKLXniUFDshcGA-UQdhR74)
 
 ### Wireframes
+![landing page wireframes](https://imgur.com/JNqoeMJ.png)
+![login screen wireframes](https://imgur.com/O1rGJ77.png)
+![sign-up screen wireframes](https://imgur.com/CniTPiY.png)
+![forgot password screen wireframes](https://imgur.com/yTJFJsg.png)
+![listings page wireframes](https://imgur.com/7U3lMzz.png)
+![show listing screen wireframes](https://imgur.com/l2aRpqZ.png)
+![profile screen wireframes](https://imgur.com/CSGyBOG.png)
 
 ### Database Entity Relationship Diagram
+![database schema image](http://i68.tinypic.com/rlgvtz.png)
+
 [Link to ERD (Open with Draw.io)](https://drive.google.com/open?id=1m7_Sz9i8pdh3QcPdqbcF39FfrjUe6NsY)
 
-### Project Plan and Timeline
-1. Day 1
-- Brainstorm ideas
-- Do wireframes
-- Come up with colour scheme
-- Work on short answer questions
-- Set up trello board
-- Decide on MVP features
-2. Day 2
-- Create ERDs
-- Start coding
-- Implement basic devise
-- Add bootstrap
-3. Day 3
-- Implement carrierwave and AWS set up
-- Set up models
-- Create database seeds
-4. Day 4
-- Work on creating and showing listings
-- Create booking system
-- Implement stripe
-5. Day 5
-- Improve seeds
-- Finish booking system
-6. Day 6
-- Implement filters on search
-- Add reviews
-7. Day 7
-- Add images to seeds
-- Finish implementing features
-8. Day 8
-- Add email for forgot password
-- Start styling
-- Finish testing
-- Styling
-9. Day 9
-- Finish styling
-- Prepare documentation
-- Code comments
-10. Day 10
-- Presentation
-- Submit assignment
 ### Trello Board
 [Link to board](https://trello.com/b/SMIF5bUm/sloper)
 ![trello board screenshot](http://i63.tinypic.com/dom99f.png)
@@ -298,6 +267,8 @@ We will be using two database relation types in our app.
 
 #### 14. Provide your database schema design.
 ![database schema image](http://i68.tinypic.com/rlgvtz.png)
+
+
 [Link to ERD (Open with Draw.io)](https://drive.google.com/open?id=1m7_Sz9i8pdh3QcPdqbcF39FfrjUe6NsY)
 
 #### 15. Provide User stories for your App.
