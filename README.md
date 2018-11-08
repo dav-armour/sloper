@@ -25,7 +25,10 @@ MiniMagick gem also used for processing images.
 Devise gem used for user management.
 
 ### Identify the database to be used in your App and provide a justification for your choice.
-Postgresql will be used for the database as it provides a lot of functionality.
+PostgreSQL will be used for the database as it provides a lot of functionality. In comparison with SQLite, the default database management system bundled with Rails, PostgreSQL provides the critical ability to perform multiple writes into the server at the same time. Also, since PostgreSQL is widely adopted, open-source and completely SQL standards-compliant, searching for solutions for our app would be much easier. In particular there were a few functions of PostgreSQL that we used extensively throughout our site: 
+* Nested querying
+* Eager loading
+* Fuzzy searching
 
 ### Identify and describe the production database setup (i.e. postgres instance).
 Postresql database will be used in production as it is hosted by Heroku.
@@ -34,18 +37,25 @@ This will be a seperate database to development / testing.
 ### Describe the architecture of your App.
 
 Browser <--> Web Server --> Controller <--> Model <--> Database
-                ^              |
-                |              v
+                ^               |
+                |               v
                 ------------- View
 
+The architecture of our app follows the default rails 
+
+
+
+### Explain the different high-level components (abstractions) in your App.
 Our app utilises rail's web framework. 
 Users interface with our app via a web browser, with CRUD requests being sent through to our web server. We are currently using Puma as our web server. Puma interprets the requests and routes them through to our app's controller, Action Controller.
 
 Rails employs a Model View Controller (MVC) architectural pattern. In accordance with the design principle of 'separation of concerns', each component (model, view and controller) handles a specific set of actions for our app.
 
-As such, Action Controller handles the requests after determining which action to take from our controllers.
+As such, Action Controller handles the requests after determining which action to take from our controllers. Our controllers communicates with both our view and model components.
 
-### Explain the different high-level components (abstractions) in your App.
+Rails uses Active Record in the model layer. It is responsible for creating and maintaining persistent data required for our app by interacting with our database. We used a PostgreSQL database as it allows for multiple writes simultaneously.
+
+Minimal logic is present in our view layer, which takes data instantiated by our controllers, transforms it and applies a layout before sending it to our web server, Puma, which ultimately passes the end result to the user's browser.
 
 ### Detail any third party services that your App will use.
 AWS - S3 Bucket used to store uploaded images.
