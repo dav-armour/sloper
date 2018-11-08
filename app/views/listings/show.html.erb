@@ -15,56 +15,45 @@
         <%= @listing.category %> - <%= @listing.item_type %> (<%= @listing.size %> cms)
       </p>
       <p>
-        <strong>Location:</strong>
-        <%= @listing.location.city %>
+        <%# <strong>Location:</strong> %>
+        <%= @listing.location.city %>, <%= @listing.location.country %>
       </p>
     </div>
-  <div class="body-bottom align-items-start">
-  <hr>
-    <div class="d-flex justify-content-around accessories">
-      <%= image_tag ("bindings.png"), alt: "Avatar", class: "rounded-circle" %>
-      <%= image_tag ("boots.png"), alt: "Avatar", class: "rounded-circle" %>
-      <%= image_tag ("helmet.png"), alt: "Avatar", class: "rounded-circle" %>
-    </div>
-      <%# <div class="card"> %>
-        <%#= image_tag ("bindings.png"), class: "card-img-top", alt: "Card image cap" %>
-        <%# <div class="card-body">
-          <p class="card-text">Bindings</p>
-        </div>
-      </div>
-    </div> %>
-    <p>
-      <strong>Bindings:</strong>
-      <%= @listing.bindings %>
-    </p>
-    <p>
-      <strong>Boots:</strong>
-      <%= @listing.boots %>
-    </p>
-
-    <p>
-      <strong>Helmet:</strong>
-      <%= @listing.helmet %>
-    </p>
-    <p>
-      <strong>Description:</strong>
-      <%= @listing.description %>
-    </p>
-
-    <%= link_to 'Back', listings_path %>
-    <%# <% if @listing.user_id == current_user.id %>
-    <% if current_user && @listing.user_id == current_user.id %>
-    | <%= link_to 'Edit', edit_listing_path(@listing) %> |
-    <%= link_to 'Destroy', @listing, method: :delete, data: { confirm: 'Are you sure?' } %>
-    <% end %>
-
     <hr>
-
+  <div class="body-bottom align-items-start">
+    <div class="d-flex flex-column justify-content-around description-body">
+      <div>
+      <%# <p><strong>Description:</strong></p> %>
+        <p>
+          <%= @listing.description %>
+        </p>
+      </div>
+      <p><strong>Accessories:</strong></p>
+      <div class="d-flex justify-content-around accessories">
+        <% if @listing.bindings? %>
+          <div class="accessory-icons bindings-icon-true"></div>
+        <% end %>
+        <% if @listing.boots? %>
+          <div class="accessory-icons boots-icon-true"></div>
+        <% end %>
+        <% if @listing.helmet? %>
+          <div class="accessory-icons helmet-icon-true"></div>
+        <% end %>
+      </div>
+    </div>
+    <hr>
+    <div class="links">
+      <% if current_user && @listing.user_id == current_user.id %>
+        <%= link_to 'Edit', edit_listing_path(@listing) %>
+        <%= link_to 'Destroy', @listing, method: :delete, data: { confirm: 'Are you sure?' } %>
+      <% end %>
+    </div>
+    <hr>
     <h2>Reviews</h2>
     <%= render 'reviews/list', reviews: @reviews, total_reviews: @total_reviews, average_rating: @average_rating %>
 
     <div class="container">
-      <div class="avatar-container d-flex flex-column align-items-center"> 
+      <div class="avatar-container d-flex flex-column align-items-center">
         <p class="avatar-image-container">
           <% if @user.profile_image.url != nil %>
             <%= image_tag @user.profile_image.url, alt: "Avatar", class: "rounded-circle" %>
@@ -90,7 +79,7 @@
   <div class="container h-100">
     <div class="row h-100">
       <div class="col-9 d-flex align-items-center">
-        <p class="mb-0"><strong><%= "$%0.2f" % (@listing.daily_price/100.0) %></strong> / day - 
+        <p class="mb-0"><strong><%= "$%0.2f" % (@listing.daily_price/100.0) %></strong> / day -
         <strong><%= "$%0.2f" % (@listing.weekly_price/100.0) %></strong> / week</p>
         <p></p>
       </div>

@@ -31,12 +31,12 @@
 
         @import 'search_filter';
 
-        .search .row .form-control {
+        .search .row .form-control, .btn {
             width: 90%;
         }
 
-        .btn {
-            width: 100%;
+        .rounded {
+            width: 160px;
         }
     }
 }
@@ -46,8 +46,6 @@
         text-align: center;
     }
 }
-
-
 
 .profile-container {
     .avatar-container {
@@ -63,10 +61,30 @@
     }
 }
 
-@media (min-width: 700px) {
+
+.landing-body {
+    padding:15px;
+    img {
+        width: 241px;
+        height: 427px;
+        -webkit-mask-image: linear-gradient(to top, transparent 5%, black 75%);
+        mask-image: linear-gradient(to top, transparent 5%, black 75%);
+    }
+}
+.landing-what {
+    height: 260px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
 }
 
-@media (min-width: 400px) {
+.landing-find, .landing-choose, .landing-book {
+    height: 650px;
+    margin-top: 25px;
+    margin-bottom: 25px;
+}
+
+@media (min-width: 375px) {
     h1 {
         font-size: 50px;
     }
@@ -74,9 +92,34 @@
         height: 400px;
     }
     .hero-text {
-        #city {
+        #city, #search-btn {
             width: 360px;
-        }
+        } 
     }
 }
 
+@media (min-width: 600px) {
+    .hero-image .hero-text .rounded {
+        width: 170px;
+    }
+    .landing-body{
+        width: 570px;
+        margin: auto;
+    }
+}
+
+@media (min-width: 992px) {
+    .landing-body{
+        width: 1000px;
+        margin: auto;
+    }
+    .steps {
+        .landing-find, .landing-choose, .landing-book {
+            width: 200px;
+
+            p {
+                text-align: center;
+            }
+        }
+    }
+}
