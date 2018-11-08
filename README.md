@@ -92,10 +92,45 @@ rails s
 ```
 6. Open web browser and goto http://localhost:3000
 
+## Design Documentation
+
+### Design Process
+Initially, we did some research into existing rental product p2p apps to draw UI inspiration. Due to budget and time constraints, we did very little (read: none) external research into user pain points. Looking at competitor offerings,we determined that it was essential to allow the user to search for items on the landing page, for that is the main reason why users would visit the site.
+
+We then designed the wireframes for the site look on Balsamiq, before working on our ERD.
+
+We then looked through colour inspo. Our colour inspo board can be found here: ![colours moodboard](https://pollunit.com/en/polls/ViQdBCsrCU_O1RCSpGxSGA).
+
+We reiterated over the ERD, wireframes and site colours multiple times over the course of the assessment.
+
+### User Stories
+* As a user I want to be able to sign up so I can rent and list gear.
+* As a user I want to be able to login with my existing account.
+* As a user I want to be able to retrieve my password if i've forgotten it.
+* As a user I want to be to change my password.
+* As a user I want to be able to find gear to rent based on location and specific dates so that I can find the gear I need.
+* As a user I want to be able to list my gear with photos, pricing, specifications and information about my gear.
+* As a user I want to be able to make and recieve payments after renting gear.
+* As a user I want to be able to leave a review about my experience renting gear from another user.
+* As a user I want to be able to edit my profile to change my photo and details.
+* As a user I want to be able to view another user's profile to view their user rating, available listings and their reviews.
+* As a user I want to be able to find the answer to frequently asked questions.
+* As a user I want to be able to learn more about how the rental and listing process works.
+* As a user I want to be able to contact Sloper through email or social media.
+* As a user I want to be able to filter my results based on specific item details.
+* As a user I want to be able to view a lister's last login to filter out inactive listings.
+
+### User journey workflow diagram
+![Link to User journey workflow diagram](https://drive.google.com/open?id=1ZxWKv6rfBLRKLXniUFDshcGA-UQdhR74)
+
+### Wireframes
+
+### Database Entity Relationship Diagram
+[Link to ERD (Open with Draw.io)](https://drive.google.com/open?id=1m7_Sz9i8pdh3QcPdqbcF39FfrjUe6NsY)
+
 ### Trello Board
 [Link to board](https://trello.com/b/SMIF5bUm/sloper)
 ![trello board screenshot](http://i63.tinypic.com/dom99f.png)
-
 
 ## Short Answer Questions
 
