@@ -25,13 +25,46 @@
                 <% end %>
             </div>
             <div>
-                <%= form.submit 'Search', class: "btn btn-success" %>
+                <%= form.submit 'Search', id: 'search-btn', class: "btn btn-success" %>
             </div>
         <% end %>
     </div>
 </div>
 
-<div class="body">
-    <h1>How It Works</h1>
+<div class="d-flex flex-column landing-body">
+    <div class="landing-what">
+        <h1>What is Sloper?</h1>
+        <h2>Sloper is a simple and reliable way to rent and share snow sports gear.</h2>
+    </div>
+    <div class="steps">
+        <div class="landing-find">
+            <div class="d-flex flex-column align-items-center how-find">
+                <%= image_tag ("find.png"), alt: "Find image" %>
+                <h2>Find</h2>
+                <p>
+                    Find your desired gear anytime, anywhere. Search for your desired pick-up location and browse all the available listings to find the perfect piece of gear for your time at the slopes.
+                </p>
+            </div>
+        </div>
+        <hr>
+        <div class="landing-choose">
+            <div class="d-flex flex-column align-items-center how-find">
+                <%= image_tag ("choose.png"), alt: "Choose image" %>
+                <h2>Choose</h2>
+                <p>
+                    Choose the perfect piece of gear for you. Pick your desired gear based on location, brand, type, design, dimensions, accessories and price.
+                </p>
+            </div>
+        </div>
+        <hr>
+        <div class="landing-book">
+            <div class="d-flex flex-column align-items-center how-find">
+                <%= image_tag ("book.png"), alt: "Choose image" %>
+                <h2>Book</h2>
+                <p>
+                    Book your gear in seconds. Select your desired pick-up and drop-off dates and pay securely online.
+                </p>
+            </div>
+    </div>
 </div>
 
