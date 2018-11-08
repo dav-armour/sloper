@@ -43,7 +43,6 @@ Additionally, our app utilises rail's web framework.
 Users interface with our app via a web browser, with CRUD requests being sent through to our web server. We are currently using Puma as our web server. Puma interprets the requests and routes them through to our app's controller, Action Controller. Ultimately, when data is returned from our view it is sent through to the web server before being passed on to the user's browser.
 
 ### Explain the different high-level components (abstractions) in your App.
-
 Rails employs a Model View Controller (MVC) architectural pattern. In accordance with the design principle of 'separation of concerns', each component (model, view and controller) handles a specific set of actions for our app.
 
 As such, Action Controller handles the requests after determining which action to take from our controllers. Our controllers communicates with both our view and model components.
@@ -61,11 +60,24 @@ Mailgun - Transactional email API for generating forgotten password emails
 In essence, we are a peer-to-peer product rental app, and thus our data structure resembles other product rental apps such as ToolMates for tool renting, Spinlister for bike lending and Turo for car renting. Users can sign up with the personal information and have the ability to both add new products as well as search through and access products listed by other users. Once a booking is confirmed, the booking details are stored in the database and the product is unavailable during that timeframe.
 
 ### Discuss the database relations to be implemented.
-
+We will be using two database relation types in our app.
+- One to One
+This is used when 1 record in 1 table relates to only one record in another table. To set this up in rails one model needs to be given a belongs_to relationship and the related model needs to be set to has_one. Example: One booking can only have one review
+- One to Many
+This relationship is used when a single record in one table has many related records in another table. This is achieved by using belongs_to and has_many in the rails models. Example: One user can have many listings.
+- Many to Many
+This relationship was not needed for our application. It allows for records in table A to have many related records in table B and vice versa. Example: A student can have many classes and classes can have many students.
 
 ### Describe your project’s models in terms of the relationships (active record associations) they have with each other.
+- User Model
+- Listing Model
+- Booking Model
+- Location Model
+- ListingImage Model
+- UnavailableDay Model
 
 ### Provide your database schema design.
+![database schema image](http://i68.tinypic.com/rlgvtz.png)
 
 ### Provide User stories for your App.
 * As a user I want to be able to sign up so I can rent and list gear.
