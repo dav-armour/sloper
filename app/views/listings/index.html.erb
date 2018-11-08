@@ -47,7 +47,7 @@
         <div class="col-8">
           <%= form.text_field :brand, class: "form-control form-control-sm", value: params[:brand] %>
         </div>
-      </div>     
+      </div>
     </div>
     <div class="form-actions mb-3">
         <%= form.submit 'Search', class: "btn btn-success" %>
@@ -58,12 +58,17 @@
         <%= form.select :page, options_for_select((1..@pages).to_a, params[:page]),
           {}, { class: "auto_submit_item" } %>
       </div>
+      <p>
+        <% if @total_listings < @limit %>
+          <span>Showing <%= @total_listings %> Results</span>
+        <% else %>
+          <span>Showing <%= "#{@limit} of #{@total_listings}" %> Results</span>
+        <% end %>
+      </p>
       <div class="form-group mb-0">
-        <span>Showing</span>
-        <%= form.label :results_per_page, class: "sr-only" %>
+        <%= form.label :results_per_page, "Limit" %>
         <%= form.select :results_per_page, options_for_select([10,25,50], params[:results_per_page]),
           {}, { class: "auto_submit_item" } %>
-        <span>Of <%= @total_listings %> Results</span>
       </div>
     </div>
   <% end %>

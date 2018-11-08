@@ -15,4 +15,13 @@ class PagesController < ApplicationController
     @average_rating = @reviews.average(:rating)
     @last_sign_in = @user.last_sign_in_at
   end
+
+  def faq
+  end
+
+  def about_us
+  end
+
+  def how_it_works
+  end
 end
