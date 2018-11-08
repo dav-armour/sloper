@@ -51,20 +51,38 @@
     <%= form.number_field :weekly_price, placeholder: "Weekly Price ($)", class: "form-control", required: true  %>
   </div>
 
+  <h2>Accessories?</h2>
+
   <div class="form-group">
-    <%= form.label :bindings %>
-    <%= form.check_box :bindings %>
+    <%= form.check_box :bindings,
+      { class: "bindings-check sr-only" } %>
+    <label class="accessory-icons bindings-icon" for="listing_bindings"></label>
+
+    <%= form.check_box :boots,
+      { class: "boots-check sr-only" } %>
+    <label class="accessory-icons boots-icon" for="listing_boots"></label>
+
+    <%= form.check_box :helmet,
+      { class: "helmet-check sr-only" } %>
+    <label class="accessory-icons helmet-icon" for="listing_helmet"></label>
+  </div>
+
+  <!--
+  <div class="form-group">
+    <%#= form.label :bindings %>
+    <%#= form.check_box :bindings %>
   </div>
 
   <div class="form-group">
-    <%= form.label :boots %>
-    <%= form.check_box :boots %>
+    <%#= form.label :boots %>
+    <%#= form.check_box :boots %>
   </div>
 
   <div class="form-group">
-    <%= form.label :helmet %>
-    <%= form.check_box :helmet %>
+    <%#= form.label :helmet %>
+    <%#= form.check_box :helmet %>
   </div>
+  -->
 
   <h3 class="mb-3">Pick Up Location</h3>
 

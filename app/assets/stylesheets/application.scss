@@ -33,3 +33,101 @@
 .height-0 {
   height: 0px;
 }
+
+.tinted-image {
+  background:
+    /* top, transparent red, faked with gradient */
+    linear-gradient(
+      rgba(255, 0, 0, 0.45),
+      rgba(255, 0, 0, 0.45)
+    ),
+    /* bottom, image */
+    url(image.jpg);
+}
+
+.accessory-icons {
+  height: 80px;
+  width: 80px;
+  border-radius: 50%;
+  background-size: cover;
+  cursor: pointer;
+}
+
+.bindings-icon-true {
+  background-image: image-url('bindings.png');
+}
+
+.bindings-icon-false {
+  background-image:
+    linear-gradient(
+      rgba(0, 0, 0, 0.5),
+      rgba(0, 0, 0, 0.5)
+    ),
+    image-url('bindings.png');
+}
+
+.bindings-check + label  {
+  background-image:
+    linear-gradient(
+      rgba(0, 0, 0, 0.5),
+      rgba(0, 0, 0, 0.5)
+    ),
+    image-url('bindings.png');
+}
+
+.bindings-check:checked + label {
+  background-image: image-url('bindings.png');
+}
+
+.boots-check + label  {
+  background-image:
+    linear-gradient(
+      rgba(0, 0, 0, 0.5),
+      rgba(0, 0, 0, 0.5)
+    ),
+    image-url('boots.png');
+}
+
+.boots-check:checked + label {
+  background-image: image-url('boots.png');
+}
+
+.helmet-check + label  {
+  background-image:
+    linear-gradient(
+      rgba(0, 0, 0, 0.5),
+      rgba(0, 0, 0, 0.5)
+    ),
+    image-url('helmet.png');
+}
+
+.helmet-check:checked + label {
+  background-image: image-url('helmet.png');
+}
+
+.boots-icon-true {
+  background-image: image-url('boots.png');
+}
+
+.boots-icon-false {
+  background-image:
+    linear-gradient(
+      rgba(0, 0, 0, 0.5),
+      rgba(0, 0, 0, 0.5)
+    ),
+    image-url('boots.png');
+}
+
+.helmet-icon-true {
+  background-image: image-url('helmet.png');
+}
+
+.helmet-icon-false {
+  background-image:
+    linear-gradient(
+      rgba(0, 0, 0, 0.5),
+      rgba(0, 0, 0, 0.5)
+    ),
+    image-url('helmet.png');
+}
+

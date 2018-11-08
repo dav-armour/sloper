@@ -22,9 +22,24 @@
   <div class="body-bottom align-items-start">
   <hr>
     <div class="d-flex justify-content-around accessories">
-      <%= image_tag ("bindings.png"), alt: "Avatar", class: "rounded-circle" %>
-      <%= image_tag ("boots.png"), alt: "Avatar", class: "rounded-circle" %>
-      <%= image_tag ("helmet.png"), alt: "Avatar", class: "rounded-circle" %>
+      <% if @listing.bindings? %>
+        <div class="accessory-icons bindings-icon-true"></div>
+      <% else %>
+        <%# <div class="accessory-icons bindings-icon-false"></div> %>
+      <% end %>
+      <% if @listing.boots? %>
+        <div class="accessory-icons boots-icon-true"></div>
+      <% else %>
+        <%# <div class="accessory-icons boots-icon-false"></div> %>
+      <% end %>
+      <% if @listing.helmet? %>
+        <div class="accessory-icons helmet-icon-true"></div>
+      <% else %>
+        <%# <div class="accessory-icons helmet-icon-false"></div> %>
+      <% end %>
+      <%#= image_tag ("bindings.png"), alt: "Avatar", class: "rounded-circle" %>
+      <%#= image_tag ("boots.png"), alt: "Avatar", class: "rounded-circle" %>
+      <%#= image_tag ("helmet.png"), alt: "Avatar", class: "rounded-circle" %>
     </div>
       <%# <div class="card"> %>
         <%#= image_tag ("bindings.png"), class: "card-img-top", alt: "Card image cap" %>
@@ -64,7 +79,7 @@
     <%= render 'reviews/list', reviews: @reviews, total_reviews: @total_reviews, average_rating: @average_rating %>
 
     <div class="container">
-      <div class="avatar-container d-flex flex-column align-items-center"> 
+      <div class="avatar-container d-flex flex-column align-items-center">
           <p>
               <% if @user.profile_image.url != nil %>
                   <%= link_to image_tag(@user.profile_image.url, alt: "Avatar", class: "rounded-circle"), profile_path(@listing.user_id) %>
@@ -90,7 +105,7 @@
   <div class="container h-100">
     <div class="row h-100">
       <div class="col-9 d-flex align-items-center">
-        <p class="mb-0"><strong><%= "$%0.2f" % (@listing.daily_price/100.0) %></strong> / day - 
+        <p class="mb-0"><strong><%= "$%0.2f" % (@listing.daily_price/100.0) %></strong> / day -
         <strong><%= "$%0.2f" % (@listing.weekly_price/100.0) %></strong> / week</p>
         <p></p>
       </div>
