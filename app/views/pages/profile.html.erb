@@ -13,7 +13,7 @@
         </p>
         <% unless @last_sign_in.nil? %>
             <p>
-                Last login: <%= @last_sign_in.to_date %>
+                Last login: <%= pluralize((Time.now.to_date - @last_sign_in.to_date).to_i, 'day') %> ago
             </p>
         <% end %>
         <% if @user == current_user %>
