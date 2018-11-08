@@ -1,5 +1,6 @@
 <% if total_reviews == 0 %>
   <p>Sorry there are no reviews yet.</p>
+  <hr>
 <% else %>
   <p>
     <%= pluralize(total_reviews, 'Review') %>
@@ -11,8 +12,8 @@
     <p><%= review.content %></p>
     <p><%= pluralize((Time.now.to_date - review.updated_at.to_date).to_i, 'Day') %> Ago</p>
     <p>Author:
-      <%= link_to profile_path(review.booking.user) do %>
-        <%= review.booking.user.full_name %>
+      <%= link_to profile_path(review.booking.user_id) do %>
+        <%= review.booking.user.first_name %>
       <% end %>
     </p>
     <hr>

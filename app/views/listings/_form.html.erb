@@ -1,4 +1,4 @@
-<%= form_with(model: listing, local: true) do |form| %>
+<%= form_with(model: listing, local: true, class: "w-100") do |form| %>
   <% if listing.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(listing.errors.count, "error") %> prohibited this listing from being saved:</h2>
@@ -11,76 +11,44 @@
     </div>
   <% end %>
 
-  <%= form.fields_for :listing_image, html: { multipart: true } do |t| %>
-    <div>
-      <% @listing.listing_images.each do |img| %>
-        <%= image_tag img.image.thumb.url alt: "Product Image" %>
-      <% end %>
-    </div>
-
-    <% unless @listing.listing_images.empty? %>
-      <div>
-        <label>
-          <%= t.check_box :remove_image %>
-          Remove uploaded images
-        </label>
-      </div>
-    <% end %>
-
-    <div>
-      <%= t.label :image %>
-      <%= t.file_field :image, :multiple => true %>
-    </div>
-  <% end %>
-
   <div class="form-group">
-    <%= form.label :title %>
-    <%= form.text_field :title, required: true %>
+    <%= form.label :title, class: "sr-only" %>
+    <%= form.text_field :title, placeholder: "Title", class: "form-control", required: true %>
   </div>
 
   <div class="form-group">
-    <%= form.label :description %>
-    <%= form.text_area :description %>
-  </div>
-
-  <%= form.fields_for :location do |t| %>
-    <div class="form-group">
-      <%= t.label :address %>
-      <%= t.text_field :address, required: true  %>
-    </div>
-    <div class="form-group">
-      <%= t.label :city %>
-      <%= t.text_field :city, required: true  %>
-    </div>
-    <div class="form-group">
-      <%= t.label :state %>
-      <%= t.text_field :state, required: true  %>
-    </div>
-    <div class="form-group">
-      <%= t.label :postcode %>
-      <%= t.number_field :postcode, required: true  %>
-    </div>
-  <% end %>
-
-  <div class="form-group">
-    <%= form.label :category %>
-    <%# <%= form.number_field :category %>
-    <%= form.select :category, options_for_select(Listing.categories.keys), required: true  %>
+    <%= form.label :description, class: "sr-only" %>
+    <%= form.text_area :description, placeholder: "Description", class: "form-control" %>
   </div>
 
   <div class="form-group">
-    <%= form.label :item_type %>
-    <%= form.select :item_type, options_for_select(Listing.item_types.keys), required: true  %>
+    <%= form.label :category, class: "sr-only" %>
+    <%= form.select :category, options_for_select(Listing.categories.keys), { prompt: "Select Category" }, { class: "form-control", required: true } %>
   </div>
 
   <div class="form-group">
-    <%= form.label :size %>
-    <%= form.number_field :size, required: true  %>
+    <%= form.label :item_type, class: "sr-only" %>
+    <%= form.select :item_type, options_for_select(Listing.item_types.keys), { prompt: "Select Type" }, { class: "form-control", required: true }  %>
   </div>
 
   <div class="form-group">
-    <%= form.label :brand %>
-    <%= form.text_field :brand, required: true  %>
+    <%= form.label :size, class: "sr-only" %>
+    <%= form.number_field :size, placeholder: "Size in cm", class: "form-control", required: true  %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :brand, class: "sr-only" %>
+    <%= form.text_field :brand, placeholder: "Brand", class: "form-control", required: true  %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :daily_price, 'Daily price ($)', class: "sr-only"%>
+    <%= form.number_field :daily_price, placeholder: "Daily Price ($)", class: "form-control", required: true  %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :weekly_price, 'Weekly price ($)', class: "sr-only" %>
+    <%= form.number_field :weekly_price, placeholder: "Weekly Price ($)", class: "form-control", required: true  %>
   </div>
 
   <div class="form-group">
@@ -98,17 +66,50 @@
     <%= form.check_box :helmet %>
   </div>
 
-  <div class="form-group">
-    <%= form.label :daily_price, 'Daily price ($)'%>
-    <%= form.number_field :daily_price, required: true  %>
-  </div>
+  <h3 class="mb-3">Pick Up Location</h3>
+
+  <%= form.fields_for :location do |t| %>
+    <div class="form-group">
+      <%= t.label :address, class: "sr-only" %>
+      <%= t.text_field :address, placeholder: "Address", class: "form-control", required: true  %>
+    </div>
+    <div class="form-group">
+      <%= t.label :city, class: "sr-only" %>
+      <%= t.text_field :city, placeholder: "City", class: "form-control", required: true  %>
+    </div>
+    <div class="form-group">
+      <%= t.label :state, class: "sr-only" %>
+      <%= t.text_field :state, placeholder: "State", class: "form-control", required: true  %>
+    </div>
+    <div class="form-group">
+      <%= t.label :postcode, class: "sr-only" %>
+      <%= t.number_field :postcode, placeholder: "Postcode", class: "form-control", required: true  %>
+    </div>
+    <div class="form-group">
+      <%= t.label :country, class: "sr-only" %>
+      <%= t.text_field :country, placeholder: "Country", class: "form-control", required: true  %>
+    </div>
+  <% end %>
+
+  <%= form.fields_for :listing_image do |t| %>
+
+    <% unless @listing.listing_images.empty? %>
+      <div>
+        <label>
+          <%= t.check_box :remove_image %>
+          Remove existing images
+        </label>
+      </div>
+    <% end %>
+
+    <div class="form-group">
+      <%= t.label :image, "Upload Images" %>
+      <%= t.file_field :image, multiple: true, style: "width: 217px" %>
+    </div>
+  <% end %>
+
 
   <div class="form-group">
-    <%= form.label :weekly_price, 'Weekly price ($)' %>
-    <%= form.number_field :weekly_price, required: true  %>
-  </div>
-
-  <div class="actions">
-    <%= form.submit class: "btn btn-success" %>
+    <%= form.submit class: "btn btn-success form-control" %>
   </div>
 <% end %>

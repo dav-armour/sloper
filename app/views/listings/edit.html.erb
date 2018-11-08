@@ -1,6 +1,10 @@
-<h1>Editing Listing</h1>
+<div class="container max-width-300 mb-4">
+  <div class="d-flex flex-column align-items-center text-center">
+    <h1 class="my-3 font-weight-normal">Edit Listing</h1>
 
-<%= render 'form', listing: @listing %>
+    <%= render 'form', listing: @listing %>
 
-<%= link_to 'Show', @listing %> |
-<%= link_to 'Back', listings_path %>
+    <%= link_to 'Return to Listing', @listing, class: "btn btn-primary mb-3 w-100" %>
+    <%= link_to 'Return to All Listings', listings_path, class: "btn btn-danger w-100" %>
+  </div>
+</div>
