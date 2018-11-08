@@ -130,7 +130,7 @@ Initially, we did some research into existing rental product p2p apps to draw UI
 
 We then designed the wireframes for the site look on Balsamiq, before working on our ERD.
 
-We then looked through colour inspo. Our colour inspo board can be found here: ![colours moodboard](https://pollunit.com/en/polls/ViQdBCsrCU_O1RCSpGxSGA).
+We then looked through colour inspo. Our colour inspo board can be found here: [colours moodboard](https://pollunit.com/en/polls/ViQdBCsrCU_O1RCSpGxSGA).
 
 We reiterated over the ERD, wireframes and site colours multiple times over the course of the assessment.
 
@@ -152,7 +152,7 @@ We reiterated over the ERD, wireframes and site colours multiple times over the 
 * As a user I want to be able to view a lister's last login to filter out inactive listings.
 
 ### User journey workflow diagram
-![Link to User journey workflow diagram](https://drive.google.com/open?id=1ZxWKv6rfBLRKLXniUFDshcGA-UQdhR74)
+[Link to User journey workflow diagram](https://drive.google.com/open?id=1ZxWKv6rfBLRKLXniUFDshcGA-UQdhR74)
 
 ### Wireframes
 
