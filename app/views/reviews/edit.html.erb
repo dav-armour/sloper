@@ -1,6 +1,10 @@
-<h1>Editing Review</h1>
+<div class="container max-width-300 mb-4">
+  <div class="d-flex flex-column align-items-center text-center">
+    <h1 class="my-3 font-weight-normal">Edit Review</h1>
 
-<%= render 'form', review: @review %>
+    <%= render 'form', review: @review %>
 
-<%= link_to 'Delete Review', booking_review_path(@review.booking_id), method: :delete, class: "btn btn-danger" %> |
-<%= link_to 'Back', bookings_path %>
+    <%= link_to 'Delete Review', booking_review_path(@review.booking_id), method: :delete, class: "btn btn-danger w-100" %>
+    <%= link_to 'Back to My Bookings', bookings_path, class: "btn btn-primary w-100 mt-3" %>
+  </div>
+</div>

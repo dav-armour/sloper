@@ -11,5 +11,8 @@ Rails.application.routes.draw do
   end
 
   get '/:user_id/profile', to: 'pages#profile', as: 'profile'
+  get '/about_us', to: 'pages#about_us', as: 'about_us'
+  get '/faq', to: 'pages#faq', as: 'faq'
+  get '/how_it_works', to: 'pages#how_it_works', as: 'how_it_works'
   get '*path' => redirect('/')
 end
