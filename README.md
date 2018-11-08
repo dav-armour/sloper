@@ -251,6 +251,13 @@ We will be using two database relation types in our app.
 * As a user I want to see where the item is located on a map.
 
 #### 16. Provide Wireframes for your App.
+![landing page wireframes](https://imgur.com/JNqoeMJ.png)
+![login screen wireframes](https://imgur.com/O1rGJ77.png)
+![sign-up screen wireframes](https://imgur.com/CniTPiY.png)
+![forgot password screen wireframes](https://imgur.com/yTJFJsg.png)
+![listings page wireframes](https://imgur.com/7U3lMzz.png)
+![show listing screen wireframes](https://imgur.com/l2aRpqZ.png)
+![profile screen wireframes](https://imgur.com/CSGyBOG.png)
 
 #### 17. Describe the way tasks are allocated and tracked in your project.
 Trello will be used for project management. As all of our tasks are listed in our Trello backlog, we assigned progress-critical work between ourselves and prioritised that while pulling whatever else we wanted to do next down from the backlog to our current sprint. Tracking is done via Trello as well, as tasks go through the phases Work-in-progress, In Review and Done throughout the task's lifecycle.

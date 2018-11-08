@@ -58,6 +58,7 @@ class BookingsController < ApplicationController
       @booking.listing_id = @listing.id
       @booking.booking_date = Date.today
       @booking.stripe_charge_id = charge.id
+      # Check if successfully saves to database
       if @booking.save
         redirect_to bookings_path, notice: 'Booking was successfully created.'
       else
@@ -71,6 +72,7 @@ class BookingsController < ApplicationController
 
   def destroy
     begin
+      # Check if charge needs refunding on stripe
       if @booking.stripe_charge_id == 'fake'
         @booking.destroy
         redirect_to bookings_path, notice: "Fake booking destroyed"
@@ -78,6 +80,7 @@ class BookingsController < ApplicationController
         refund = Stripe::Refund.create(
           charge: @booking.stripe_charge_id
         )
+        # Check if refund succeeded and record was destroyed in database
         if @booking.destroy && refund
           redirect_to bookings_path, notice: "Booking succesfully destroyed and refunded: $#{refund.amount / 100}.00"
         elsif refund
@@ -97,6 +100,7 @@ class BookingsController < ApplicationController
     @booking = Booking.find(params[:id])
   end
 
+  # Used to save listing details with booking
   def set_listing
     @listing = Listing.find(params[:listing_id])
   end
@@ -105,6 +109,7 @@ class BookingsController < ApplicationController
     params.require(:booking).permit(:start_date, :end_date, :total_cost)
   end
 
+  # Check if current user is allowed to perform action
   def check_permission
     begin
       unless @booking.user_id == current_user.id || @booking.user_id == @booking.listing.user_id
@@ -119,22 +124,27 @@ class BookingsController < ApplicationController
     end
   end
 
+  # Checks for input errors when making new booking
   def check_for_errors
     if params[:booking]
       begin
         @start_date = params[:booking][:start_date].to_date
+        # Don't allow dates in the past
         if @start_date < Time.now.to_date
           raise BookingError, "Error: Start date can't be in the past"
         end
         @end_date = params[:booking][:end_date].to_date
+        # Don't allow start date to be after end date
         if @end_date < @start_date
           raise BookingError, "Error: Start date needs to be before end date"
         end
+        # Check if dates are available
         date_arr = (@start_date..@end_date).to_a
         unavail_days = UnavailableDay.where(listing_id: @listing.id, day: date_arr)
         unless unavail_days.empty?
           raise BookingError, "Error: Dates not available"
         end
+        # Calculate booking cost
         @num_days = date_arr.count
         if @num_days < 7
           # Daily rate
@@ -143,6 +153,7 @@ class BookingsController < ApplicationController
           # Weekly rate if renting 1 week or more
           @amount = (@num_days * (@listing.weekly_price / 7.0)).to_i
         end
+        # Check for dodgy form manipulation
         if params[:booking][:total_cost] && @amount != params[:booking][:total_cost].to_i
           raise BookingError, "Error: Amount Incorrect - Payment Stopped"
         end

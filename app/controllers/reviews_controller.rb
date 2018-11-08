@@ -1,5 +1,5 @@
 class ReviewsController < ApplicationController
-  before_action :set_review, only: [:edit, :update, :destroy]
+  before_action :set_review, :check_permission, only: [:edit, :update, :destroy]
 
   # GET /review/new
   def new
@@ -40,6 +40,14 @@ class ReviewsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_review
       @review = Review.find_by(booking_id: params[:booking_id])
+    end
+
+    # Check if current user is allowed to perform action
+    def check_permission
+      unless @review.user_id == current_user.id
+        redirect_back(fallback_location: bookings_path,
+          alert: "Error: Permission denied - Invalid User")
+      end
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

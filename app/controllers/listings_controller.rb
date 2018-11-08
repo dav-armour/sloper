@@ -1,7 +1,7 @@
 class ListingsController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
   before_action :set_listing, only: [:show, :edit, :update, :destroy]
-  before_action :check_permissions, only: [:edit, :update, :destroy]
+  before_action :check_permission, only: [:edit, :update, :destroy]
 
   # GET /listings
   def index
@@ -59,7 +59,7 @@ class ListingsController < ApplicationController
           # Exclude unavailable listings from results
           @listings = @listings.where.not(id: unavailable_list_ids)
         end
-        # Rescue invalid dates
+      # Rescue invalid dates
       rescue ArgumentError => e
         @listings = []
         flash[:alert] = e.message
@@ -67,20 +67,25 @@ class ListingsController < ApplicationController
     end
     # Using count crashes fuzzy search with nested table, using size instead
     @total_listings = @listings.size
+    # Retrieve Limit and Page to create pagination
     # Set default limit to 10 and max to 50
     params[:results_per_page] ||= 10
     @limit = params[:results_per_page]
     @limit = @limit.to_i
+    # Force max limit of 50
     @limit = 10 unless @limit.between?(1,50)
     # Set default page to 1 and calculate offset
     params[:page] ||= 1
     page = params[:page].to_i
+    # Ignore negative or zero page numbers
     page = 1 if page < 1
     @offset = (page - 1) * @limit
+    # Change offset and page if not enough search results
     if @offset > @total_listings
       @offset = 0
       params[:page] = 1
     end
+    # Limit SQL query to only bring back required results (Pagination)
     @listings = @listings.limit(@limit).offset(@offset) if @total_listings > 0
     # Total pages used for dropdown in view
     @pages = (@total_listings / @limit.to_f).ceil
@@ -89,7 +94,9 @@ class ListingsController < ApplicationController
   # GET /listings/1
   def show
     @user = User.find(@listing.user_id)
+    # Eager load booking and author of review for displaying in view
     @reviews = Review.includes(:booking, booking: :user).where(bookings: {listing_id: @listing.id})
+    # Count all reviews and get average to display in view
     @total_reviews = @reviews.count
     @average_rating = @reviews.average(:rating)
   end
@@ -97,11 +104,13 @@ class ListingsController < ApplicationController
   # GET /listings/new
   def new
     @listing = Listing.new
+    # Need to create location that is linked to each new listing
     @listing.location ||= Location.new
   end
 
   # GET /listings/1/edit
   def edit
+    # Convert price to dollars for use in view
     @listing.daily_price /= 100
     @listing.weekly_price /= 100
   end
@@ -117,7 +126,9 @@ class ListingsController < ApplicationController
       @listing.weekly_price *= 100
       listing_saved = @listing.save
       raise ListingError, "Couldn't save listing." unless listing_saved
+      # Create images attached to listing
       create_images
+      # Create location of listing
       location_hash = params[:listing][:location]
       if location_hash
         @location = Location.new
@@ -170,13 +181,15 @@ class ListingsController < ApplicationController
       @listing = Listing.find(params[:id])
     end
 
-    def check_permissions
+    # Check if current user is allowed to perform action
+    def check_permission
       unless @listing.user_id == current_user.id
         redirect_back(fallback_location: listing_path(@listing),
           alert: "Error: Permission denied - Invalid User")
       end
     end
 
+    # Remove images if option is selected on edit page
     def delete_images
       @listing.listing_images.each do |img|
         if params[:listing][:listing_image][:remove_image] == '1'
@@ -185,6 +198,7 @@ class ListingsController < ApplicationController
       end
     end
 
+    # Create images on new listing and edit
     def create_images
       if params[:listing][:listing_image] && params[:listing][:listing_image][:image]
         params[:listing][:listing_image][:image].each do |img|

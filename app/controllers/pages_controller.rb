@@ -11,7 +11,9 @@ class PagesController < ApplicationController
     @total_listings = listing_ids.count
     # Eager load booking to get only reviews related to current listing. Eager load user to show author of review
     @reviews = Review.includes(:booking, booking: :user).where(bookings: {listing_id: listing_ids})
+    # Using size because count is broken
     @total_reviews = @reviews.size
+    # Retrieve average to be used in view
     @average_rating = @reviews.average(:rating)
     @last_sign_in = @user.last_sign_in_at
   end
