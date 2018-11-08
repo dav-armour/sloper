@@ -201,7 +201,7 @@ class ListingsController < ApplicationController
                       :item_type, :size, :brand, :bindings, :boots,
                       :helmet, :daily_price, :weekly_price,
                       listing_image_attributes: :image,
-                      location_attributes: [:address, :city, :state, :postcode]
+                      location_attributes: [:address, :city, :state, :postcode, :country]
                       )
      end
 end
