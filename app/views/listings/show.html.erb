@@ -21,33 +21,6 @@
     </div>
   <div class="body-bottom align-items-start">
   <hr>
-    <div class="d-flex justify-content-around accessories">
-      <% if @listing.bindings? %>
-        <div class="accessory-icons bindings-icon-true"></div>
-      <% else %>
-        <%# <div class="accessory-icons bindings-icon-false"></div> %>
-      <% end %>
-      <% if @listing.boots? %>
-        <div class="accessory-icons boots-icon-true"></div>
-      <% else %>
-        <%# <div class="accessory-icons boots-icon-false"></div> %>
-      <% end %>
-      <% if @listing.helmet? %>
-        <div class="accessory-icons helmet-icon-true"></div>
-      <% else %>
-        <%# <div class="accessory-icons helmet-icon-false"></div> %>
-      <% end %>
-      <%#= image_tag ("bindings.png"), alt: "Avatar", class: "rounded-circle" %>
-      <%#= image_tag ("boots.png"), alt: "Avatar", class: "rounded-circle" %>
-      <%#= image_tag ("helmet.png"), alt: "Avatar", class: "rounded-circle" %>
-    </div>
-      <%# <div class="card"> %>
-        <%#= image_tag ("bindings.png"), class: "card-img-top", alt: "Card image cap" %>
-        <%# <div class="card-body">
-          <p class="card-text">Bindings</p>
-        </div>
-      </div>
-    </div> %>
     <p>
       <strong>Bindings:</strong>
       <%= @listing.bindings %>
@@ -66,6 +39,18 @@
       <%= @listing.description %>
     </p>
 
+    <div class="d-flex justify-content-around accessories">
+      <% if @listing.bindings? %>
+        <div class="accessory-icons bindings-icon-true"></div>
+      <% end %>
+      <% if @listing.boots? %>
+        <div class="accessory-icons boots-icon-true"></div>
+      <% end %>
+      <% if @listing.helmet? %>
+        <div class="accessory-icons helmet-icon-true"></div>
+      <% end %>
+    </div>
+
     <%= link_to 'Back', listings_path %>
     <%# <% if @listing.user_id == current_user.id %>
     <% if current_user && @listing.user_id == current_user.id %>
@@ -80,22 +65,22 @@
 
     <div class="container">
       <div class="avatar-container d-flex flex-column align-items-center">
-          <p>
-              <% if @user.profile_image.url != nil %>
-                  <%= link_to image_tag(@user.profile_image.url, alt: "Avatar", class: "rounded-circle"), profile_path(@listing.user_id) %>
-              <% end %>
-          </p>
-          <p>
-              <%= link_to @user.full_name, profile_path(@listing.user_id) %>
-          </p>
-          <p>
-              Joined <%= @user.created_at.to_date %>
-          </p>
-          <% unless @last_sign_in.nil? %>
-              <p>
-                  Last login: <%= @last_sign_in.to_date %>
-              </p>
+        <p class="avatar-image-container">
+          <% if @user.profile_image.url != nil %>
+            <%= image_tag @user.profile_image.url, alt: "Avatar", class: "rounded-circle" %>
           <% end %>
+        </p>
+        <p>
+            <%= link_to @user.full_name, profile_path(@listing.user_id) %>
+        </p>
+        <p>
+            Joined <%= @user.created_at.strftime("%B %Y") %>
+        </p>
+        <% unless @user.last_sign_in_at.nil? %>
+          <p>
+              Last login: <%= pluralize((Time.now.to_date - @user.last_sign_in_at.to_date).to_i, 'day') %> ago
+          </p>
+        <% end %>
       </div>
     </div>
   </div>
