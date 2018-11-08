@@ -41,22 +41,22 @@
 
     <div class="container">
       <div class="avatar-container d-flex flex-column align-items-center"> 
-          <p>
-              <% if @user.profile_image.url != nil %>
-                  <%= link_to image_tag(@user.profile_image.url, alt: "Avatar", class: "rounded-circle"), profile_path(@listing.user_id) %>
-              <% end %>
-          </p>
-          <p>
-              <%= link_to @user.full_name, profile_path(@listing.user_id) %>
-          </p>
-          <p>
-              Joined <%= @user.created_at.to_date %>
-          </p>
-          <% unless @last_sign_in.nil? %>
-              <p>
-                  Last login: <%= @last_sign_in.to_date %>
-              </p>
+        <p class="avatar-image-container">
+          <% if @user.profile_image.url != nil %>
+            <%= image_tag @user.profile_image.url, alt: "Avatar", class: "rounded-circle" %>
           <% end %>
+        </p>
+        <p>
+            <%= link_to @user.full_name, profile_path(@listing.user_id) %>
+        </p>
+        <p>
+            Joined <%= @user.created_at.strftime("%B %Y") %>
+        </p>
+        <% unless @user.last_sign_in_at.nil? %>
+          <p>
+              Last login: <%= pluralize((Time.now.to_date - @user.last_sign_in_at.to_date).to_i, 'day') %> ago
+          </p>
+        <% end %>
       </div>
     </div>
   </div>

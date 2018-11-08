@@ -50,10 +50,13 @@
 .profile-container {
     .avatar-container {
         margin-top: 3em;
-    }
-    .profile-listings-container {
-        .profile-listings-count {
-            margin: 0 0 0 2em;
+        .avatar-image-container {
+            padding: 5px;
+            border-radius: 50%;
+            background: linear-gradient(to bottom, #FC5C7D, #6A82FB);
+            img {
+                border: 5px solid white;
+            }
         }
     }
 }
