@@ -1,25 +1,38 @@
  <div class="container">
-  <div class="profile-container d-flex flex-column align-items-center">
-    <p>
-      <% if @listing.listing_images.empty? %>
-        <%= image_tag asset_path("fallback/noimage.png"), class:"img-thumbnail"%>
-      <% else %>
-        <%= render 'carousel' %>
-      <% end %>
-    </p>
+  <%# <div class="profile-container d-flex flex-column align-items-center"> %>
+    <div class="body-top w-100 align-items-start">
+      <div class="listing-image d-flex py-4 flex-column align-items-center">
+        <% if @listing.listing_images.empty? %>
+          <%= image_tag asset_path("fallback/noimage.png"), class:"img-thumbnail"%>
+        <% else %>
+          <%= render 'carousel' %>
+        <% end %>
+      </div>
+      <p>
+        <strong> <%= @listing.title %></strong> - <%= @listing.brand %>
+      </p>
+      <p>
+        <%= @listing.category %> - <%= @listing.item_type %> (<%= @listing.size %> cms)
+      </p>
+      <p>
+        <strong>Location:</strong>
+        <%= @listing.location.city %>
+      </p>
     </div>
-  <div class="body-top align-items-start">
-    <p>
-      <strong> <%= @listing.title %></strong> - <%= @listing.brand %>
-    </p>
-    <p>
-      <%= @listing.category %> - <%= @listing.item_type %> (<%= @listing.size %> cms)
-    </p>
-    <p>
-      <strong>Location:</strong>
-      <%= @listing.location.city %>
-    </p>
+  <div class="body-bottom align-items-start">
   <hr>
+    <div class="d-flex justify-content-around accessories">
+      <%= image_tag ("bindings.png"), alt: "Avatar", class: "rounded-circle" %>
+      <%= image_tag ("boots.png"), alt: "Avatar", class: "rounded-circle" %>
+      <%= image_tag ("helmet.png"), alt: "Avatar", class: "rounded-circle" %>
+    </div>
+      <%# <div class="card"> %>
+        <%#= image_tag ("bindings.png"), class: "card-img-top", alt: "Card image cap" %>
+        <%# <div class="card-body">
+          <p class="card-text">Bindings</p>
+        </div>
+      </div>
+    </div> %>
     <p>
       <strong>Bindings:</strong>
       <%= @listing.bindings %>
