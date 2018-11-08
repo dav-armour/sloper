@@ -1,6 +1,6 @@
 <div class="profile-container">
     <div class="avatar-container d-flex flex-column align-items-center"> 
-        <p>
+        <p class="avatar-image-container">
             <% if @user.profile_image.url != nil %>
                 <%= image_tag @user.profile_image.url, alt: "Avatar", class: "rounded-circle" %>
             <% end %>
@@ -22,19 +22,17 @@
             </p>
         <% end %>
     </div>
-    <div class="profile-listings-container">
-        <p class="profile-listings-count">
-            <% if @total_listings == 0 %>
-                No current listings
-            <% else %>
-                <%= pluralize(@total_listings, 'listing') %>
-            <% end %>
-        </p>
-        <%= render 'listings/search_results' %>
+    <hr class="mx-5">
+    <div class="container">
+        <h2>Gear Listings</h2>
+        <% if @total_listings == 0 %>
+            <p>No current listings</p>
+        <% end %>
     </div>
-
-    <hr>
-
-    <h2>User Reviews</h2>
-    <%= render 'reviews/list', reviews: @reviews, total_reviews: @total_reviews, average_rating: @average_rating %>
+    <%= render 'listings/search_results' %>
+    <hr class="mx-5">
+    <div class="container">
+        <h2>User Reviews</h2>
+        <%= render 'reviews/list', reviews: @reviews, total_reviews: @total_reviews, average_rating: @average_rating %>
+    </div>
 </div>
