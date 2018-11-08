@@ -8,14 +8,14 @@
 
 brands = %w(Burton Lib-Tech Salomon D.C. Volcom Capita Dakine Ripcurl Quicksilver)
 
-file = "storage/snowboard_image_urls.txt"
+file = "db/data/snowboard_image_urls.txt"
 snowboard_image_urls = []
 f = File.open(file, "r")
 f.each_line { |line|
   snowboard_image_urls << line.chomp
 }
 f.close
-file = "storage/ski_image_urls.txt"
+file = "db/data/ski_image_urls.txt"
 ski_image_urls = []
 f = File.open(file, "r")
 f.each_line { |line|
