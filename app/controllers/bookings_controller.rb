@@ -112,7 +112,7 @@ class BookingsController < ApplicationController
   # Check if current user is allowed to perform action
   def check_permission
     begin
-      unless @booking.user_id == current_user.id || @booking.user_id == @booking.listing.user_id
+      unless @booking.user_id == current_user.id || current_user.id == @booking.listing.user_id
         raise BookingError, "Error: Permission denied - Invalid User"
       end
       if @booking.user_id == current_user.id && @booking.start_date <= Time.now.to_date
