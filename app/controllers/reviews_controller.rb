@@ -44,7 +44,7 @@ class ReviewsController < ApplicationController
 
     # Check if current user is allowed to perform action
     def check_permission
-      unless @review.user_id == current_user.id
+      unless @review.user.id == current_user.id
         redirect_back(fallback_location: bookings_path,
           alert: "Error: Permission denied - Invalid User")
       end
