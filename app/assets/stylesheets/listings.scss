@@ -36,7 +36,7 @@
 
 .accessories {
   height: 80px;
-  // filter: grayscale(90%);
+
   img.rounded-circle {
         width: 80px;
   }
@@ -65,24 +65,27 @@
 
 .avatar-container {
   margin-top: 3em;
+
   .avatar-image-container {
     padding: 5px;
     border-radius: 50%;
     background: linear-gradient(to bottom, #FC5C7D, #6A82FB);
+
     img {
-        border: 5px solid white;
+      border: 5px solid white;
     }
   }
 }
 
 .carousel {
-  height: 66vw;
   width: 100vw;
   overflow: hidden;
   background-color: #81888f;
+
   * {
-    height: 66vw;
+    max-height: 80vh;
   }
+
   .carousel-inner {
     .carousel-item {
       img {
